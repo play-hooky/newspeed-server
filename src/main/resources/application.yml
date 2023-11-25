@@ -12,12 +12,6 @@ spring:
     username: ${DB_USER}
     password: ${DB_PASSWORD}
 
-  sql:
-    init:
-      schema-locations: classpath:sql/user/user_schema.sql
-      encoding: utf-8
-      mode: always
-
   jpa:
     hibernate:
       ddl-auto: validate
@@ -40,3 +34,10 @@ jwt:
   client-secret: ${JWT_SECRET}
   refresh-token-expiry-seconds: 2592000 # 60초 * 60분 * 24시간 * 30일 = 1달
   access-token-expiry-seconds: 86400 # 60초 * 60분 * 24시간 = 1일
+
+oauth:
+  kakao:
+    rest-api-key: ${KAKAO_REST_API_KEY}
+    grant-type: "authorization_code"
+    auth-url: ${KAKAO_OAUTH_URL}
+    user-url: ${KAKAO_USER_URL}
