@@ -1,10 +1,9 @@
 package com.newspeed.user
 
+import com.newspeed.user.template.IntegrationTestTemplate
 import org.junit.jupiter.api.Test
-import org.springframework.boot.test.context.SpringBootTest
 
-@SpringBootTest
-class NewspeedUserServerApplicationTests {
+class NewspeedUserServerApplicationTests: IntegrationTestTemplate {
 
 	@Test
 	fun contextLoads() {
