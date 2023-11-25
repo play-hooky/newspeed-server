@@ -3,7 +3,7 @@ package com.newspeed.user.global.exception.model
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
-class ApplicationException(
+open class ApplicationException(
     private val httpStatus: HttpStatus,
     override val message: String
 ): RuntimeException(message) {
