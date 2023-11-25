@@ -41,3 +41,4 @@ oauth:
     grant-type: "authorization_code"
     auth-url: ${KAKAO_OAUTH_URL}
     user-url: ${KAKAO_USER_URL}
+    redirect-uri: ${KAKAO_REDIRECT_URI}
