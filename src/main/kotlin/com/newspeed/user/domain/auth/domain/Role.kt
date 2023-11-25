@@ -1,8 +1,8 @@
 package com.newspeed.user.domain.auth.domain
 
-import com.newspeed.user.domain.auth.annotation.Admin
-import com.newspeed.user.domain.auth.annotation.Anonymous
-import com.newspeed.user.domain.auth.annotation.User
+import com.newspeed.user.domain.jwt.annotation.Admin
+import com.newspeed.user.domain.jwt.annotation.Anonymous
+import com.newspeed.user.domain.jwt.annotation.User
 
 enum class Role(
     private val annotation: Class<out Annotation>
