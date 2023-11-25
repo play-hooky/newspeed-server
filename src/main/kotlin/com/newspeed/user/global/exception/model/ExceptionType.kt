@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
 enum class ExceptionType(
-    private val httpStatus: HttpStatus,
-    private val message: String
+    val httpStatus: HttpStatus,
+    val message: String
 ) {
 
     // Internal Server Error
