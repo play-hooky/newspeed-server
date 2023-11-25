@@ -1,0 +1,111 @@
+plugins {
+	id 'java'
+	id 'jacoco'
+	id 'org.springframework.boot' version '2.7.5'
+	id 'io.spring.dependency-management' version '1.1.2'
+	id 'org.jetbrains.kotlin.jvm' version '1.6.21'
+	id 'org.jetbrains.kotlin.kapt' version '1.6.21'
+	id 'org.jetbrains.kotlin.plugin.spring' version '1.6.21'
+	id 'org.jetbrains.kotlin.plugin.jpa' version '1.6.21'
+}
+
+group = 'com.newspeed'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('testcontainersVersion', "1.17.2")
+	set('springCloudVersion', '2021.0.3')
+}
+
+dependencies {
+	implementation("org.springframework.boot:spring-boot-starter")
+	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+	// jackson
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+	// jpa
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+	// rdbms
+	runtimeOnly("com.h2database:h2")
+}
+
+
+tasks.named('test') {
+	useJUnitPlatform()
+	finalizedBy 'jacocoTestReport'
+}
+
+jacoco {
+	toolVersion = '0.8.7'
+}
+
+jacocoTestReport {
+	reports {
+		html.required.set(true)
+		xml.required.set(true)
+		csv.required.set(false)
+	}
+
+	def QClass = []
+	for (qPattern in "**/QA".."**/QZ") {
+		QClass.add(qPattern + "*")
+	}
+
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it,
+					exclude: [
+							"**/NewspeedUserServerApplication*",
+							'**/global*'
+					] + QClass)
+		}))
+	}
+	finalizedBy 'jacocoTestCoverageVerification'
+}
+
+jacocoTestCoverageVerification {
+	def QClass = []
+	for (qPattern in '*.QA'..'*.QZ') {
+		QClass.add(qPattern + '*')
+	}
+
+	violationRules {
+		rule {
+			enabled = true
+			element = 'BUNDLE'
+
+			limit {
+				counter = 'LINE'
+				value = 'COVEREDRATIO'
+//                minimum = 0.80
+			}
+
+			excludes = [
+					'**.NewspeedUserServerApplication*',
+					'**/global*'
+			] + QClass
+		}
+	}
+}
+
+jacocoTestReport.doFirst {
+	delete file('src/main/resources/static/reports')
+}
