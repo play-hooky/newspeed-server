@@ -5,30 +5,31 @@ import com.newspeed.domain.auth.api.response.KakaoLoginResponse
 import com.newspeed.domain.auth.domain.LoginPlatform
 import com.newspeed.domain.auth.domain.OAuth2User
 import com.newspeed.domain.auth.feign.OAuth2Clients
-import com.newspeed.domain.jwt.application.JwtAuthProvider
+import com.newspeed.domain.jwt.application.JwtService
+import com.newspeed.domain.user.application.UserService
 import org.springframework.stereotype.Component
 
 @Component
 class AuthFacade(
     private val oAuth2Clients: OAuth2Clients,
-    private val jwtAuthProvider: JwtAuthProvider
+    private val jwtService: JwtService,
+    private val userService: UserService
 ) {
-
     fun kakaoLogin(
         kakaoLoginRequest: KakaoLoginRequest
     ): KakaoLoginResponse {
         val oAuth2User = getKakaoUser(kakaoLoginRequest)
+        val user = userService.saveIfNotExist(oAuth2User)
 
-        // todo: user entity 회원가입 및 로그인
-        val userId = 1L
+        val authPayload = user.toAuthPayload()
+        val jwts = jwtService.issueAllJwt(authPayload)
 
-        val accessToken = jwtAuthProvider.provideAccessToken(oAuth2User.toAuthPayload(userId))
-        val refreshToken = jwtAuthProvider.provideRefreshToken(oAuth2User.toAuthPayload(userId))
+        jwtService.saveRefreshToken(user.id, jwts.refreshToken)
 
         return KakaoLoginResponse(
-            accessToken = accessToken,
-            refreshToken = refreshToken,
-            userId = userId
+            accessToken = jwts.accessToken,
+            refreshToken = jwts.refreshToken,
+            userId = user.id
         )
     }
 
