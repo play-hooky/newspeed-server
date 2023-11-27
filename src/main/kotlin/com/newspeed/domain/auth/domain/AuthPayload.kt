@@ -5,8 +5,8 @@ import io.jsonwebtoken.Jwts
 
 data class AuthPayload(
     val userId: Long,
-    val role: com.newspeed.domain.auth.domain.Role,
-    val loginPlatform: com.newspeed.domain.auth.domain.LoginPlatform,
+    val role: Role,
+    val loginPlatform: LoginPlatform,
     val email: String
 ) {
     companion object {
@@ -17,8 +17,8 @@ data class AuthPayload(
     }
 
     fun toJwtClaims(): JwtBuilder =  Jwts.builder()
-        .claim(com.newspeed.domain.auth.domain.AuthPayload.Companion.USER_ID_KEY, userId)
-        .claim(com.newspeed.domain.auth.domain.AuthPayload.Companion.ROLE_KEY, role)
-        .claim(com.newspeed.domain.auth.domain.AuthPayload.Companion.PLATFORM_KEY, loginPlatform)
-        .claim(com.newspeed.domain.auth.domain.AuthPayload.Companion.EMAIL_KEY, email)
+        .claim(USER_ID_KEY, userId)
+        .claim(ROLE_KEY, role)
+        .claim(PLATFORM_KEY, loginPlatform)
+        .claim(EMAIL_KEY, email)
 }

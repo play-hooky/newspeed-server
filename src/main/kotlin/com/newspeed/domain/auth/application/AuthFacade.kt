@@ -1,5 +1,9 @@
 package com.newspeed.domain.auth.application
 
+import com.newspeed.domain.auth.api.request.KakaoLoginRequest
+import com.newspeed.domain.auth.api.response.KakaoLoginResponse
+import com.newspeed.domain.auth.domain.LoginPlatform
+import com.newspeed.domain.auth.domain.OAuth2User
 import com.newspeed.domain.auth.feign.OAuth2Clients
 import com.newspeed.domain.jwt.application.JwtAuthProvider
 import org.springframework.stereotype.Component
@@ -11,8 +15,8 @@ class AuthFacade(
 ) {
 
     fun kakaoLogin(
-        kakaoLoginRequest: com.newspeed.domain.auth.api.request.KakaoLoginRequest
-    ): com.newspeed.domain.auth.api.response.KakaoLoginResponse {
+        kakaoLoginRequest: KakaoLoginRequest
+    ): KakaoLoginResponse {
         val oAuth2User = getKakaoUser(kakaoLoginRequest)
 
         // todo: user entity 회원가입 및 로그인
@@ -21,7 +25,7 @@ class AuthFacade(
         val accessToken = jwtAuthProvider.provideAccessToken(oAuth2User.toAuthPayload(userId))
         val refreshToken = jwtAuthProvider.provideRefreshToken(oAuth2User.toAuthPayload(userId))
 
-        return com.newspeed.domain.auth.api.response.KakaoLoginResponse(
+        return KakaoLoginResponse(
             accessToken = accessToken,
             refreshToken = refreshToken,
             userId = userId
@@ -29,7 +33,7 @@ class AuthFacade(
     }
 
     private fun getKakaoUser(
-        kakaoLoginRequest: com.newspeed.domain.auth.api.request.KakaoLoginRequest
-    ): com.newspeed.domain.auth.domain.OAuth2User = oAuth2Clients.getClient(com.newspeed.domain.auth.domain.LoginPlatform.KAKAO)
+        kakaoLoginRequest: KakaoLoginRequest
+    ): OAuth2User = oAuth2Clients.getClient(LoginPlatform.KAKAO)
         .getOAuth2User(kakaoLoginRequest.authorizationCode)
 }

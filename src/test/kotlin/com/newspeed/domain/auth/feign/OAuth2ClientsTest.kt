@@ -1,8 +1,5 @@
 package com.newspeed.domain.auth.feign
 
-import com.newspeed.domain.auth.application.KakaoOAuth2Service
-import com.newspeed.domain.auth.domain.KakaoOAuth2ConfigProperties
-import com.newspeed.domain.auth.domain.LoginPlatform
 import com.newspeed.factory.auth.DummyOAuth2Client
 import com.newspeed.global.exception.auth.DuplicateOAuth2Exception
 import com.newspeed.global.exception.model.ExceptionType
@@ -31,8 +28,8 @@ class OAuth2ClientsTest: UnitTestTemplate {
         // given
         val dummyOAuth2Client = DummyOAuth2Client()
         val kakaoOAuth2Client = com.newspeed.domain.auth.application.KakaoOAuth2Service(
-            configProperties = Mockito.mock(com.newspeed.domain.auth.domain.KakaoOAuth2ConfigProperties::class.java),
             tokenClient = Mockito.mock(KakaoOAuth2TokenClient::class.java),
+            configProperties = Mockito.mock(com.newspeed.domain.auth.domain.KakaoOAuth2ConfigProperties::class.java),
             userClient = Mockito.mock(KakaoOAuth2UserClient::class.java)
         )
 
