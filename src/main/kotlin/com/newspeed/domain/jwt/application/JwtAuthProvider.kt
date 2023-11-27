@@ -2,6 +2,7 @@ package com.newspeed.domain.jwt.application
 
 import com.newspeed.domain.auth.domain.AuthPayload
 import com.newspeed.domain.jwt.domain.JwtConfigProperties
+import com.newspeed.domain.jwt.dto.IssuedJwtDTO
 import io.jsonwebtoken.JwtBuilder
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.stereotype.Component
@@ -11,6 +12,13 @@ import java.util.*
 class JwtAuthProvider(
     private val jwtConfigProperties: JwtConfigProperties
 ) {
+
+    fun issueAllJwt(
+        authPayload: AuthPayload
+    ): IssuedJwtDTO = IssuedJwtDTO(
+        accessToken = provideAccessToken(authPayload),
+        refreshToken = provideRefreshToken(authPayload)
+    )
 
     fun provideRefreshToken(
         authPayload: AuthPayload
