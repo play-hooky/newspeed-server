@@ -1,10 +1,7 @@
 package com.newspeed.domain.auth.application
 
-import com.newspeed.domain.auth.domain.AuthPayload
-import com.newspeed.domain.jwt.domain.JwtConfigProperties
-import com.newspeed.domain.auth.domain.LoginPlatform
-import com.newspeed.domain.auth.domain.Role
 import com.newspeed.domain.jwt.application.JwtAuthProvider
+import com.newspeed.domain.jwt.domain.JwtConfigProperties
 import com.newspeed.template.UnitTestTemplate
 import io.jsonwebtoken.Jwts
 import org.junit.jupiter.api.Test

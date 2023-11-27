@@ -1,5 +1,6 @@
 package com.newspeed.domain.jwt.application
 
+import com.newspeed.domain.auth.domain.AuthPayload
 import com.newspeed.domain.jwt.domain.JwtConfigProperties
 import io.jsonwebtoken.JwtBuilder
 import io.jsonwebtoken.SignatureAlgorithm
@@ -12,7 +13,7 @@ class JwtAuthProvider(
 ) {
 
     fun provideRefreshToken(
-        authPayload: com.newspeed.domain.auth.domain.AuthPayload
+        authPayload: AuthPayload
     ): String {
         val now = Date()
 
@@ -22,7 +23,7 @@ class JwtAuthProvider(
     }
 
     fun provideAccessToken(
-        authPayload: com.newspeed.domain.auth.domain.AuthPayload
+        authPayload: AuthPayload
     ): String {
         val now = Date()
 

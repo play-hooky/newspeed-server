@@ -2,6 +2,8 @@ package com.newspeed.domain.auth.feign.response
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.newspeed.domain.auth.domain.LoginPlatform
+import com.newspeed.domain.auth.domain.OAuth2User
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class KakaoOAuth2UserResponse(
@@ -24,8 +26,8 @@ data class KakaoOAuth2UserResponse(
         )
     }
 
-    fun toOAuth2User(): com.newspeed.domain.auth.domain.OAuth2User = com.newspeed.domain.auth.domain.OAuth2User(
-        platform = com.newspeed.domain.auth.domain.LoginPlatform.KAKAO,
+    fun toOAuth2User(): OAuth2User = OAuth2User(
+        platform = LoginPlatform.KAKAO,
         nickname = kakaoAccount.profile.nickname,
         profileImage = kakaoAccount.profile.profileImageUrl,
         email = kakaoAccount.email
