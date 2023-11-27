@@ -22,6 +22,10 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.MySQL8Dialect
 
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+
 logging:
   level:
     org.springframework.transaction.interceptor: trace
