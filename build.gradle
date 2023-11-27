@@ -92,7 +92,7 @@ jacocoTestReport {
 		classDirectories.setFrom(files(classDirectories.files.collect {
 			fileTree(dir: it,
 					exclude: [
-							"**/NewspeedUserServerApplication*",
+							"**/NewspeedServerApplication*",
 							'**/global*'
 					] + QClass)
 		}))
@@ -118,7 +118,7 @@ jacocoTestCoverageVerification {
 			}
 
 			excludes = [
-					'**.NewspeedUserServerApplication*',
+					'**.NewspeedServerApplication*',
 					'**/global*'
 			] + QClass
 		}

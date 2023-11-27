@@ -1,1 +1,1 @@
-rootProject.name = "newspeed-user-server"
+rootProject.name = "newspeed-server"

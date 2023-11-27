@@ -1,4 +1,4 @@
-name: user-server CI 테스트 자동화
+name: newspeed-server CI 테스트 자동화
 
 on:
   push:
