@@ -7,7 +7,7 @@ import javax.persistence.Id
 @RedisHash(value = "refreshToken", timeToLive = 2592000)
 class RefreshToken(
     @Id
-    var id: Long = 0,
+    var id: Long? = null,
 
     @Indexed
     var userId: Long,
