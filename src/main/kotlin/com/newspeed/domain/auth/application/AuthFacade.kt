@@ -2,7 +2,6 @@ package com.newspeed.domain.auth.application
 
 import com.newspeed.domain.auth.api.request.KakaoLoginRequest
 import com.newspeed.domain.auth.api.response.KakaoLoginResponse
-import com.newspeed.domain.auth.domain.LoginPlatform
 import com.newspeed.domain.auth.domain.OAuth2User
 import com.newspeed.domain.auth.feign.OAuth2Clients
 import com.newspeed.domain.jwt.application.JwtService
@@ -35,6 +34,6 @@ class AuthFacade(
 
     private fun getKakaoUser(
         kakaoLoginRequest: KakaoLoginRequest
-    ): OAuth2User = oAuth2Clients.getClient(LoginPlatform.KAKAO)
+    ): OAuth2User = oAuth2Clients.getClient(kakaoLoginRequest.loginPlatform)
         .getOAuth2User(kakaoLoginRequest.authorizationCode)
 }

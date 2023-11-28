@@ -30,7 +30,7 @@ class User(
 
     @Comment("SNS 플랫폼 KAKAO, APPLE")
     @Enumerated(EnumType.STRING)
-    @Column(name = "platform", nullable = false, columnDefinition = "enum('KAKAO','APPLE')")
+    @Column(name = "platform", nullable = false, columnDefinition = "enum('KAKAO','APPLE','NEWSPEED')")
     var platform: LoginPlatform,
 
     @Comment("프로필 사진 url")
