@@ -2,9 +2,11 @@ package com.newspeed.factory.auth
 
 import com.newspeed.domain.auth.domain.LoginPlatform
 import com.newspeed.domain.auth.domain.OAuth2User
+import com.newspeed.domain.auth.domain.Role
 import com.newspeed.domain.auth.feign.request.KakaoOAuth2TokenRequest
 import com.newspeed.domain.auth.feign.response.KakaoOAuth2TokenResponse
 import com.newspeed.domain.auth.feign.response.KakaoOAuth2UserResponse
+import com.newspeed.domain.user.domain.User
 
 class AuthFactory {
     companion object {
@@ -49,6 +51,14 @@ class AuthFactory {
                     profileImageUrl = DUMMY_PROFILE_IMAGE_URL
                 )
             )
+        )
+
+        fun createKakaoUser(): User = User(
+            email = DUMMY_EMAIL,
+            nickname = DUMMY_NICKNAME,
+            platform = LoginPlatform.KAKAO,
+            profileImageUrl = DUMMY_PROFILE_IMAGE_URL,
+            role = Role.USER
         )
     }
 }
