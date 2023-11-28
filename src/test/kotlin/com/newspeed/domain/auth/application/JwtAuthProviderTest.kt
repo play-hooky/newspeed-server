@@ -1,5 +1,8 @@
 package com.newspeed.domain.auth.application
 
+import com.newspeed.domain.auth.domain.AuthPayload
+import com.newspeed.domain.auth.domain.LoginPlatform
+import com.newspeed.domain.auth.domain.Role
 import com.newspeed.domain.jwt.application.JwtAuthProvider
 import com.newspeed.domain.jwt.domain.JwtConfigProperties
 import com.newspeed.template.UnitTestTemplate
@@ -22,10 +25,10 @@ class JwtAuthProviderTest: UnitTestTemplate {
     @Test
     fun access_token_생성을_성공한다() {
         // given
-        val authPayload = com.newspeed.domain.auth.domain.AuthPayload(
+        val authPayload = AuthPayload(
             userId = 1L,
-            role = com.newspeed.domain.auth.domain.Role.USER,
-            loginPlatform = com.newspeed.domain.auth.domain.LoginPlatform.KAKAO,
+            role = Role.USER,
+            loginPlatform = LoginPlatform.KAKAO,
             email = "test@kakao.com"
         )
         val jwtParser = Jwts.parserBuilder()
@@ -42,10 +45,10 @@ class JwtAuthProviderTest: UnitTestTemplate {
     @Test
     fun refresh_token_생성을_성공한다() {
         // given
-        val authPayload = com.newspeed.domain.auth.domain.AuthPayload(
+        val authPayload = AuthPayload(
             userId = 1L,
-            role = com.newspeed.domain.auth.domain.Role.USER,
-            loginPlatform = com.newspeed.domain.auth.domain.LoginPlatform.KAKAO,
+            role = Role.USER,
+            loginPlatform = LoginPlatform.KAKAO,
             email = "test@kakao.com"
         )
         val jwtParser = Jwts.parserBuilder()
