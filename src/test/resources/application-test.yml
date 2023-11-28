@@ -19,7 +19,7 @@ spring:
 
 oauth:
   kakao:
-    rest-api-key: play-hookyplay-hookyplay-hookyplay-hookyplay-hookyplay-hooky
+    rest-api-key: hookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhooky
     grant-type: "authorization_code"
     auth-url: https://kauth.kakao.com
     user-url: https://kapi.kakao.com
@@ -28,6 +28,6 @@ oauth:
 jwt:
   header: Authorization
   issuer: play-hooky
-  client-secret: play-hookyplay-hookyplay-hookyplay-hookyplay-hookyplay-hooky
+  client-secret: hookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhooky
   refresh-token-expiry-seconds: 2592000 # 60초 * 60분 * 24시간 * 30일 = 1달
   access-token-expiry-seconds: 86400 # 60초 * 60분 * 24시간 = 1일
