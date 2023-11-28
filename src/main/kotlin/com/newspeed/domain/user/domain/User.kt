@@ -10,8 +10,8 @@ import org.hibernate.annotations.Where
 import javax.persistence.*
 
 @Entity
-@Table(name = "user", catalog = "user")
-@SQLDelete(sql = "UPDATE user.user SET user.user.deleted_at = now() WHERE id = ?")
+@Table(name = "\"user\"")
+@SQLDelete(sql = "UPDATE newspeed.user SET newspeed.user.deleted_at = now() WHERE id = ?")
 @Where(clause = "deleted_at is null")
 class User(
     @Id
