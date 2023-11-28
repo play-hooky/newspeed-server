@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:newspeed;MODE=MySQL;
+    username: SA
+    password:
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+    database: h2
+  flyway:
+    enabled: false
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    arm-server-file: binary/redis-server-linux-arm64
+
+oauth:
+  kakao:
+    rest-api-key: play-hookyplay-hookyplay-hookyplay-hookyplay-hookyplay-hooky
+    grant-type: "authorization_code"
+    auth-url: https://kauth.kakao.com
+    user-url: https://kapi.kakao.com
+    redirect-uri: http://localhost:8080/user/oauth/callback/kakao
+
+jwt:
+  header: Authorization
+  issuer: play-hooky
+  client-secret: play-hookyplay-hookyplay-hookyplay-hookyplay-hookyplay-hooky
+  refresh-token-expiry-seconds: 2592000 # 60초 * 60분 * 24시간 * 30일 = 1달
+  access-token-expiry-seconds: 86400 # 60초 * 60분 * 24시간 = 1일
