@@ -47,6 +47,9 @@ dependencies {
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly('mysql:mysql-connector-java')
 	testImplementation('org.testcontainers:mysql:1.17.2')
+	testImplementation('org.testcontainers:testcontainers:1.16.0')
+	testImplementation('org.testcontainers:junit-jupiter:1.16.2')
+	testImplementation('org.testcontainers:jdbc:1.16.0')
 
 	// JWT
 	implementation('io.jsonwebtoken:jjwt-api:0.11.5')
@@ -62,6 +65,7 @@ dependencies {
 
 	// redis
 	implementation('org.springframework.boot:spring-boot-starter-data-redis')
+	implementation("it.ozimov:embedded-redis:0.7.2") { exclude( group: "org.slf4j", module: "slf4j-simple") }
 }
 
 dependencyManagement {
