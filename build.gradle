@@ -66,6 +66,10 @@ dependencies {
 	// redis
 	implementation('org.springframework.boot:spring-boot-starter-data-redis')
 	implementation("it.ozimov:embedded-redis:0.7.2") { exclude( group: "org.slf4j", module: "slf4j-simple") }
+
+	// Flyway
+	implementation 'org.flywaydb:flyway-core'
+	implementation 'org.flywaydb:flyway-mysql'
 }
 
 dependencyManagement {
