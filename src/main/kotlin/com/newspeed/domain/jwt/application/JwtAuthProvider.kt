@@ -4,13 +4,14 @@ import com.newspeed.domain.auth.domain.AuthPayload
 import com.newspeed.domain.jwt.domain.JwtConfigProperties
 import com.newspeed.domain.jwt.dto.IssuedJwtDTO
 import io.jsonwebtoken.JwtBuilder
-import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.stereotype.Component
 import java.util.*
+import javax.crypto.SecretKey
 
 @Component
 class JwtAuthProvider(
-    private val jwtConfigProperties: JwtConfigProperties
+    private val jwtConfigProperties: JwtConfigProperties,
+    private val secretKey: SecretKey
 ) {
 
     fun issueAllJwt(
@@ -27,7 +28,7 @@ class JwtAuthProvider(
 
         return authPayload
             .toJwtClaims()
-            .build(now, jwtConfigProperties.refreshTokenExpirySeconds, jwtConfigProperties.secretKey)
+            .build(now, jwtConfigProperties.refreshTokenExpirySeconds, secretKey)
     }
 
     fun provideAccessToken(
@@ -37,16 +38,16 @@ class JwtAuthProvider(
 
         return authPayload
             .toJwtClaims()
-            .build(now, jwtConfigProperties.accessTokenExpirySeconds, jwtConfigProperties.secretKey)
+            .build(now, jwtConfigProperties.accessTokenExpirySeconds, secretKey)
     }
 }
 
 private fun JwtBuilder.build(
     now: Date,
     expiration: Long,
-    key: String
+    key: SecretKey
 ): String = this
     .setIssuedAt(now)
     .setExpiration(Date(now.time + expiration * 1000))
-    .signWith(SignatureAlgorithm.HS256, key)
+    .signWith(key)
     .compact()
