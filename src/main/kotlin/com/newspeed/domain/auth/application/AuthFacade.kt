@@ -2,6 +2,7 @@ package com.newspeed.domain.auth.application
 
 import com.newspeed.domain.auth.api.request.LoginRequest
 import com.newspeed.domain.auth.api.response.LoginResponse
+import com.newspeed.domain.auth.api.response.UserResponse
 import com.newspeed.domain.auth.domain.OAuth2User
 import com.newspeed.domain.auth.feign.OAuth2Clients
 import com.newspeed.domain.jwt.application.JwtService
@@ -36,4 +37,9 @@ class AuthFacade(
         loginRequest: LoginRequest
     ): OAuth2User = oAuth2Clients.getClient(loginRequest.loginPlatform)
         .getOAuth2User(loginRequest.authorizationCode)
+
+    fun getUserResponse(
+        userId: Long
+    ): UserResponse = userService.getUser(userId)
+        .toResponse()
 }
