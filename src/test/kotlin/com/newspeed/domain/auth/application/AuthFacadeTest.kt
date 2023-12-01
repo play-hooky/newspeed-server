@@ -33,7 +33,7 @@ class AuthFacadeTest: IntegrationTestTemplate {
             val kakaoLoginRequest = AuthFactory.createKakaoLoginRequest()
 
             // when
-            val actual = authFacade.kakaoLogin(kakaoLoginRequest)
+            val actual = authFacade.login(kakaoLoginRequest)
 
             val actualUser = userRepository.findByIdOrNull(actual.userId)!!
             val actualRefreshToken = refreshTokenRepository.findByToken(actual.refreshToken)!!

@@ -1,6 +1,6 @@
 package com.newspeed.factory.auth
 
-import com.newspeed.domain.auth.api.request.KakaoLoginRequest
+import com.newspeed.domain.auth.api.request.LoginRequest
 import com.newspeed.domain.auth.domain.LoginPlatform
 import com.newspeed.domain.auth.domain.OAuth2User
 import com.newspeed.domain.auth.domain.Role
@@ -62,7 +62,7 @@ class AuthFactory {
             role = Role.USER
         )
 
-        fun createKakaoLoginRequest(): KakaoLoginRequest = KakaoLoginRequest(
+        fun createKakaoLoginRequest(): LoginRequest = LoginRequest(
             authorizationCode = DUMMY_ACCESS_TOKEN,
             loginPlatform = LoginPlatform.NEWSPEED
         )
