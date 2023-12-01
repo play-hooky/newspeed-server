@@ -47,9 +47,16 @@ jwt:
   access-token-expiry-seconds: 86400 # 60초 * 60분 * 24시간 = 1일
 
 oauth:
+  grant-type: authorization_code
+  default-profile-image: ${DEFAULT_PROFILE_IMAGE}
   kakao:
     rest-api-key: ${KAKAO_REST_API_KEY}
-    grant-type: "authorization_code"
     auth-url: ${KAKAO_OAUTH_URL}
     user-url: ${KAKAO_USER_URL}
     redirect-uri: ${KAKAO_REDIRECT_URI}
+  apple:
+    url: ${APPLE_URL}
+    client-id: ${APPLE_CLIENT_ID}
+    team-id: ${APPLE_TEAM_ID}
+    key-id: ${APPLE_KEY_ID}
+    key: ${APPLE_KEY}

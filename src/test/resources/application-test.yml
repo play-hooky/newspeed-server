@@ -18,12 +18,19 @@ spring:
     arm-server-file: binary/redis-server-linux-arm64
 
 oauth:
+  grant-type: authorization_code
+  default-profile-image: https://avatars.githubusercontent.com/u/139880500?s=400&u=d207b588d5422c2561df12fc86693a303a2e3661&v=4
   kakao:
     rest-api-key: hookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhooky
-    grant-type: "authorization_code"
     auth-url: https://kauth.kakao.com
     user-url: https://kapi.kakao.com
     redirect-uri: http://localhost:8080/user/oauth/callback/kakao
+  apple:
+    url: https://appleid.apple.com
+    client-id: com.newspeed.service
+    team-id: play-hooky
+    key-id: hooky-key-id
+    key: hookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhooky
 
 jwt:
   header: Authorization

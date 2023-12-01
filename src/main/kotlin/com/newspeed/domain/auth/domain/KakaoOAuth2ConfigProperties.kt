@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
 @Component
 data class KakaoOAuth2ConfigProperties(
     @Value("\${oauth.kakao.rest-api-key}") val key: String,
-    @Value("\${oauth.kakao.grant-type}") val grantType: String,
+    @Value("\${oauth.grant-type}") val grantType: String,
     @Value("\${oauth.kakao.redirect-uri}") val redirectUri: String,
 ) {
     fun toKakaoOAuth2TokenRequest(

@@ -1,6 +1,7 @@
 package com.newspeed.domain.auth.domain
 
 import com.newspeed.domain.user.domain.User
+import io.jsonwebtoken.Claims
 
 data class OAuth2User(
     val platform: LoginPlatform,
@@ -17,3 +18,12 @@ data class OAuth2User(
         role = Role.USER
     )
 }
+
+fun Claims.toOAuth2User(
+    profileImage: String
+): OAuth2User = OAuth2User(
+    platform = LoginPlatform.APPLE,
+    nickname = this["email"]!!.toString().split("@")[0],
+    profileImage = profileImage,
+    email = this["email"]!!.toString()
+)
