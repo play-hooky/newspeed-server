@@ -1,7 +1,7 @@
 package com.newspeed.domain.auth.application
 
-import com.newspeed.domain.auth.domain.KakaoOAuth2ConfigProperties
-import com.newspeed.domain.auth.domain.LoginPlatform
+import com.newspeed.domain.auth.config.KakaoOAuth2ConfigProperties
+import com.newspeed.domain.auth.domain.enums.LoginPlatform
 import com.newspeed.domain.auth.feign.KakaoOAuth2TokenClient
 import com.newspeed.domain.auth.feign.KakaoOAuth2UserClient
 import com.newspeed.factory.auth.AuthFactory

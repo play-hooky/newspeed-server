@@ -1,7 +1,7 @@
 package com.newspeed.domain.auth.application
 
-import com.newspeed.domain.auth.domain.LoginPlatform
 import com.newspeed.domain.auth.domain.OAuth2User
+import com.newspeed.domain.auth.domain.enums.LoginPlatform
 
 interface OAuth2Client {
 

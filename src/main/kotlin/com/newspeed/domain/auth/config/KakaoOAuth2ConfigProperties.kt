@@ -1,4 +1,4 @@
-package com.newspeed.domain.auth.domain
+package com.newspeed.domain.auth.config
 
 import com.newspeed.domain.auth.feign.request.KakaoOAuth2TokenRequest
 import org.springframework.beans.factory.annotation.Value

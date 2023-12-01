@@ -1,5 +1,7 @@
 package com.newspeed.domain.auth.domain
 
+import com.newspeed.domain.auth.domain.enums.LoginPlatform
+import com.newspeed.domain.auth.domain.enums.Role
 import com.newspeed.domain.user.domain.User
 import io.jsonwebtoken.Claims
 

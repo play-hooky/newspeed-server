@@ -1,4 +1,4 @@
-package com.newspeed.domain.auth.domain
+package com.newspeed.domain.auth.config
 
 import com.newspeed.domain.auth.feign.request.AppleOAuth2TokenRequest
 import io.jsonwebtoken.Jwts

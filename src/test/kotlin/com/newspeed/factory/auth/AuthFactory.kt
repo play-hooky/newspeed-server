@@ -1,9 +1,9 @@
 package com.newspeed.factory.auth
 
 import com.newspeed.domain.auth.api.request.LoginRequest
-import com.newspeed.domain.auth.domain.LoginPlatform
+import com.newspeed.domain.auth.domain.enums.LoginPlatform
 import com.newspeed.domain.auth.domain.OAuth2User
-import com.newspeed.domain.auth.domain.Role
+import com.newspeed.domain.auth.domain.enums.Role
 import com.newspeed.domain.auth.feign.request.KakaoOAuth2TokenRequest
 import com.newspeed.domain.auth.feign.response.KakaoOAuth2TokenResponse
 import com.newspeed.domain.auth.feign.response.KakaoOAuth2UserResponse
