@@ -1,12 +1,62 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
 spring:
+  config:
+    import: optional:file:.env[.properties]
+  datasource:
+    driver-class-name: ${DB_DRIVER}
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+
   jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
     show-sql: true
     properties:
       hibernate:
         format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:/db/migration
+    baseline-version: 1
+
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
 
 logging:
   level:
     org.springframework.transaction.interceptor: trace
     org.springframework.orm.jpa.JpaTransactionManager: DEBUG
     org.hibernate.resource.transaction: DEBUG
+    org.hibernate.orm.jdbc.bind: trace
+
+jwt:
+  header: Authorization
+  issuer: play-hooky
+  client-secret: ${JWT_SECRET}
+  refresh-token-expiry-seconds: 2592000 # 60초 * 60분 * 24시간 * 30일 = 1달
+  access-token-expiry-seconds: 86400 # 60초 * 60분 * 24시간 = 1일
+
+oauth:
+  grant-type: authorization_code
+  default-profile-image: ${DEFAULT_PROFILE_IMAGE}
+  kakao:
+    rest-api-key: ${KAKAO_REST_API_KEY}
+    auth-url: ${KAKAO_OAUTH_URL}
+    user-url: ${KAKAO_USER_URL}
+    redirect-uri: ${KAKAO_REDIRECT_URI}
+  apple:
+    url: ${APPLE_URL}
+    client-id: ${APPLE_CLIENT_ID}
+    team-id: ${APPLE_TEAM_ID}
+    key-id: ${APPLE_KEY_ID}
+    key: ${APPLE_KEY}
