@@ -48,7 +48,6 @@ jwt:
 
 oauth:
   grant-type: authorization_code
-  default-profile-image: ${DEFAULT_PROFILE_IMAGE}
   kakao:
     rest-api-key: ${KAKAO_REST_API_KEY}
     auth-url: ${KAKAO_OAUTH_URL}

@@ -39,7 +39,7 @@ class AppleOAuth2Service(
 
         val claims = parseClaims(token.idToken)
 
-        return claims.toOAuth2User(configProperties.defaultProfileImage)
+        return claims.toOAuth2User()
     }
 
     fun parseClaims(

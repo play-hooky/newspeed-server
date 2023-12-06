@@ -18,8 +18,7 @@ data class AppleOAuth2ConfigProperties(
     @Value("\${oauth.apple.key-id}") val keyId: String,
     @Value("\${oauth.apple.key}") val key: String,
     @Value("\${oauth.apple.url}") val audience: String,
-    @Value("\${oauth.grant-type}") val grantType: String,
-    @Value("\${oauth.default-profile-image}") val defaultProfileImage: String,
+    @Value("\${oauth.grant-type}") val grantType: String
 ) {
 
     fun toAppleOAuth2TokenRequest(

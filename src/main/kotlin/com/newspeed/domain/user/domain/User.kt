@@ -35,8 +35,8 @@ class User(
     var platform: LoginPlatform,
 
     @Comment("프로필 사진 url")
-    @Column(name = "profile_image_url", length = 256, nullable = false)
-    var profileImageUrl: String,
+    @Column(name = "profile_image_url", length = 256)
+    var profileImageUrl: String?,
 
     @Comment("사용자 권한 USER, ADMIN")
     @Enumerated(EnumType.STRING)
