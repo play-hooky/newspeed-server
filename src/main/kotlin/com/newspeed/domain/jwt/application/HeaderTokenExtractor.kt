@@ -17,7 +17,9 @@ class HeaderTokenExtractor: TokenExtractor {
         val authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION)
             ?: throw NotFoundTokenException()
 
-        return extractToken(authorizationHeader).takeIf { authorizationHeader.isNotBlank() }
+        val token = extractToken(authorizationHeader)
+
+        return token.takeIf { token.isNotBlank() }
             ?: throw NotFoundTokenException()
     }
 
