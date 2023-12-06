@@ -1,8 +1,6 @@
 package com.newspeed.domain.auth.config
 
 import com.newspeed.domain.auth.application.AuthInterceptor
-import com.newspeed.domain.auth.domain.AuthenticateContext
-import com.newspeed.domain.auth.domain.enums.Role
 import com.newspeed.domain.user.application.RoleArgumentResolver
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
@@ -12,12 +10,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @Configuration
 class LoginConfig(
     private val authInterceptor: AuthInterceptor,
-    private val authenticateContext: AuthenticateContext
+    private val roleArgumentResolver: RoleArgumentResolver
 ): WebMvcConfigurer {
     override fun addArgumentResolvers(
         resolvers: MutableList<HandlerMethodArgumentResolver>
     ) {
-        resolvers.add(RoleArgumentResolver(Role.USER, authenticateContext))
+        resolvers.add(roleArgumentResolver)
     }
 
     override fun addInterceptors(registry: InterceptorRegistry) {
