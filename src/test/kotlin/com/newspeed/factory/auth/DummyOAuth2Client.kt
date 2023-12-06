@@ -1,7 +1,7 @@
 package com.newspeed.factory.auth
 
 import com.newspeed.domain.auth.application.OAuth2Client
-import com.newspeed.domain.auth.domain.LoginPlatform
+import com.newspeed.domain.auth.domain.enums.LoginPlatform
 import com.newspeed.domain.auth.domain.OAuth2User
 import org.springframework.stereotype.Service
 

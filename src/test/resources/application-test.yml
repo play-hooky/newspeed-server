@@ -19,7 +19,6 @@ spring:
 
 oauth:
   grant-type: authorization_code
-  default-profile-image: https://avatars.githubusercontent.com/u/139880500?s=400&u=d207b588d5422c2561df12fc86693a303a2e3661&v=4
   kakao:
     rest-api-key: hookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhooky
     auth-url: https://kauth.kakao.com

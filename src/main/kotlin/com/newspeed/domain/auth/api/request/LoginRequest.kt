@@ -1,6 +1,6 @@
 package com.newspeed.domain.auth.api.request
 
-import com.newspeed.domain.auth.domain.LoginPlatform
+import com.newspeed.domain.auth.domain.enums.LoginPlatform
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 

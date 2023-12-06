@@ -29,7 +29,7 @@ class GlobalExceptionHandler {
     fun runtimeException(
         e: RuntimeException
     ): ResponseEntity<ExceptionResponse> {
-        log.error(LOG_FORMAT, e.javaClass.getSimpleName(), e.message)
+        log.error(LOG_FORMAT, e.javaClass.getSimpleName(), e.stackTraceToString())
         return ExceptionType.INTERNAL_SERVER_EXCEPTION.toResponseEntity()
     }
 }

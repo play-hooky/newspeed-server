@@ -1,12 +1,15 @@
 package com.newspeed.domain.auth.domain
 
+import com.newspeed.domain.auth.domain.enums.LoginPlatform
+import com.newspeed.domain.auth.domain.enums.Role
 import com.newspeed.domain.user.domain.User
+import com.newspeed.global.exception.user.UnavailableEmailException
 import io.jsonwebtoken.Claims
 
 data class OAuth2User(
     val platform: LoginPlatform,
     val nickname: String,
-    val profileImage: String,
+    val profileImage: String?,
     val email: String
 ) {
 
@@ -19,11 +22,9 @@ data class OAuth2User(
     )
 }
 
-fun Claims.toOAuth2User(
-    profileImage: String
-): OAuth2User = OAuth2User(
+fun Claims.toOAuth2User(): OAuth2User = OAuth2User(
     platform = LoginPlatform.APPLE,
-    nickname = this["email"]!!.toString().split("@")[0],
-    profileImage = profileImage,
-    email = this["email"]!!.toString()
+    nickname = this["email"]?.toString()?.split("@")?.get(0) ?: throw UnavailableEmailException(),
+    profileImage = null,
+    email = this["email"]?.toString() ?: throw UnavailableEmailException()
 )

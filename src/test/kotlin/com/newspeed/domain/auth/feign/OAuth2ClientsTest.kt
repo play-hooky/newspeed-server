@@ -1,7 +1,8 @@
 package com.newspeed.domain.auth.feign
 
 import com.newspeed.domain.auth.application.KakaoOAuth2Service
-import com.newspeed.domain.auth.domain.KakaoOAuth2ConfigProperties
+import com.newspeed.domain.auth.config.KakaoOAuth2ConfigProperties
+import com.newspeed.domain.auth.domain.enums.LoginPlatform
 import com.newspeed.factory.auth.DummyOAuth2Client
 import com.newspeed.global.exception.auth.DuplicateOAuth2Exception
 import com.newspeed.global.exception.model.ExceptionType
@@ -41,7 +42,7 @@ class OAuth2ClientsTest: UnitTestTemplate {
             .build()
 
         // when
-        val expect = oAuth2Clients.getClient(com.newspeed.domain.auth.domain.LoginPlatform.KAKAO)
+        val expect = oAuth2Clients.getClient(LoginPlatform.KAKAO)
 
         // then
         assertThat(expect).isExactlyInstanceOf(com.newspeed.domain.auth.application.KakaoOAuth2Service::class.java)

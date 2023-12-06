@@ -2,8 +2,8 @@ package com.newspeed.domain.auth.feign.response
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.newspeed.domain.auth.domain.LoginPlatform
 import com.newspeed.domain.auth.domain.OAuth2User
+import com.newspeed.domain.auth.domain.enums.LoginPlatform
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class KakaoOAuth2UserResponse(

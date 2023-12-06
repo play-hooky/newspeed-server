@@ -1,7 +1,7 @@
 package com.newspeed.domain.auth.feign
 
 import com.newspeed.domain.auth.application.OAuth2Client
-import com.newspeed.domain.auth.domain.LoginPlatform
+import com.newspeed.domain.auth.domain.enums.LoginPlatform
 import com.newspeed.global.exception.auth.DuplicateOAuth2Exception
 import com.newspeed.global.exception.auth.UnsupportedOAuth2Exception
 import java.util.*

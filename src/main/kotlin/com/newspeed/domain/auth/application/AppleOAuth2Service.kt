@@ -1,9 +1,9 @@
 package com.newspeed.domain.auth.application
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.newspeed.domain.auth.domain.AppleOAuth2ConfigProperties
-import com.newspeed.domain.auth.domain.LoginPlatform
+import com.newspeed.domain.auth.config.AppleOAuth2ConfigProperties
 import com.newspeed.domain.auth.domain.OAuth2User
+import com.newspeed.domain.auth.domain.enums.LoginPlatform
 import com.newspeed.domain.auth.domain.toOAuth2User
 import com.newspeed.domain.auth.feign.AppleOAuth2TokenClient
 import com.newspeed.domain.auth.feign.response.AppleOAuth2PublicKeyResponse
@@ -39,7 +39,7 @@ class AppleOAuth2Service(
 
         val claims = parseClaims(token.idToken)
 
-        return claims.toOAuth2User(configProperties.defaultProfileImage)
+        return claims.toOAuth2User()
     }
 
     fun parseClaims(

@@ -1,13 +1,15 @@
 package com.newspeed.domain.auth.application
 
 import com.newspeed.domain.auth.domain.AuthPayload
-import com.newspeed.domain.auth.domain.LoginPlatform
-import com.newspeed.domain.auth.domain.Role
+import com.newspeed.domain.auth.domain.enums.LoginPlatform
+import com.newspeed.domain.auth.domain.enums.Role
 import com.newspeed.domain.jwt.application.JwtAuthProvider
 import com.newspeed.domain.jwt.domain.JwtConfigProperties
 import com.newspeed.template.UnitTestTemplate
 import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.security.Keys
 import org.junit.jupiter.api.Test
+import java.nio.charset.StandardCharsets
 
 class JwtAuthProviderTest: UnitTestTemplate {
     private val jwtConfigProperties = JwtConfigProperties(
@@ -19,7 +21,8 @@ class JwtAuthProviderTest: UnitTestTemplate {
     )
 
     private val jwtAuthProvider = JwtAuthProvider(
-        jwtConfigProperties = jwtConfigProperties
+        jwtConfigProperties = jwtConfigProperties,
+        secretKey = Keys.hmacShaKeyFor(jwtConfigProperties.secretKey.toByteArray(StandardCharsets.UTF_8))
     )
 
     @Test

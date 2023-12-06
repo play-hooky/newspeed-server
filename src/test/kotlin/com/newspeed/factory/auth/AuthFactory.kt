@@ -1,9 +1,10 @@
 package com.newspeed.factory.auth
 
 import com.newspeed.domain.auth.api.request.LoginRequest
-import com.newspeed.domain.auth.domain.LoginPlatform
+import com.newspeed.domain.auth.domain.AuthPayload
+import com.newspeed.domain.auth.domain.enums.LoginPlatform
 import com.newspeed.domain.auth.domain.OAuth2User
-import com.newspeed.domain.auth.domain.Role
+import com.newspeed.domain.auth.domain.enums.Role
 import com.newspeed.domain.auth.feign.request.KakaoOAuth2TokenRequest
 import com.newspeed.domain.auth.feign.response.KakaoOAuth2TokenResponse
 import com.newspeed.domain.auth.feign.response.KakaoOAuth2UserResponse
@@ -65,6 +66,15 @@ class AuthFactory {
         fun createKakaoLoginRequest(): LoginRequest = LoginRequest(
             authorizationCode = DUMMY_ACCESS_TOKEN,
             loginPlatform = LoginPlatform.NEWSPEED
+        )
+
+        fun createAuthPayload(
+            role: Role
+        ): AuthPayload = AuthPayload(
+            userId = 1,
+            role = role,
+            loginPlatform = LoginPlatform.NEWSPEED,
+            email = DUMMY_EMAIL
         )
     }
 }

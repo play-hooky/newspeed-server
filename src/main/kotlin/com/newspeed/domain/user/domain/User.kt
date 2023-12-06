@@ -1,8 +1,9 @@
 package com.newspeed.domain.user.domain
 
+import com.newspeed.domain.auth.api.response.UserResponse
 import com.newspeed.domain.auth.domain.AuthPayload
-import com.newspeed.domain.auth.domain.LoginPlatform
-import com.newspeed.domain.auth.domain.Role
+import com.newspeed.domain.auth.domain.enums.LoginPlatform
+import com.newspeed.domain.auth.domain.enums.Role
 import com.newspeed.global.model.BaseTimeEntity
 import org.hibernate.annotations.Comment
 import org.hibernate.annotations.SQLDelete
@@ -34,8 +35,8 @@ class User(
     var platform: LoginPlatform,
 
     @Comment("프로필 사진 url")
-    @Column(name = "profile_image_url", length = 256, nullable = false)
-    var profileImageUrl: String,
+    @Column(name = "profile_image_url", length = 256)
+    var profileImageUrl: String?,
 
     @Comment("사용자 권한 USER, ADMIN")
     @Enumerated(EnumType.STRING)
@@ -48,5 +49,11 @@ class User(
         role = role,
         loginPlatform = platform,
         email = email
+    )
+
+    fun toResponse(): UserResponse = UserResponse(
+        email = email,
+        profileImgUrl = profileImageUrl,
+        nickname = nickname
     )
 }
