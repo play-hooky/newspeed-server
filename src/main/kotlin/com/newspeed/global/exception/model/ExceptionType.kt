@@ -17,6 +17,7 @@ enum class ExceptionType(
     // User
     USER_NOT_FOUND_EXCEPTION(HttpStatus.BAD_REQUEST, message = "알 수 없는 사용자입니다."),
     NOT_ENOUGH_PERMISSION_EXCEPTION(HttpStatus.BAD_REQUEST, message = "권한이 부족하여 요청할 수 없는 사용자입니다."),
+    UNAVAILABLE_EMAIL_EXCEPTION(HttpStatus.BAD_REQUEST, message = "이메일을 확인할 수 없습니다. 로그인 시에 이메일 제공을 허용해주세요."),
 
     // JWT
     EXPIRED_JWT_EXCEPTION(HttpStatus.BAD_REQUEST, "만료된 로그인 토큰입니다."),
