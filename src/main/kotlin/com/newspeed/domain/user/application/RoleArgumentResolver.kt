@@ -19,9 +19,9 @@ class RoleArgumentResolver(
             (parameter.hasParameterAnnotation(role.annotation))
 
     override fun resolveArgument(
-        parameter: MethodParameter,
+        parameter: MethodParameter?,
         mavContainer: ModelAndViewContainer?,
-        webRequest: NativeWebRequest,
+        webRequest: NativeWebRequest?,
         binderFactory: WebDataBinderFactory?
     ): Long = authenticateContext.userId().takeIf { authenticateContext.role() == this.role }
         ?: throw NotEnoughPermissionException()
