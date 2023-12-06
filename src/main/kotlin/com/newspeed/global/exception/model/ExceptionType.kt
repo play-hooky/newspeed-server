@@ -22,6 +22,7 @@ enum class ExceptionType(
     // JWT
     EXPIRED_JWT_EXCEPTION(HttpStatus.BAD_REQUEST, "만료된 로그인 토큰입니다."),
     INVALID_JWT_EXCEPTION(HttpStatus.BAD_REQUEST, "올바르지 않은 로그인 토큰입니다."),
+    INSUFFICIENT_JWT_CLAIM_EXCEPTION(HttpStatus.BAD_REQUEST, message = " 정보가 누락된 비정상 토큰입니다."),
 
     // Internal Server Error
     INTERNAL_SERVER_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내 에러가 발생했습니다."),
