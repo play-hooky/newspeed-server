@@ -5,6 +5,7 @@ import com.newspeed.domain.user.repository.UserRepository
 import com.newspeed.factory.auth.AuthFactory
 import com.newspeed.global.exception.user.UserNotFoundException
 import com.newspeed.template.IntegrationTestTemplate
+import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.assertj.core.api.SoftAssertions
 import org.assertj.core.api.SoftAssertions.assertSoftly
@@ -71,6 +72,29 @@ class AuthFacadeTest: IntegrationTestTemplate {
         @Test
         fun `userId가 존재하지 않는 사용자라면 예외를 던진다`() {
             assertThatThrownBy { authFacade.getUserResponse(Long.MIN_VALUE) }
+                .isInstanceOf(UserNotFoundException::class.java)
+        }
+    }
+
+    @Nested
+    inner class `access token을 재발행할 때` {
+
+        @Test
+        fun `userId가 유효하면 access token 발행에 성공한다`() {
+            // given
+            val kakaoLoginRequest = AuthFactory.createKakaoLoginRequest()
+            val loginResponse = authFacade.login(kakaoLoginRequest)
+            val user = userRepository.findByIdOrNull(loginResponse.userId)!!
+
+            // when
+            val actual = authFacade.reissueAccessToken(user.id)
+
+            assertThat(actual).isNotBlank()
+        }
+
+        @Test
+        fun `userId가 존재하지 않는 사용자라면 예외를 던진다`() {
+            assertThatThrownBy { authFacade.reissueAccessToken(Long.MIN_VALUE) }
                 .isInstanceOf(UserNotFoundException::class.java)
         }
     }

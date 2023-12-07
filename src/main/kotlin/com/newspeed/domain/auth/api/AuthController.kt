@@ -30,4 +30,11 @@ class AuthController(
     ): ResponseEntity<UserResponse> = ResponseEntity.ok(
         authFacade.getUserResponse(userId)
     )
+
+    @PutMapping("/token")
+    fun reissueAccessToken(
+        @User userId: Long
+    ): ResponseEntity<String> = ResponseEntity.ok(
+        authFacade.reissueAccessToken(userId)
+    )
 }

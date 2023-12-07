@@ -42,4 +42,12 @@ class AuthFacade(
         userId: Long
     ): UserResponse = userService.getUser(userId)
         .toResponse()
+
+    fun reissueAccessToken(
+        userId: Long
+    ): String {
+        val authPayload = userService.getUser(userId).toAuthPayload()
+
+        return jwtService.reissueAccessToken(authPayload)
+    }
 }

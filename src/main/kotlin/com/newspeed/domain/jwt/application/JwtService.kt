@@ -27,4 +27,8 @@ class JwtService(
 
         refreshTokenRepository.save(refreshToken)
     }
+
+    fun reissueAccessToken(
+        authPayload: AuthPayload
+    ): String = jwtAuthProvider.provideAccessToken(authPayload)
 }
