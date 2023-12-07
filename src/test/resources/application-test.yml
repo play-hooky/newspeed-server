@@ -30,6 +30,9 @@ oauth:
     team-id: play-hooky
     key-id: hooky-key-id
     key: hookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhooky
+    scope: name email
+    redirect-uri: https://www.newspeed.store/user/oauth/callback/apple
+    auth-state: signIn
 
 jwt:
   header: Authorization

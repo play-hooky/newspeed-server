@@ -18,7 +18,10 @@ data class AppleOAuth2ConfigProperties(
     @Value("\${oauth.apple.key-id}") val keyId: String,
     @Value("\${oauth.apple.key}") val key: String,
     @Value("\${oauth.apple.url}") val audience: String,
-    @Value("\${oauth.grant-type}") val grantType: String
+    @Value("\${oauth.grant-type}") val grantType: String,
+    @Value("\${oauth.apple.scope}") val scope: String,
+    @Value("\${oauth.apple.redirect-uri}") val redirectUri: String,
+    @Value("\${oauth.apple.auth-state}") val authState: String,
 ) {
 
     fun toAppleOAuth2TokenRequest(
