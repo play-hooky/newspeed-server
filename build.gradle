@@ -73,6 +73,9 @@ dependencies {
 
 	// thymeleaf
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+	// gson
+	implementation 'com.google.code.gson:gson'
 }
 
 dependencyManagement {
