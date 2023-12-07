@@ -3,6 +3,22 @@ server:
   servlet:
     context-path: /
 
+logging:
+  pattern:
+    file: '[%d{HH:mm:ss.SSS}][%-5level][%logger.%method:line%line] - %msg%n'
+  file:
+    name: ./logs/newspeed.log
+  level:
+    root: INFO
+    org.springframework.transaction.interceptor: trace
+    org.springframework.orm.jpa.JpaTransactionManager: DEBUG
+    org.hibernate.resource.transaction: DEBUG
+    org.hibernate.orm.jdbc.bind: trace
+  logback:
+    rollingpolicy:
+      max-file-size: 500MB
+      file-name-pattern: ./logs/newspeed.%d{yyyy-MM-dd}.%i.log
+
 spring:
   config:
     import: optional:file:.env[.properties]
@@ -31,13 +47,6 @@ spring:
   redis:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
-
-logging:
-  level:
-    org.springframework.transaction.interceptor: trace
-    org.springframework.orm.jpa.JpaTransactionManager: DEBUG
-    org.hibernate.resource.transaction: DEBUG
-    org.hibernate.orm.jdbc.bind: trace
 
 jwt:
   header: Authorization
