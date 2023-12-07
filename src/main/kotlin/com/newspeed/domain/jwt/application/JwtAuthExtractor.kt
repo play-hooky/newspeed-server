@@ -13,17 +13,17 @@ import org.springframework.stereotype.Component
 @Component
 class JwtAuthExtractor(
     private val jwtParser: JwtParser
-) {
+): JwtExtractor {
     companion object {
         private val log = LoggerFactory.getLogger(JwtAuthExtractor::class.java)
     }
 
-    fun extract(
+    override fun extract(
         token: String
     ): AuthPayload = getClaims(token)
         .toAuthPayload()
 
-    private fun getClaims(
+    override fun getClaims(
         jwt: String
     ): Claims {
         try {
