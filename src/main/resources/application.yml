@@ -71,3 +71,8 @@ oauth:
     scope: ${APPLE_SCOPE}
     redirect-uri: ${APPLE_REDIRECT_URI}
     auth-state: ${APPLE_AUTH_STATE}
+
+content:
+  youtube:
+    url: ${GOOGLE_API_URL}
+    key: ${YOUTUBE_KEY}
