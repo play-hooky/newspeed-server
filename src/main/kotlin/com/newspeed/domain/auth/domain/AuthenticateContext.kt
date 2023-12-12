@@ -21,5 +21,7 @@ class AuthenticateContext {
     fun userId(): Long = userId
 
     fun role(): Role = role
+
+    fun hasAnonymous(): Boolean = this.role.isAnonymous()
 }
 
