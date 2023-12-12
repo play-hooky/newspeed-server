@@ -1,7 +1,9 @@
 package com.newspeed.global.exception.model
 
+import org.springframework.beans.BeanInstantiationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.validation.BindException
 
 open class ApplicationException(
     private val httpStatus: HttpStatus,
@@ -17,3 +19,18 @@ open class ApplicationException(
 fun String.toExceptionResponse(): ExceptionResponse = ExceptionResponse(
     errorMessage = this
 )
+
+fun BindException.toResponseEntity(): ResponseEntity<ExceptionResponse> = ResponseEntity(
+    (this.fieldError?.defaultMessage ?: ExceptionType.BIND_EXCEPTION.message).toExceptionResponse(),
+    ExceptionType.BIND_EXCEPTION.httpStatus
+)
+
+fun BeanInstantiationException.toResponseEntity(): ResponseEntity<ExceptionResponse> {
+    val errorField = this.cause?.localizedMessage?.split("parameter ")?.lastOrNull()
+    val message = if (errorField == null) ExceptionType.BIND_EXCEPTION.message else "${errorField}를 입력해주세요."
+
+    return ResponseEntity(
+        message.toExceptionResponse(),
+        ExceptionType.BIND_EXCEPTION.httpStatus
+    )
+}
