@@ -21,4 +21,6 @@ enum class Role(
             role: String
         ): Role = Role.valueOf(role)
     }
+
+    fun isAnonymous(): Boolean = this == ANONYMOUS
 }
