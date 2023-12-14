@@ -18,6 +18,16 @@ class GlobalExceptionHandler {
         private val log = LoggerFactory.getLogger(GlobalExceptionHandler::class.java)
     }
 
+    @ExceptionHandler(NotImplementedError::class)
+    fun notImplementedError(
+        e: NotImplementedError
+    ): ResponseEntity<ExceptionResponse> {
+        val errorMessage = e.stackTraceToString()
+        log.warn(LOG_FORMAT, e.javaClass.getSimpleName(), errorMessage)
+
+        return e.toResponseEntity()
+    }
+
     @ExceptionHandler(BeanInstantiationException::class)
     fun beanInstantiationException(
         e: BeanInstantiationException

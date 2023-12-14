@@ -34,3 +34,8 @@ fun BeanInstantiationException.toResponseEntity(): ResponseEntity<ExceptionRespo
         ExceptionType.BIND_EXCEPTION.httpStatus
     )
 }
+
+fun NotImplementedError.toResponseEntity(): ResponseEntity<ExceptionResponse> = ResponseEntity(
+    "현재 구현중입니다. 잠시만 기다려주세요.".toExceptionResponse(),
+    ExceptionType.INTERNAL_SERVER_EXCEPTION.httpStatus
+)
