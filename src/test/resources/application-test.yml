@@ -40,3 +40,8 @@ jwt:
   client-secret: hookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhooky
   refresh-token-expiry-seconds: 2592000 # 60초 * 60분 * 24시간 * 30일 = 1달
   access-token-expiry-seconds: 86400 # 60초 * 60분 * 24시간 = 1일
+
+content:
+  youtube:
+    url: https://www.googleapis.com/
+    key: hookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhooky

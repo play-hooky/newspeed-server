@@ -24,8 +24,14 @@ enum class ExceptionType(
     INVALID_JWT_EXCEPTION(HttpStatus.BAD_REQUEST, "올바르지 않은 로그인 토큰입니다."),
     INSUFFICIENT_JWT_CLAIM_EXCEPTION(HttpStatus.BAD_REQUEST, message = " 정보가 누락된 비정상 토큰입니다."),
 
+    // Content
+    DUPLICATE_CONTENT_PLATFORM_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "중복된 컨텐츠 검색 플랫폼입니다."),
+
     // Internal Server Error
     INTERNAL_SERVER_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내 에러가 발생했습니다."),
+
+    // Client
+    BIND_EXCEPTION(HttpStatus.BAD_REQUEST, "올바르지 않은 입력값입니다.")
     ;
 
     fun toResponseEntity(): ResponseEntity<ExceptionResponse> = ResponseEntity(

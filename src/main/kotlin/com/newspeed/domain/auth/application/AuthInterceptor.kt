@@ -17,18 +17,34 @@ class AuthInterceptor(
     private val jwtAuthExtractor: JwtAuthExtractor
 ): HandlerInterceptor {
 
+    companion object {
+        private val ALLOW_ANONYMOUS_URLS = listOf(
+            "/contents/search"
+        )
+    }
+
     override fun preHandle(
         request: HttpServletRequest,
         response: HttpServletResponse,
         handler: Any
     ): Boolean {
+        if (ALLOW_ANONYMOUS_URLS.contains(request.servletPath)) {
+            runCatching { setAuthenticate(request) }
+            return true
+        }
+
+        setAuthenticate(request)
+        return true
+    }
+
+    private fun setAuthenticate(
+        request: HttpServletRequest
+    ) {
         val token = tokenExtractor.extract(request)
         val payload = jwtAuthExtractor.extract(token)
             .takeIf { Role.isUser(it.role) }
             ?: throw NotEnoughPermissionException()
 
         authenticateContext.setAuthenticate(payload)
-
-        return true
     }
 }

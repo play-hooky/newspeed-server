@@ -3,14 +3,12 @@ package com.newspeed.global.filter
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.google.gson.JsonObject
 import com.google.gson.stream.JsonReader
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 import org.springframework.web.util.ContentCachingRequestWrapper
 import org.springframework.web.util.ContentCachingResponseWrapper
 import org.springframework.web.util.WebUtils
-import org.thymeleaf.util.MapUtils
 import java.io.IOException
 import java.io.StringReader
 import java.nio.charset.StandardCharsets
