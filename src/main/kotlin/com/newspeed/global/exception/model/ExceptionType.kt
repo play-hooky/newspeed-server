@@ -26,6 +26,7 @@ enum class ExceptionType(
 
     // Content
     DUPLICATE_CONTENT_PLATFORM_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "중복된 컨텐츠 검색 플랫폼입니다."),
+    UNSUPPORTED_CONTENT_PLATFORM_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "지원하지 않는 OAuth 로그인 플랫폼입니다."),
 
     // Internal Server Error
     INTERNAL_SERVER_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내 에러가 발생했습니다."),

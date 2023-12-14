@@ -1,8 +1,8 @@
 package com.newspeed.domain.content.application
 
 import com.newspeed.domain.content.domain.enums.QueryPlatform
-import com.newspeed.global.exception.auth.UnsupportedOAuth2Exception
 import com.newspeed.global.exception.content.DuplicateContentPlatformException
+import com.newspeed.global.exception.content.UnsupportedContentPlatformException
 import java.util.*
 
 class ContentSearchClients(
@@ -41,5 +41,5 @@ class ContentSearchClients(
 
     fun getClient(
         queryPlatform: QueryPlatform
-    ): ContentSearchClient = contentSearchClients[queryPlatform] ?: throw UnsupportedOAuth2Exception()
+    ): ContentSearchClient = contentSearchClients[queryPlatform] ?: throw UnsupportedContentPlatformException()
 }
