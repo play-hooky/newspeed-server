@@ -5,9 +5,9 @@ import com.newspeed.domain.content.api.response.ContentSearchResponse
 import com.newspeed.domain.content.config.YoutubeConfigProperties
 import com.newspeed.domain.content.domain.enums.QueryPlatform
 import com.newspeed.domain.content.feign.YoutubeClient
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 
-@Component
+@Service
 class YoutubeSearchService(
     private val youtubeClient: YoutubeClient,
     private val youtubeConfigProperties: YoutubeConfigProperties

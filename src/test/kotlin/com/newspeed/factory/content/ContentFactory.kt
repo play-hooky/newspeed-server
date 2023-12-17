@@ -2,17 +2,23 @@ package com.newspeed.factory.content
 
 import com.newspeed.domain.content.api.request.ContentSearchRequest
 import com.newspeed.domain.content.api.response.ContentSearchResponse
+import com.newspeed.domain.content.api.response.QueryHistoryResponse
+import com.newspeed.domain.content.domain.QueryHistory
 import com.newspeed.domain.content.domain.enums.QueryOrder
 import com.newspeed.domain.content.domain.enums.QueryPlatform
 import com.newspeed.domain.content.feign.response.YoutubeChannelResponse
 import com.newspeed.domain.content.feign.response.YoutubeSearchResponse
 import com.newspeed.domain.content.feign.response.YoutubeVideoDetailResponse
+import com.newspeed.domain.user.domain.User
 import java.time.LocalDateTime
 
 class ContentFactory {
     companion object {
+        const val query = "hooky"
+
+
         fun createYoutubeSearchRequest() = ContentSearchRequest(
-            query = "hooky",
+            query = query,
             platform = QueryPlatform.YOUTUBE,
             order = QueryOrder.views,
             publishedAfter = LocalDateTime.now().minusDays(10),
@@ -143,6 +149,27 @@ class ContentFactory {
                     ),
                     instagram = null
             ))
+        )
+
+        fun createQueryHistory(
+            user: User
+        ) = QueryHistory(
+            id = 1L,
+            user = user,
+            query = query
+        )
+
+        fun createQueryHistories(
+            user: User
+        ) = listOf(createQueryHistory(user))
+
+        fun createQueryHistoryResponse() = QueryHistoryResponse(
+            queryHistories = listOf(
+                QueryHistoryResponse.QueryHistory(
+                    id = 1L,
+                    query = query
+                )
+            )
         )
     }
 }
