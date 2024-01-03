@@ -51,8 +51,7 @@ class ContentServiceTest: UnitTestTemplate {
             given(userService.getUser(userId))
                 .willReturn(user)
 
-            given(queryHistoryRepository.findByUser(user))
-                .willReturn(queryHistories)
+            every { queryHistoryRepository.findByUser(user) } returns queryHistories
 
             // when
             val actual = contentService.getQueryHistory(userId)
