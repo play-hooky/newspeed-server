@@ -1,10 +1,12 @@
 package com.newspeed.domain.content.application
 
+import com.newspeed.domain.content.dto.toRecommendQueryResponse
 import com.newspeed.domain.content.repository.QueryHistoryRepository
 import com.newspeed.domain.user.application.UserService
 import com.newspeed.factory.auth.AuthFactory.Companion.createKakaoUser
 import com.newspeed.factory.content.ContentFactory.Companion.createQueryHistories
 import com.newspeed.factory.content.ContentFactory.Companion.createQueryHistoryResponse
+import com.newspeed.factory.content.ContentFactory.Companion.createRecommendQueryDTOs
 import com.newspeed.factory.content.DummyContentClient
 import com.newspeed.global.exception.content.NotFoundQueryHistoryException
 import com.newspeed.global.exception.content.UnavailableDeleteQueryHistoryException
@@ -21,6 +23,7 @@ import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.mock
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.repository.findByIdOrNull
+import java.time.LocalDate
 
 @DisplayName("content 서비스 계층에서 ")
 class ContentServiceTest: UnitTestTemplate {
@@ -74,6 +77,25 @@ class ContentServiceTest: UnitTestTemplate {
             // when & then
             assertThatThrownBy { contentService.getQueryHistory(userId) }
                 .isInstanceOf(UserNotFoundException::class.java)
+        }
+    }
+
+    @Nested
+    inner class `추천 검색어를 조회할 때` {
+        @Test
+        fun `오늘 가장 많이 검색한 검색어를 조회한다`() {
+            // given
+            val date = LocalDate.now()
+            val size = 5
+            val recommendQueryDTOs = createRecommendQueryDTOs(size)
+            val expected = recommendQueryDTOs.toRecommendQueryResponse()
+
+            every { queryHistoryRepository.findDailyMaxQueryHistory(date, size) } returns recommendQueryDTOs
+
+            // when
+            val actual = contentService.recommendQuery(date, size)
+
+            assertThat(expected).usingRecursiveComparison().isEqualTo(actual)
         }
     }
 

@@ -3,7 +3,9 @@ package com.newspeed.domain.content.application
 import com.newspeed.domain.content.api.request.ContentSearchRequest
 import com.newspeed.domain.content.api.response.ContentSearchResponse
 import com.newspeed.domain.content.api.response.QueryHistoryResponse
+import com.newspeed.domain.content.api.response.RecommendQueryResponse
 import com.newspeed.domain.content.domain.toQueryHistoryResponse
+import com.newspeed.domain.content.dto.toRecommendQueryResponse
 import com.newspeed.domain.content.repository.QueryHistoryRepository
 import com.newspeed.domain.user.application.UserService
 import com.newspeed.global.exception.content.NotFoundQueryHistoryException
@@ -13,6 +15,7 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.validation.annotation.Validated
+import java.time.LocalDate
 
 @Service
 @Validated
@@ -54,6 +57,13 @@ class ContentService(
         return queryHistoryRepository.findByUser(user)
             .toQueryHistoryResponse()
     }
+
+    @Transactional(readOnly = true)
+    fun recommendQuery(
+        date: LocalDate,
+        size: Int
+    ): RecommendQueryResponse = queryHistoryRepository.findDailyMaxQueryHistory(date, size)
+            .toRecommendQueryResponse()
 
     @Transactional
     fun deleteQueryHistory(

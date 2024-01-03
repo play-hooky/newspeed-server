@@ -4,12 +4,14 @@ import com.newspeed.domain.auth.domain.AuthenticateContext
 import com.newspeed.domain.content.api.request.ContentSearchRequest
 import com.newspeed.domain.content.api.response.ContentSearchResponse
 import com.newspeed.domain.content.api.response.QueryHistoryResponse
+import com.newspeed.domain.content.api.response.RecommendQueryResponse
 import com.newspeed.domain.content.application.ContentService
 import com.newspeed.domain.jwt.annotation.User
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
+import java.time.LocalDate
 import javax.validation.Valid
 
 @Validated
@@ -33,6 +35,14 @@ class ContentController(
         @User userId: Long
     ): ResponseEntity<QueryHistoryResponse> = ResponseEntity.ok(
         contentService.getQueryHistory(userId)
+    )
+
+    @GetMapping("/query/recommend")
+    fun recommendQuery(
+        @RequestParam(required = false, defaultValue = "#{T(java.time.LocalDate).now()}") date: LocalDate,
+        @RequestParam(required = false, defaultValue = "5") size: Int
+    ): ResponseEntity<RecommendQueryResponse> = ResponseEntity.ok(
+        contentService.recommendQuery(date, size)
     )
 
     @DeleteMapping("/{queryHistoryId}")

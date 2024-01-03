@@ -6,6 +6,7 @@ import com.newspeed.domain.content.api.response.QueryHistoryResponse
 import com.newspeed.domain.content.domain.QueryHistory
 import com.newspeed.domain.content.domain.enums.QueryOrder
 import com.newspeed.domain.content.domain.enums.QueryPlatform
+import com.newspeed.domain.content.dto.RecommendQueryDTO
 import com.newspeed.domain.content.feign.response.YoutubeChannelResponse
 import com.newspeed.domain.content.feign.response.YoutubeSearchResponse
 import com.newspeed.domain.content.feign.response.YoutubeVideoDetailResponse
@@ -157,7 +158,7 @@ class ContentFactory {
             id = 1L,
             user = user,
             query = query,
-            platform = QueryPlatform.NEWSPPED
+            platform = QueryPlatform.NEWSPEED
         )
 
         fun createQueryHistories(
@@ -172,5 +173,13 @@ class ContentFactory {
                 )
             )
         )
+
+        fun createRecommendQueryDTOs(
+            size: Int
+        ): List<RecommendQueryDTO> = (1..size)
+            .map { RecommendQueryDTO(
+                query = "play-hooky${it}",
+                count = it.toLong()
+            ) }
     }
 }
