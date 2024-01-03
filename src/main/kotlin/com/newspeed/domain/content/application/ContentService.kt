@@ -8,6 +8,7 @@ import com.newspeed.domain.content.repository.QueryHistoryRepository
 import com.newspeed.domain.user.application.UserService
 import com.newspeed.global.exception.content.NotFoundQueryHistoryException
 import com.newspeed.global.exception.content.UnavailableDeleteQueryHistoryException
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -18,14 +19,23 @@ import org.springframework.validation.annotation.Validated
 class ContentService(
     private val contentSearchClients: ContentSearchClients,
     private val userService: UserService,
-    private val queryHistoryRepository: QueryHistoryRepository
+    private val queryHistoryRepository: QueryHistoryRepository,
+    private val eventPublisher: ApplicationEventPublisher
 ) {
 
     fun search(
         userId: Long,
         request: ContentSearchRequest
     ): ContentSearchResponse {
-        return search(request)
+        val searchResponse = search(request)
+
+        request.query?.let {
+            eventPublisher.publishEvent(
+                request.toContentSearchEvent(userId)
+            )
+        }
+
+        return searchResponse
     }
 
     fun search(

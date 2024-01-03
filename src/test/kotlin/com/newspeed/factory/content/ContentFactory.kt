@@ -156,7 +156,8 @@ class ContentFactory {
         ) = QueryHistory(
             id = 1L,
             user = user,
-            query = query
+            query = query,
+            platform = QueryPlatform.NEWSPPED
         )
 
         fun createQueryHistories(

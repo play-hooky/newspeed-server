@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.mock
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.repository.findByIdOrNull
 
 @DisplayName("content 서비스 계층에서 ")
@@ -31,10 +32,12 @@ class ContentServiceTest: UnitTestTemplate {
 
     private val userService = mock(UserService::class.java)
     private val queryHistoryRepository = mockk<QueryHistoryRepository>(relaxed = true)
+    private val applicationEventPublisher = mock(ApplicationEventPublisher::class.java)
     private val contentService = ContentService(
         contentSearchClients = contentSearchClients,
         userService = userService,
-        queryHistoryRepository = queryHistoryRepository
+        queryHistoryRepository = queryHistoryRepository,
+        eventPublisher = applicationEventPublisher
     )
 
     @Nested
