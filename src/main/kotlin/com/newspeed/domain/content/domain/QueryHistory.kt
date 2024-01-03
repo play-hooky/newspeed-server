@@ -1,6 +1,7 @@
 package com.newspeed.domain.content.domain
 
 import com.newspeed.domain.content.api.response.QueryHistoryResponse
+import com.newspeed.domain.content.domain.enums.QueryPlatform
 import com.newspeed.domain.user.domain.User
 import com.newspeed.global.model.BaseTimeEntity
 import org.hibernate.annotations.Comment
@@ -26,7 +27,12 @@ class QueryHistory(
 
     @Comment("검색어")
     @Column(name = "query", length = 256, nullable = false)
-    var query: String
+    var query: String,
+
+    @Comment("SNS 플랫폼 INSTAGRAM, YOUTUBE")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "platform", nullable = false, columnDefinition = "enum('INSTAGRAM','YOUTUBE','NEWSPEED')")
+    var platform: QueryPlatform,
 ): BaseTimeEntity() {
     fun toQueryHistoryDTO() = QueryHistoryResponse.QueryHistory(
         id = id,
