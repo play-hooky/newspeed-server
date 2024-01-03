@@ -4,8 +4,10 @@ import com.newspeed.domain.content.api.request.validation.ContentQueryConstraint
 import com.newspeed.domain.content.config.YoutubeConfigProperties
 import com.newspeed.domain.content.domain.enums.QueryOrder
 import com.newspeed.domain.content.domain.enums.QueryPlatform
+import com.newspeed.domain.content.event.ContentSearchEvent
 import com.newspeed.domain.content.feign.enums.YoutubeQueryParts
 import com.newspeed.domain.content.feign.request.YoutubeSearchRequest
+import com.newspeed.global.exception.content.UnavailableSaveQueryHistoryException
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDateTime
 import javax.validation.constraints.Past
@@ -33,5 +35,13 @@ data class ContentSearchRequest(
         maxResults = size,
         order = order.toYoutubeSearchOrder()
 //        publishedAfter = publishedAfter
+    )
+
+    fun toContentSearchEvent(
+        userId: Long
+    ): ContentSearchEvent = ContentSearchEvent(
+        userId = userId,
+        query = query ?: throw UnavailableSaveQueryHistoryException(),
+        platform = platform
     )
 }
