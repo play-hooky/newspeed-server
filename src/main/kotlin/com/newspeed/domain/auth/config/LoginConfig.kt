@@ -21,6 +21,11 @@ class LoginConfig(
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(authInterceptor)
             .addPathPatterns("/**")
-            .excludePathPatterns("/login", "/user/login", "/favicon.ico")
+            .excludePathPatterns(
+                "/login",
+                "/user/login",
+                "/favicon.ico",
+                "/contents/query/recommend"
+            )
     }
 }
