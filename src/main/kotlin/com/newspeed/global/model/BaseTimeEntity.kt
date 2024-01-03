@@ -25,4 +25,10 @@ abstract class BaseTimeEntity(
     @Comment("삭제한 시간")
     @Column(name = "deleted_at")
     protected var deletedAt: LocalDateTime? = null
-)
+) {
+    fun delete() {
+        deletedAt = LocalDateTime.now()
+    }
+
+    fun deletedAt() = this.deletedAt
+}
