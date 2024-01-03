@@ -31,7 +31,7 @@ class ContentSearchEventListenerTest: UnitTestTemplate {
         val event = ContentSearchEvent(
             userId = userId,
             query = "query",
-            platform = QueryPlatform.NEWSPPED
+            platform = QueryPlatform.NEWSPEED
         )
 
         given(userService.getUser(userId))

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class DummyContentClient: ContentSearchClient {
-    override fun getQueryPlatform(): QueryPlatform = QueryPlatform.NEWSPPED
+    override fun getQueryPlatform(): QueryPlatform = QueryPlatform.NEWSPEED
 
     override fun search(request: ContentSearchRequest): ContentSearchResponse = ContentFactory.createContentSearchResponse()
 }
