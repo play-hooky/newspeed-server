@@ -32,6 +32,23 @@ class QueryHistory(
         id = id,
         query = query
     )
+
+    fun isCreatedBy(
+        thatUser: User
+    ): Boolean = this.user == thatUser
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as QueryHistory
+
+        return id == other.id
+    }
+
+    override fun hashCode(): Int {
+        return id.toInt()
+    }
 }
 
 fun List<QueryHistory>.toQueryHistoryResponse() = QueryHistoryResponse(
