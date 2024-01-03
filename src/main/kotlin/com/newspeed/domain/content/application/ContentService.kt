@@ -6,6 +6,9 @@ import com.newspeed.domain.content.api.response.QueryHistoryResponse
 import com.newspeed.domain.content.domain.toQueryHistoryResponse
 import com.newspeed.domain.content.repository.QueryHistoryRepository
 import com.newspeed.domain.user.application.UserService
+import com.newspeed.global.exception.content.NotFoundQueryHistoryException
+import com.newspeed.global.exception.content.UnavailableDeleteQueryHistoryException
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.validation.annotation.Validated
@@ -40,5 +43,19 @@ class ContentService(
 
         return queryHistoryRepository.findByUser(user)
             .toQueryHistoryResponse()
+    }
+
+    @Transactional
+    fun deleteQueryHistory(
+        userId: Long,
+        queryHistoryId: Long
+    ) {
+        val user = userService.getUser(userId)
+        val queryHistory = queryHistoryRepository.findByIdOrNull(queryHistoryId)
+            ?: throw NotFoundQueryHistoryException()
+
+        queryHistory.takeIf { it.isCreatedBy(user) }
+            ?.delete()
+            ?: throw UnavailableDeleteQueryHistoryException()
     }
 }

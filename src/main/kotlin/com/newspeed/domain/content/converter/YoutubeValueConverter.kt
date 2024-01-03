@@ -15,7 +15,7 @@ fun LocalDateTime.toYouTubeTimeDifference(): String {
             toDays() < 30 -> "${toDays()}일 전"
             toDays() < 365 -> "${toDays() / 30}개월 전"
             toDays() < 365 * 100 -> "${toDays() / 365}년 전"
-            else -> this@toYouTubeTimeDifference.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일"))
+            else -> this@toYouTubeTimeDifference.format(DateTimeFormatter.ofPattern("yyyy년 M월 d일"))
         }
     }
 }
