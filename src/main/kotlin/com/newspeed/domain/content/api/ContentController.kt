@@ -16,12 +16,12 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/contents")
 class ContentController(
-    private val contentService: ContentService
+    private val contentService: ContentService,
+    private val authenticateContext: AuthenticateContext
 ) {
 
     @GetMapping("/search")
     fun searchContents(
-        authenticateContext: AuthenticateContext,
         @Valid request: ContentSearchRequest
     ): ResponseEntity<ContentSearchResponse> = ResponseEntity.ok(
         if (authenticateContext.hasAnonymous()) contentService.search(request)
