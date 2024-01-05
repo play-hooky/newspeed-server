@@ -4,8 +4,10 @@ import com.newspeed.domain.content.api.request.ContentSearchRequest
 import com.newspeed.domain.content.api.response.ContentSearchResponse
 import com.newspeed.domain.content.api.response.QueryHistoryResponse
 import com.newspeed.domain.content.api.response.RecommendQueryResponse
+import com.newspeed.domain.content.application.command.ContentSaveCommand
 import com.newspeed.domain.content.domain.toQueryHistoryResponse
 import com.newspeed.domain.content.dto.toRecommendQueryResponse
+import com.newspeed.domain.content.repository.ContentRepository
 import com.newspeed.domain.content.repository.QueryHistoryRepository
 import com.newspeed.domain.user.application.UserService
 import com.newspeed.global.exception.content.NotFoundQueryHistoryException
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.validation.annotation.Validated
 import java.time.LocalDate
+import javax.validation.Valid
 
 @Service
 @Validated
@@ -23,6 +26,7 @@ class ContentService(
     private val contentSearchClients: ContentSearchClients,
     private val userService: UserService,
     private val queryHistoryRepository: QueryHistoryRepository,
+    private val contentRepository: ContentRepository,
     private val eventPublisher: ApplicationEventPublisher
 ) {
 
@@ -46,6 +50,16 @@ class ContentService(
     ): ContentSearchResponse {
         return contentSearchClients.getClient(request.platform)
             .search(request)
+    }
+
+    @Transactional
+    fun saveContent(
+        @Valid command: ContentSaveCommand
+    ) {
+        val user = userService.getUser(command.userId)
+        val content = command.toContentEntity(user)
+
+        contentRepository.save(content)
     }
 
     @Transactional(readOnly = true)

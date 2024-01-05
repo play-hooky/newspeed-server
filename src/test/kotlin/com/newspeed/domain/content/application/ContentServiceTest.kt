@@ -1,9 +1,12 @@
 package com.newspeed.domain.content.application
 
+import com.newspeed.domain.content.application.command.ContentSaveCommand
 import com.newspeed.domain.content.dto.toRecommendQueryResponse
+import com.newspeed.domain.content.repository.ContentRepository
 import com.newspeed.domain.content.repository.QueryHistoryRepository
 import com.newspeed.domain.user.application.UserService
 import com.newspeed.factory.auth.AuthFactory.Companion.createKakaoUser
+import com.newspeed.factory.content.ContentFactory.Companion.createContentSaveCommand
 import com.newspeed.factory.content.ContentFactory.Companion.createQueryHistories
 import com.newspeed.factory.content.ContentFactory.Companion.createQueryHistoryResponse
 import com.newspeed.factory.content.ContentFactory.Companion.createRecommendQueryDTOs
@@ -14,13 +17,14 @@ import com.newspeed.global.exception.user.UserNotFoundException
 import com.newspeed.template.UnitTestTemplate
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.mockito.BDDMockito.given
-import org.mockito.BDDMockito.mock
+import org.mockito.BDDMockito.*
+import org.mockito.Mockito
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.repository.findByIdOrNull
 import java.time.LocalDate
@@ -36,12 +40,35 @@ class ContentServiceTest: UnitTestTemplate {
     private val userService = mock(UserService::class.java)
     private val queryHistoryRepository = mockk<QueryHistoryRepository>(relaxed = true)
     private val applicationEventPublisher = mock(ApplicationEventPublisher::class.java)
+    private val contentRepository = mock(ContentRepository::class.java)
     private val contentService = ContentService(
         contentSearchClients = contentSearchClients,
         userService = userService,
         queryHistoryRepository = queryHistoryRepository,
-        eventPublisher = applicationEventPublisher
+        eventPublisher = applicationEventPublisher,
+        contentRepository = contentRepository
     )
+
+    @Nested
+    inner class `컨텐츠를 저장할 때` {
+
+        @Test
+        fun `url이 존재하면 저장에 성공한다`() {
+            // given
+            val userId = 1L
+            val user = createKakaoUser()
+            val command = createContentSaveCommand(userId)
+
+            given(userService.getUser(userId))
+                .willReturn(user)
+
+            // when
+            contentService.saveContent(command)
+
+            // then
+            Mockito.verify(contentRepository, times(1)).save(any())
+        }
+    }
 
     @Nested
     inner class `검색 기록을 조회할 때` {

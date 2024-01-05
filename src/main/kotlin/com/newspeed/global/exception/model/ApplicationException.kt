@@ -3,7 +3,9 @@ package com.newspeed.global.exception.model
 import org.springframework.beans.BeanInstantiationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.validation.BindException
+import javax.validation.ConstraintViolationException
 
 open class ApplicationException(
     private val httpStatus: HttpStatus,
@@ -38,4 +40,17 @@ fun BeanInstantiationException.toResponseEntity(): ResponseEntity<ExceptionRespo
 fun NotImplementedError.toResponseEntity(): ResponseEntity<ExceptionResponse> = ResponseEntity(
     "현재 구현중입니다. 잠시만 기다려주세요.".toExceptionResponse(),
     ExceptionType.INTERNAL_SERVER_EXCEPTION.httpStatus
+)
+
+fun HttpMessageNotReadableException.toResponseEntity(): ResponseEntity<ExceptionResponse> = ResponseEntity(
+    this.message?.toExceptionResponse() ?: ExceptionType.INTERNAL_SERVER_EXCEPTION.message.toExceptionResponse(),
+    HttpStatus.BAD_REQUEST
+)
+
+fun ConstraintViolationException.toResponseEntity(): ResponseEntity<ExceptionResponse> = ResponseEntity(
+    this.constraintViolations
+        .map { it.messageTemplate }
+        .first()
+        .toExceptionResponse(),
+    HttpStatus.BAD_REQUEST
 )

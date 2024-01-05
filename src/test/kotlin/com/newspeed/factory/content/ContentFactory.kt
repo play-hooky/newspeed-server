@@ -3,6 +3,7 @@ package com.newspeed.factory.content
 import com.newspeed.domain.content.api.request.ContentSearchRequest
 import com.newspeed.domain.content.api.response.ContentSearchResponse
 import com.newspeed.domain.content.api.response.QueryHistoryResponse
+import com.newspeed.domain.content.application.command.ContentSaveCommand
 import com.newspeed.domain.content.domain.QueryHistory
 import com.newspeed.domain.content.domain.enums.QueryOrder
 import com.newspeed.domain.content.domain.enums.QueryPlatform
@@ -181,5 +182,12 @@ class ContentFactory {
                 query = "play-hooky${it}",
                 count = it.toLong()
             ) }
+
+        fun createContentSaveCommand(
+            userId: Long
+        ) = ContentSaveCommand(
+            userId = userId,
+            url = "https://www.youtube.com"
+        )
     }
 }
