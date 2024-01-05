@@ -18,6 +18,7 @@ class ContentSearchRequestTest: UnitTestTemplate {
         private val factory: ValidatorFactory = Validation.buildDefaultValidatorFactory()
         private val validator: Validator = factory.validator
 
+        @JvmStatic
         @AfterAll
         fun close() {
             factory.close()
