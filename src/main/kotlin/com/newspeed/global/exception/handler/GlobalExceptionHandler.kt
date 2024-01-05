@@ -7,9 +7,11 @@ import com.newspeed.global.exception.model.toResponseEntity
 import org.slf4j.LoggerFactory
 import org.springframework.beans.BeanInstantiationException
 import org.springframework.http.ResponseEntity
+import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.validation.BindException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import javax.validation.ConstraintViolationException
 
 @RestControllerAdvice
 class GlobalExceptionHandler {
@@ -33,6 +35,27 @@ class GlobalExceptionHandler {
         e: BeanInstantiationException
     ): ResponseEntity<ExceptionResponse> {
         val errorMessage = e.message
+        log.warn(LOG_FORMAT, e.javaClass.getSimpleName(), errorMessage)
+
+        return e.toResponseEntity()
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException::class)
+    fun httpMessageNotReadableException(
+        e: HttpMessageNotReadableException
+    ): ResponseEntity<ExceptionResponse> {
+        val errorMessage = e.message
+        log.warn(LOG_FORMAT, e.javaClass.getSimpleName(), errorMessage)
+
+        return e.toResponseEntity()
+    }
+
+    @ExceptionHandler(ConstraintViolationException::class)
+    fun constraintViolationException(
+        e: ConstraintViolationException
+    ): ResponseEntity<ExceptionResponse> {
+        val errorMessage = e.message
+
         log.warn(LOG_FORMAT, e.javaClass.getSimpleName(), errorMessage)
 
         return e.toResponseEntity()
