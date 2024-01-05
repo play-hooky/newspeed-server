@@ -1,6 +1,7 @@
 package com.newspeed.domain.content.api
 
 import com.newspeed.domain.auth.domain.AuthenticateContext
+import com.newspeed.domain.content.api.request.ContentSaveRequest
 import com.newspeed.domain.content.api.request.ContentSearchRequest
 import com.newspeed.domain.content.api.response.ContentSearchResponse
 import com.newspeed.domain.content.api.response.QueryHistoryResponse
@@ -21,6 +22,17 @@ class ContentController(
     private val contentService: ContentService,
     private val authenticateContext: AuthenticateContext
 ) {
+
+    @PostMapping
+    fun saveContent(
+        @User userId: Long,
+        @Valid @RequestBody request: ContentSaveRequest
+    ): ResponseEntity<Unit> {
+        contentService.saveContent(
+            request.toCommand(userId)
+        )
+        return ResponseEntity(HttpStatus.CREATED)
+    }
 
     @GetMapping("/search")
     fun searchContents(

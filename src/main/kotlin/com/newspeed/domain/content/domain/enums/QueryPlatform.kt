@@ -5,4 +5,12 @@ enum class QueryPlatform {
     YOUTUBE,
     NEWSPEED
     ;
+
+    companion object {
+        fun findByUrl(
+            url: String
+        ): QueryPlatform = values()
+            .find { url.contains(it.name.lowercase()) }
+            ?: NEWSPEED
+    }
 }
