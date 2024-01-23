@@ -17,7 +17,8 @@ class YoutubeSearchServiceTest: UnitTestTemplate {
     private val youtubeClient: YoutubeClient = Mockito.mock(YoutubeClient::class.java)
 
     private val youtubeConfigProperties = YoutubeConfigProperties(
-        key = "hookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhooky"
+        key = "hookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhooky",
+        videoUrl = "https://www.youtube.com/watch?v="
     )
 
     private val youtubeSearchService = YoutubeSearchService(

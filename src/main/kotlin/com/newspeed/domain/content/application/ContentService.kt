@@ -1,11 +1,12 @@
 package com.newspeed.domain.content.application
 
 import com.newspeed.domain.content.api.request.ContentSearchRequest
-import com.newspeed.domain.content.api.response.ContentSearchResponse
-import com.newspeed.domain.content.api.response.QueryHistoryResponse
-import com.newspeed.domain.content.api.response.RecommendQueryResponse
+import com.newspeed.domain.content.api.response.*
 import com.newspeed.domain.content.application.command.ContentSaveCommand
+import com.newspeed.domain.content.domain.enums.QueryPlatform
+import com.newspeed.domain.content.domain.toContentIdsInPlatform
 import com.newspeed.domain.content.domain.toQueryHistoryResponse
+import com.newspeed.domain.content.dto.ContentResponseDTO
 import com.newspeed.domain.content.dto.toRecommendQueryResponse
 import com.newspeed.domain.content.repository.ContentRepository
 import com.newspeed.domain.content.repository.QueryHistoryRepository
@@ -52,6 +53,12 @@ class ContentService(
             .search(request)
     }
 
+    private fun search(
+        platform: QueryPlatform,
+        ids: List<String>
+    ): List<ContentResponseDTO> = contentSearchClients.getClient(platform)
+        .search(ids)
+
     @Transactional
     fun saveContent(
         @Valid command: ContentSaveCommand
@@ -60,6 +67,19 @@ class ContentService(
         val content = command.toContentEntity(user)
 
         contentRepository.save(content)
+    }
+
+    @Transactional(readOnly = true)
+    fun getContents(
+        userId: Long
+    ): ContentsResponse {
+        val contents = contentRepository.findByUserId(userId)
+
+        return contents
+            .groupBy { it.platform }
+            .map { search(it.key, it.value.toContentIdsInPlatform()) }
+            .flatten()
+            .toContentsResponse()
     }
 
     @Transactional(readOnly = true)

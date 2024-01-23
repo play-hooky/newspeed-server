@@ -5,9 +5,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
 import org.springframework.core.io.ClassPathResource
 import redis.embedded.RedisServer
-import java.io.BufferedReader
 import java.io.File
-import java.io.InputStreamReader
 import javax.annotation.PostConstruct
 import javax.annotation.PreDestroy
 

@@ -38,6 +38,7 @@ class ContentSaveCommandTest: IntegrationTestTemplate {
         // given
         val command = ContentSaveCommand(
             userId = userId,
+            contentIdInPlatform = "hooky",
             url = VALID_URL
         )
 
@@ -50,12 +51,32 @@ class ContentSaveCommandTest: IntegrationTestTemplate {
 
     @ParameterizedTest
     @ValueSource(strings = ["", " "])
+    fun `contentIdInPlatform을 입력하지 않으면 에러를 던진다`(
+        contentIdInPlatform: String
+    ) {
+        // given
+        val request = ContentSaveCommand(
+            userId = 1L,
+            contentIdInPlatform = contentIdInPlatform,
+            url = VALID_URL
+        )
+
+        // when
+        val result = validator.validate(request)
+
+        // then
+        assertThat(result.joinToString { it.messageTemplate }.contains("contentIdInPlatform"))
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["", " "])
     fun `url을 입력하지 않으면 에러를 던진다`(
         url: String
     ) {
         // given
         val command = ContentSaveCommand(
             userId = 1L,
+            contentIdInPlatform = "hooky",
             url = url
         )
 
@@ -73,6 +94,7 @@ class ContentSaveCommandTest: IntegrationTestTemplate {
 
         val command = ContentSaveCommand(
             userId = content.user.id,
+            contentIdInPlatform = "hooky",
             url = VALID_URL
         )
 
@@ -88,6 +110,7 @@ class ContentSaveCommandTest: IntegrationTestTemplate {
         // given
         val command = ContentSaveCommand(
             userId = 1L,
+            contentIdInPlatform = "hooky",
             url = VALID_URL
         )
 
@@ -105,6 +128,7 @@ class ContentSaveCommandTest: IntegrationTestTemplate {
         return contentRepository.save(
             Content(
                 user = user,
+                contentIdInPlatform = "hooky",
                 url = VALID_URL,
                 platform = QueryPlatform.YOUTUBE
             )

@@ -4,7 +4,9 @@ import com.newspeed.domain.content.api.request.ContentSearchRequest
 import com.newspeed.domain.content.api.response.ContentSearchResponse
 import com.newspeed.domain.content.config.YoutubeConfigProperties
 import com.newspeed.domain.content.domain.enums.QueryPlatform
+import com.newspeed.domain.content.dto.ContentResponseDTO
 import com.newspeed.domain.content.feign.YoutubeClient
+import com.newspeed.domain.content.feign.request.toYoutubeContentIds
 import org.springframework.stereotype.Service
 
 @Service
@@ -27,6 +29,19 @@ class YoutubeSearchService(
         val videoDetailResponse = youtubeClient.getDetailContent(videoDetailRequest)
 
         return searchResponse
-            .toContentSearchResponse(channelResponse, videoDetailResponse)
+            .with(channelResponse, videoDetailResponse, youtubeConfigProperties.videoUrl)
+    }
+
+    override fun search(
+        ids: List<String>
+    ): List<ContentResponseDTO> {
+        val videoDetailRequest = youtubeConfigProperties.toYoutubeVideoDetailRequest(ids.toYoutubeContentIds())
+        val videoDetailResponse = youtubeClient.getDetailContent(videoDetailRequest)
+
+        val channelRequest = youtubeConfigProperties.toYoutubeChannelRequest(videoDetailResponse.channelIds())
+        val channelResponse = youtubeClient.getChannel(channelRequest)
+
+        return channelResponse
+            .with(videoDetailResponse, youtubeConfigProperties.videoUrl)
     }
 }

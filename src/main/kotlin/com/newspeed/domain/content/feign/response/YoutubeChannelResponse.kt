@@ -1,13 +1,17 @@
 package com.newspeed.domain.content.feign.response
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import java.time.LocalDateTime
+import com.newspeed.domain.content.domain.enums.QueryPlatform
+import com.newspeed.domain.content.dto.ContentHostDTO
+import com.newspeed.domain.content.dto.ContentResponseDTO
+import com.newspeed.domain.content.feign.dto.YoutubeChannelSnippetDTO
+import com.newspeed.domain.content.feign.dto.YoutubePageDTO
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class YoutubeChannelResponse(
     val kind: String,
     val etag: String,
-    val pageInfo: YoutubeSearchResponse.Page,
+    val pageInfo: YoutubePageDTO,
     val items: List<Item>
 ) {
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -15,37 +19,28 @@ data class YoutubeChannelResponse(
         val kind: String,
         val etag: String,
         val id: String,
-        val snippet: Snippet
+        val snippet: YoutubeChannelSnippetDTO
     ) {
-        @JsonIgnoreProperties(ignoreUnknown = true)
-        data class Snippet(
-            val title: String,
-            val description: String,
-            val publishedAt: LocalDateTime,
-            val thumbnails: Thumbnails,
-            val localized: Localized
-        ) {
-            data class Thumbnails(
-                val default: Thumbnail,
-                val medium: Thumbnail,
-                val high: Thumbnail
-            ) {
-                data class Thumbnail(
-                    val url: String,
-                    val width: Int,
-                    val height: Int
-                )
-            }
-
-            data class Localized(
-                val title: String,
-                val description: String
-            )
-        }
+        fun thumbnailUrl(): String = this.snippet.thumbnailUrl()
     }
 
     fun findById(
         id: String
     ): Item = items
         .first { it.id == id }
+
+    fun with(
+        videoDetailResponse: YoutubeVideoDetailResponse,
+        videoUrl: String
+    ): List<ContentResponseDTO> = videoDetailResponse
+        .items
+        .map { ContentResponseDTO(
+            platform = QueryPlatform.YOUTUBE,
+            host = ContentHostDTO(
+                profileImgUrl = this.findById(it.snippet.channelId).thumbnailUrl(),
+                nickname = it.snippet.channelTitle
+            ),
+            youtube = it.toContent(videoUrl),
+            instagram = null
+        ) }
 }

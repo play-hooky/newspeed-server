@@ -5,3 +5,5 @@ data class YoutubeVideoDetailRequest(
     val key: String,
     val id: String
 )
+
+fun List<String>.toYoutubeContentIds() = this.joinToString(separator = ",")
