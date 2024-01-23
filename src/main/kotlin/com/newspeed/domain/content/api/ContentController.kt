@@ -1,6 +1,7 @@
 package com.newspeed.domain.content.api
 
 import com.newspeed.domain.auth.domain.AuthenticateContext
+import com.newspeed.domain.content.api.request.ContentDeleteRequest
 import com.newspeed.domain.content.api.request.ContentSaveRequest
 import com.newspeed.domain.content.api.request.ContentSearchRequest
 import com.newspeed.domain.content.api.response.ContentSearchResponse
@@ -41,6 +42,18 @@ class ContentController(
     ): ResponseEntity<ContentsResponse> = ResponseEntity.ok(
         contentService.getContents(userId)
     )
+
+    @DeleteMapping
+    fun deleteContent(
+        @User userId: Long,
+        @Valid @RequestBody request: ContentDeleteRequest
+    ): ResponseEntity<Unit> {
+        contentService.deleteContent(
+            request.toCommand(userId)
+        )
+
+        return ResponseEntity(HttpStatus.OK)
+    }
 
     @GetMapping("/search")
     fun searchContents(

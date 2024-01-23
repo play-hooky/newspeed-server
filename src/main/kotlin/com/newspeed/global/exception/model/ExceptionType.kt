@@ -30,6 +30,7 @@ enum class ExceptionType(
     NOT_FOUND_QUERY_HISTORY_EXCEPTION(HttpStatus.BAD_REQUEST, "해당 검색 기록을 조회할 수 없습니다."),
     UNAVAILABLE_DELETE_QUERY_HISTORY_EXCEPTION(HttpStatus.BAD_REQUEST, "해당 사용자는 해당 검색 기록을 삭제할 수 없습니다."),
     UNAVAILABLE_SAVE_QUERY_HISTORY_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "해당 검색어를 저장할 수 없습니다."),
+    NOT_FOUND_CONTENT_EXCEPTION(HttpStatus.BAD_REQUEST, "해당 컨텐츠를 조회할 수 없어 삭제가 불가능합니다."),
 
     // Internal Server Error
     INTERNAL_SERVER_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내 에러가 발생했습니다."),

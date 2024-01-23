@@ -11,5 +11,5 @@ class ContentSaveCommandValidator(
     override fun isValid(
         command: ContentSaveCommand,
         context: ConstraintValidatorContext
-    ): Boolean = !contentRepository.existsByContentIdInPlatformAndUserId(command.contentIdInPlatform, command.userId)
+    ): Boolean = !contentRepository.existsByUserIdAndContentIdInPlatform(command.userId, command.contentIdInPlatform)
 }

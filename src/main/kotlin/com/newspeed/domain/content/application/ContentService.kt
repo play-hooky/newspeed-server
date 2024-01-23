@@ -2,6 +2,7 @@ package com.newspeed.domain.content.application
 
 import com.newspeed.domain.content.api.request.ContentSearchRequest
 import com.newspeed.domain.content.api.response.*
+import com.newspeed.domain.content.application.command.ContentDeleteCommand
 import com.newspeed.domain.content.application.command.ContentSaveCommand
 import com.newspeed.domain.content.domain.enums.QueryPlatform
 import com.newspeed.domain.content.domain.toContentIdsInPlatform
@@ -11,6 +12,7 @@ import com.newspeed.domain.content.dto.toRecommendQueryResponse
 import com.newspeed.domain.content.repository.ContentRepository
 import com.newspeed.domain.content.repository.QueryHistoryRepository
 import com.newspeed.domain.user.application.UserService
+import com.newspeed.global.exception.content.NotFoundContentException
 import com.newspeed.global.exception.content.NotFoundQueryHistoryException
 import com.newspeed.global.exception.content.UnavailableDeleteQueryHistoryException
 import org.springframework.context.ApplicationEventPublisher
@@ -80,6 +82,19 @@ class ContentService(
             .map { search(it.key, it.value.toContentIdsInPlatform()) }
             .flatten()
             .toContentsResponse()
+    }
+
+    @Transactional
+    fun deleteContent(
+        @Valid command: ContentDeleteCommand
+    ) {
+        val user = userService.getUser(command.userId)
+        val contentIds = contentRepository.findByUserAndUrl(user, command.url)
+            .takeIf { it.isNotEmpty() }
+            ?.map { it.id }
+            ?: throw NotFoundContentException()
+
+        contentRepository.deleteByIds(contentIds)
     }
 
     @Transactional(readOnly = true)
