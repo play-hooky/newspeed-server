@@ -1,12 +1,12 @@
-package com.newspeed.domain.content.api.request
+package com.newspeed.domain.search.api.request
 
-import com.newspeed.domain.content.api.request.validation.ContentQueryConstraint
 import com.newspeed.domain.content.config.YoutubeConfigProperties
 import com.newspeed.domain.content.domain.enums.QueryOrder
 import com.newspeed.domain.content.domain.enums.QueryPlatform
 import com.newspeed.domain.content.event.ContentSearchEvent
 import com.newspeed.domain.content.feign.enums.YoutubeQueryParts
 import com.newspeed.domain.content.feign.request.YoutubeSearchRequest
+import com.newspeed.domain.search.api.request.validation.ContentQueryConstraint
 import com.newspeed.global.exception.content.UnavailableSaveQueryHistoryException
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDateTime

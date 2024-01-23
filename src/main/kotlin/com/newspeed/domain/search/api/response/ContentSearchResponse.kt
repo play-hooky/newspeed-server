@@ -1,4 +1,4 @@
-package com.newspeed.domain.content.api.response
+package com.newspeed.domain.search.api.response
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.newspeed.domain.content.application.serde.ContentSearchResponseSerializer

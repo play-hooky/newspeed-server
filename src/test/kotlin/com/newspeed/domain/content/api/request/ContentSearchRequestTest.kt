@@ -2,6 +2,7 @@ package com.newspeed.domain.content.api.request
 
 import com.newspeed.domain.content.domain.enums.QueryOrder
 import com.newspeed.domain.content.domain.enums.QueryPlatform
+import com.newspeed.domain.search.api.request.ContentSearchRequest
 import com.newspeed.template.UnitTestTemplate
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterAll
