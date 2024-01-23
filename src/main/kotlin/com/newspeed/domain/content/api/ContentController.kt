@@ -4,6 +4,7 @@ import com.newspeed.domain.auth.domain.AuthenticateContext
 import com.newspeed.domain.content.api.request.ContentSaveRequest
 import com.newspeed.domain.content.api.request.ContentSearchRequest
 import com.newspeed.domain.content.api.response.ContentSearchResponse
+import com.newspeed.domain.content.api.response.ContentsResponse
 import com.newspeed.domain.content.api.response.QueryHistoryResponse
 import com.newspeed.domain.content.api.response.RecommendQueryResponse
 import com.newspeed.domain.content.application.ContentService
@@ -33,6 +34,13 @@ class ContentController(
         )
         return ResponseEntity(HttpStatus.CREATED)
     }
+
+    @GetMapping
+    fun getContents(
+        @User userId: Long
+    ): ResponseEntity<ContentsResponse> = ResponseEntity.ok(
+        contentService.getContents(userId)
+    )
 
     @GetMapping("/search")
     fun searchContents(
