@@ -76,3 +76,4 @@ content:
   youtube:
     url: ${GOOGLE_API_URL}
     key: ${YOUTUBE_KEY}
+    videoUrl: ${YOUTUBE_VIDEO_URL}
