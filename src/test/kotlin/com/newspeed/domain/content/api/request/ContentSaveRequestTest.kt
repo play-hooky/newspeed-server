@@ -27,11 +27,30 @@ class ContentSaveRequestTest: UnitTestTemplate {
 
     @ParameterizedTest
     @ValueSource(strings = ["", " "])
+    fun `contentIdInPlatform을 입력하지 않으면 에러를 던진다`(
+        contentIdInPlatform: String
+    ) {
+        // given
+        val request = ContentSaveRequest(
+            contentIdInPlatform = contentIdInPlatform,
+            url = "https://www.youtube.com"
+        )
+
+        // when
+        val result = validator.validate(request)
+
+        // then
+        assertThat(result.joinToString { it.messageTemplate }.contains("url"))
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["", " "])
     fun `url을 입력하지 않으면 에러를 던진다`(
         url: String
     ) {
         // given
         val request = ContentSaveRequest(
+            contentIdInPlatform = "hooky",
             url = url
         )
 
@@ -46,6 +65,7 @@ class ContentSaveRequestTest: UnitTestTemplate {
     fun `정상 입력값으로 요청하면 성공한다`() {
         // given
         val request = ContentSaveRequest(
+            contentIdInPlatform = "hooky",
             url = "https://www.youtube.com"
         )
 

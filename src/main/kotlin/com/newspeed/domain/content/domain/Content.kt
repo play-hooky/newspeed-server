@@ -24,6 +24,10 @@ class Content(
     @Comment("사용자 ID")
     var user: User,
 
+    @Comment("각 플랫폼에서 할당한 컨텐츠 ID")
+    @Column(name = "content_id_in_platform", length = 128, nullable = false)
+    var contentIdInPlatform: String,
+
     @Comment("컨텐츠 url")
     @Column(name = "url", length = 512, nullable = false)
     var url: String,
@@ -47,3 +51,6 @@ class Content(
         return id.toInt()
     }
 }
+
+fun List<Content>.toContentIdsInPlatform() = this
+    .map { it.contentIdInPlatform }
