@@ -1,5 +1,6 @@
 package com.newspeed.domain.content.application
 
+import com.newspeed.domain.content.application.command.ContentDeleteCommand
 import com.newspeed.domain.content.dto.toRecommendQueryResponse
 import com.newspeed.domain.content.repository.ContentRepository
 import com.newspeed.domain.content.repository.QueryHistoryRepository
@@ -12,8 +13,10 @@ import com.newspeed.factory.content.ContentFactory.Companion.createQueryHistorie
 import com.newspeed.factory.content.ContentFactory.Companion.createQueryHistoryResponse
 import com.newspeed.factory.content.ContentFactory.Companion.createRecommendQueryDTOs
 import com.newspeed.factory.content.DummyContentClient
+import com.newspeed.global.exception.content.NotFoundContentException
 import com.newspeed.global.exception.content.NotFoundQueryHistoryException
 import com.newspeed.global.exception.content.UnavailableDeleteQueryHistoryException
+import com.newspeed.global.exception.model.ExceptionType
 import com.newspeed.global.exception.user.UserNotFoundException
 import com.newspeed.template.UnitTestTemplate
 import io.mockk.every
@@ -225,6 +228,55 @@ class ContentServiceTest: UnitTestTemplate {
 
             // then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
+        }
+    }
+
+    @Nested
+    inner class `보관함을 삭제할 때` {
+        val url = "https://www.youtube.com"
+
+        @Test
+        fun `해당 사용자의 컨텐츠가 존재하지 않으면 삭제에 실패한다`() {
+            // given
+            val user = createKakaoUser()
+            val command = ContentDeleteCommand(
+                userId = user.id,
+                url = url
+            )
+
+            given(userService.getUser(user.id))
+                .willReturn(user)
+
+            given(contentRepository.findByUserAndUrl(user, url))
+                .willReturn(emptyList())
+
+            // when
+            assertThatThrownBy { contentService.deleteContent(command) }
+                .isInstanceOf(NotFoundContentException::class.java)
+                .hasMessage(ExceptionType.NOT_FOUND_CONTENT_EXCEPTION.message)
+        }
+
+        @Test
+        fun `해당 사용자의 컨텐츠가 존재하면 삭제에 성공한다`() {
+            // given
+            val user = createKakaoUser()
+            val contents = createContents(user)
+            val command = ContentDeleteCommand(
+                userId = user.id,
+                url = url
+            )
+
+            given(userService.getUser(user.id))
+                .willReturn(user)
+
+            given(contentRepository.findByUserAndUrl(user, url))
+                .willReturn(contents)
+
+            // when
+            contentService.deleteContent(command)
+
+            // then
+            verify(contentRepository, times(1)).deleteByIds(contents.map { it.id })
         }
     }
 }
