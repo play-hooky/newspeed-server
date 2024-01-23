@@ -1,12 +1,13 @@
 package com.newspeed.domain.content.application
 
-import com.newspeed.domain.content.application.command.ContentSaveCommand
 import com.newspeed.domain.content.dto.toRecommendQueryResponse
 import com.newspeed.domain.content.repository.ContentRepository
 import com.newspeed.domain.content.repository.QueryHistoryRepository
 import com.newspeed.domain.user.application.UserService
 import com.newspeed.factory.auth.AuthFactory.Companion.createKakaoUser
 import com.newspeed.factory.content.ContentFactory.Companion.createContentSaveCommand
+import com.newspeed.factory.content.ContentFactory.Companion.createContents
+import com.newspeed.factory.content.ContentFactory.Companion.createContentsResponse
 import com.newspeed.factory.content.ContentFactory.Companion.createQueryHistories
 import com.newspeed.factory.content.ContentFactory.Companion.createQueryHistoryResponse
 import com.newspeed.factory.content.ContentFactory.Companion.createRecommendQueryDTOs
@@ -17,7 +18,6 @@ import com.newspeed.global.exception.user.UserNotFoundException
 import com.newspeed.template.UnitTestTemplate
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.DisplayName
@@ -204,6 +204,27 @@ class ContentServiceTest: UnitTestTemplate {
             // when & then
             assertThatThrownBy { contentService.deleteQueryHistory(userId, queryHistoryId) }
                 .isInstanceOf(NotFoundQueryHistoryException::class.java)
+        }
+    }
+
+    @Nested
+    inner class `보관함을 조회할 때` {
+
+        @Test
+        fun `DB로부터 조회 후 필요한 정보를 유튜브에 요청하여 조합한다`() {
+            val userId = 1L
+            val user = createKakaoUser()
+            val contents = createContents(user)
+            val expected = createContentsResponse()
+
+            given(contentRepository.findByUserId(userId))
+                .willReturn(contents)
+
+            // when
+            val actual = contentService.getContents(userId)
+
+            // then
+            assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
         }
     }
 }
