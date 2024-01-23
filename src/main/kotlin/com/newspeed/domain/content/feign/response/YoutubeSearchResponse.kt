@@ -1,7 +1,6 @@
 package com.newspeed.domain.content.feign.response
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-import com.newspeed.domain.content.api.response.ContentSearchResponse
 import com.newspeed.domain.content.config.YoutubeConfigProperties
 import com.newspeed.domain.content.converter.toYouTubeTimeDifference
 import com.newspeed.domain.content.converter.toYoutubeView
@@ -16,6 +15,7 @@ import com.newspeed.domain.content.feign.enums.YoutubeQueryParts
 import com.newspeed.domain.content.feign.request.YoutubeChannelRequest
 import com.newspeed.domain.content.feign.request.YoutubeVideoDetailRequest
 import com.newspeed.domain.content.feign.request.toYoutubeContentIds
+import com.newspeed.domain.search.api.response.ContentSearchResponse
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class YoutubeSearchResponse(

@@ -1,4 +1,4 @@
-package com.newspeed.domain.content.api.request.validation
+package com.newspeed.domain.search.api.request.validation
 
 import javax.validation.Constraint
 import javax.validation.Payload

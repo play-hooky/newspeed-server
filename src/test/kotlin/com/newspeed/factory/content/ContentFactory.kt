@@ -1,9 +1,6 @@
 package com.newspeed.factory.content
 
-import com.newspeed.domain.content.api.request.ContentSearchRequest
-import com.newspeed.domain.content.api.response.ContentSearchResponse
 import com.newspeed.domain.content.api.response.ContentsResponse
-import com.newspeed.domain.content.api.response.QueryHistoryResponse
 import com.newspeed.domain.content.application.command.ContentSaveCommand
 import com.newspeed.domain.content.domain.Content
 import com.newspeed.domain.content.domain.QueryHistory
@@ -17,6 +14,9 @@ import com.newspeed.domain.content.feign.dto.*
 import com.newspeed.domain.content.feign.response.YoutubeChannelResponse
 import com.newspeed.domain.content.feign.response.YoutubeSearchResponse
 import com.newspeed.domain.content.feign.response.YoutubeVideoDetailResponse
+import com.newspeed.domain.queryhistory.api.response.QueryHistoryResponse
+import com.newspeed.domain.search.api.request.ContentSearchRequest
+import com.newspeed.domain.search.api.response.ContentSearchResponse
 import com.newspeed.domain.user.domain.User
 import java.time.LocalDateTime
 

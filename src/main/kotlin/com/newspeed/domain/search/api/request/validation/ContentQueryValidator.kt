@@ -1,6 +1,6 @@
-package com.newspeed.domain.content.api.request.validation
+package com.newspeed.domain.search.api.request.validation
 
-import com.newspeed.domain.content.api.request.ContentSearchRequest
+import com.newspeed.domain.search.api.request.ContentSearchRequest
 import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorContext
 

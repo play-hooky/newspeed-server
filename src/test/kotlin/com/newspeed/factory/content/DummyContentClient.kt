@@ -1,10 +1,10 @@
 package com.newspeed.factory.content
 
-import com.newspeed.domain.content.api.request.ContentSearchRequest
-import com.newspeed.domain.content.api.response.ContentSearchResponse
 import com.newspeed.domain.content.application.ContentSearchClient
 import com.newspeed.domain.content.domain.enums.QueryPlatform
 import com.newspeed.domain.content.dto.ContentResponseDTO
+import com.newspeed.domain.search.api.request.ContentSearchRequest
+import com.newspeed.domain.search.api.response.ContentSearchResponse
 import org.springframework.stereotype.Service
 
 @Service
