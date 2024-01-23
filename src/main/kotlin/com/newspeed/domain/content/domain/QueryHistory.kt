@@ -1,7 +1,7 @@
 package com.newspeed.domain.content.domain
 
-import com.newspeed.domain.content.api.response.QueryHistoryResponse
 import com.newspeed.domain.content.domain.enums.QueryPlatform
+import com.newspeed.domain.queryhistory.api.response.QueryHistoryResponse
 import com.newspeed.domain.user.domain.User
 import com.newspeed.global.model.BaseTimeEntity
 import org.hibernate.annotations.Comment
