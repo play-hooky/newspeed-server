@@ -5,8 +5,10 @@ import com.newspeed.domain.content.domain.enums.QueryPlatform
 import com.newspeed.domain.content.dto.ContentResponseDTO
 import com.newspeed.domain.content.feign.YoutubeClient
 import com.newspeed.domain.content.feign.request.toYoutubeContentIds
+import com.newspeed.domain.content.feign.response.YoutubeChannelResponse
+import com.newspeed.domain.content.feign.response.YoutubeSearchResponse
+import com.newspeed.domain.content.feign.response.YoutubeVideoDetailResponse
 import com.newspeed.domain.search.api.request.ContentSearchRequest
-import com.newspeed.domain.search.api.response.ContentSearchResponse
 import org.springframework.stereotype.Service
 
 @Service
@@ -16,32 +18,42 @@ class YoutubeSearchService(
 ): ContentSearchClient {
     override fun getQueryPlatform(): QueryPlatform = QueryPlatform.YOUTUBE
 
-    override fun search(
+    override fun searchDetailBy(
         request: ContentSearchRequest
-    ): ContentSearchResponse {
-        val searchRequest = request.toYoutubeSearchRequest(youtubeConfigProperties)
-        val searchResponse = youtubeClient.search(searchRequest)
+    ): List<ContentResponseDTO> {
+        val searchResponse = searchVideo(request)
 
-        val channelRequest = searchResponse.toChannelRequest(youtubeConfigProperties)
-        val channelResponse = youtubeClient.getChannel(channelRequest)
-
-        val videoDetailRequest = searchResponse.toVideoDetailRequest(youtubeConfigProperties)
-        val videoDetailResponse = youtubeClient.getDetailContent(videoDetailRequest)
-
-        return searchResponse
-            .with(channelResponse, videoDetailResponse, youtubeConfigProperties.videoUrl)
+        return searchDetailBy(searchResponse.videoIDs())
     }
 
-    override fun search(
+    override fun searchDetailBy(
         ids: List<String>
     ): List<ContentResponseDTO> {
-        val videoDetailRequest = youtubeConfigProperties.toYoutubeVideoDetailRequest(ids.toYoutubeContentIds())
-        val videoDetailResponse = youtubeClient.getDetailContent(videoDetailRequest)
-
-        val channelRequest = youtubeConfigProperties.toYoutubeChannelRequest(videoDetailResponse.channelIds())
-        val channelResponse = youtubeClient.getChannel(channelRequest)
+        val videoDetailResponse = searchVideoDetail(ids)
+        val channelResponse = searchChannel(videoDetailResponse)
 
         return channelResponse
             .with(videoDetailResponse, youtubeConfigProperties.videoUrl)
+    }
+
+    private fun searchVideo(
+        contentSearchRequest: ContentSearchRequest
+    ): YoutubeSearchResponse {
+        val request = contentSearchRequest.toYoutubeSearchRequest(youtubeConfigProperties)
+        return youtubeClient.search(request)
+    }
+
+    private fun searchVideoDetail(
+        ids: List<String>
+    ): YoutubeVideoDetailResponse {
+        val videoDetailRequest = youtubeConfigProperties.toYoutubeVideoDetailRequest(ids.toYoutubeContentIds())
+        return youtubeClient.getDetailContent(videoDetailRequest)
+    }
+
+    private fun searchChannel(
+        videoDetailResponse: YoutubeVideoDetailResponse
+    ): YoutubeChannelResponse {
+        val channelRequest = youtubeConfigProperties.toYoutubeChannelRequest(videoDetailResponse.channelIds())
+        return youtubeClient.getChannel(channelRequest)
     }
 }

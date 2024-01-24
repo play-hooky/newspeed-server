@@ -24,11 +24,6 @@ data class YoutubeChannelResponse(
         fun thumbnailUrl(): String = this.snippet.thumbnailUrl()
     }
 
-    fun findById(
-        id: String
-    ): Item = items
-        .first { it.id == id }
-
     fun with(
         videoDetailResponse: YoutubeVideoDetailResponse,
         videoUrl: String
@@ -43,4 +38,9 @@ data class YoutubeChannelResponse(
             youtube = it.toContent(videoUrl),
             instagram = null
         ) }
+
+    private fun findById(
+        id: String
+    ): Item = items
+        .first { it.id == id }
 }

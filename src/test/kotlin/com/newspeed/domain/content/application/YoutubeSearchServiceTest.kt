@@ -3,13 +3,14 @@ package com.newspeed.domain.content.application
 import com.newspeed.domain.content.config.YoutubeConfigProperties
 import com.newspeed.domain.content.domain.enums.QueryPlatform
 import com.newspeed.domain.content.feign.YoutubeClient
+import com.newspeed.domain.content.feign.request.toYoutubeContentIds
 import com.newspeed.factory.content.ContentFactory
 import com.newspeed.template.UnitTestTemplate
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.*
 import org.mockito.Mockito
 
 @DisplayName("Youtube 서비스에서 ")
@@ -51,19 +52,19 @@ class YoutubeSearchServiceTest: UnitTestTemplate {
             val searchResponse = ContentFactory.createYoutubeSearchResponse()
             val channelResponse = ContentFactory.createChannelResponse()
             val videoDetailResponse = ContentFactory.createVideoDetailResponse()
-            val expected = ContentFactory.createContentSearchResponse()
+            val expected = ContentFactory.createContentResponseDTOs()
 
             given(youtubeClient.search(request.toYoutubeSearchRequest(youtubeConfigProperties)))
                 .willReturn(searchResponse)
 
-            given(youtubeClient.getChannel(searchResponse.toChannelRequest(youtubeConfigProperties)))
-                .willReturn(channelResponse)
-
-            given(youtubeClient.getDetailContent(searchResponse.toVideoDetailRequest(youtubeConfigProperties)))
+            given(youtubeClient.getDetailContent(youtubeConfigProperties.toYoutubeVideoDetailRequest(searchResponse.items.map { it.id.videoId }.toYoutubeContentIds())))
                 .willReturn(videoDetailResponse)
 
+            given(youtubeClient.getChannel(youtubeConfigProperties.toYoutubeChannelRequest(videoDetailResponse.channelIds())))
+                .willReturn(channelResponse)
+
             // when
-            val actual = youtubeSearchService.search(request)
+            val actual = youtubeSearchService.searchDetailBy(request)
 
             // then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected)

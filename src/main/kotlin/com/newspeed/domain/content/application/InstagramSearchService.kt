@@ -5,20 +5,19 @@ import com.newspeed.domain.content.dto.ContentHostDTO
 import com.newspeed.domain.content.dto.ContentResponseDTO
 import com.newspeed.domain.content.dto.ContentYoutubeDTO
 import com.newspeed.domain.search.api.request.ContentSearchRequest
-import com.newspeed.domain.search.api.response.ContentSearchResponse
 import org.springframework.stereotype.Service
 
 @Service
 class InstagramSearchService: ContentSearchClient {
     override fun getQueryPlatform(): QueryPlatform = QueryPlatform.INSTAGRAM
 
-    override fun search(
+    override fun searchDetailBy(
         request: ContentSearchRequest
-    ): ContentSearchResponse {
+    ): List<ContentResponseDTO> {
         TODO("Not yet implemented")
     }
 
-    override fun search(ids: List<String>): List<ContentResponseDTO> {
+    override fun searchDetailBy(ids: List<String>): List<ContentResponseDTO> {
         // TODO
 
         return listOf(

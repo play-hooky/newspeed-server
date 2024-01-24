@@ -8,3 +8,7 @@ import com.newspeed.domain.content.dto.ContentResponseDTO
 data class ContentSearchResponse(
     val contents: List<ContentResponseDTO>
 )
+
+fun List<ContentResponseDTO>.toContentSearchResponse(): ContentSearchResponse = ContentSearchResponse(
+    contents = this
+)
