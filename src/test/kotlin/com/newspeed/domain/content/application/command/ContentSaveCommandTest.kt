@@ -12,9 +12,11 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.transaction.annotation.Transactional
 import javax.validation.Validator
 
 @DisplayName("컨텐츠 저장 service command 객체는 ")
+@Transactional
 class ContentSaveCommandTest: IntegrationTestTemplate {
 
     @Autowired
