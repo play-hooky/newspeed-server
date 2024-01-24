@@ -5,6 +5,7 @@ import com.newspeed.domain.alarm.application.command.AlarmUpdateCommand
 import com.newspeed.domain.alarm.repository.AlarmRepository
 import com.newspeed.domain.user.application.UserService
 import com.newspeed.factory.alarm.AlarmFactory.Companion.createAlarm
+import com.newspeed.factory.alarm.AlarmFactory.Companion.createAlarmResponse
 import com.newspeed.factory.auth.AuthFactory.Companion.createKakaoUser
 import com.newspeed.global.exception.alarm.NotFoundAlarmException
 import com.newspeed.template.UnitTestTemplate
@@ -55,6 +56,46 @@ class AlarmServiceTest: UnitTestTemplate {
             // then
             Mockito.verify(alarmRepository, times(1)).save(alarm)
 
+        }
+    }
+
+    @Nested
+    inner class `알림을 조회할 때` {
+
+        @Test
+        fun `알림이 존재하지 않으면 에러를 던진다`() {
+            // given
+            val user = createKakaoUser()
+
+            given(userService.getUser(user.id))
+                .willReturn(user)
+
+            given(alarmRepository.findByUser(user))
+                .willReturn(null)
+
+            // when & then
+            Assertions.assertThatThrownBy { alarmService.getAlarm(user.id) }
+                .isInstanceOf(NotFoundAlarmException::class.java)
+        }
+
+        @Test
+        fun `알림이 존재하면 조회에 성공한다`() {
+            // given
+            val user = createKakaoUser()
+            val alarm = createAlarm(user)
+            val expected = createAlarmResponse(alarm.startTime, alarm.endTime)
+
+            given(userService.getUser(user.id))
+                .willReturn(user)
+
+            given(alarmRepository.findByUser(user))
+                .willReturn(alarm)
+
+            // when
+            val actual = alarmService.getAlarm(user.id)
+
+            // then
+            Assertions.assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
         }
     }
 
