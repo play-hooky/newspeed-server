@@ -1,5 +1,6 @@
 package com.newspeed.domain.alarm.application
 
+import com.newspeed.domain.alarm.api.response.AlarmResponse
 import com.newspeed.domain.alarm.application.command.AlarmSaveCommand
 import com.newspeed.domain.alarm.application.command.AlarmUpdateCommand
 import com.newspeed.domain.alarm.domain.Alarm
@@ -28,10 +29,16 @@ class AlarmService(
         alarmRepository.save(alarm)
     }
 
+    @Transactional(readOnly = true)
+    fun getAlarm(
+        userId: Long
+    ): AlarmResponse = findAlarmBy(userId)
+        .toResponse()
+
     fun updateAlarm(
         @Valid command: AlarmUpdateCommand
     ) {
-        val alarm = getAlarm(command.userId)
+        val alarm = findAlarmBy(command.userId)
 
         alarm.updateTime(command)
     }
@@ -39,12 +46,12 @@ class AlarmService(
     fun deleteAlarm(
         userId: Long
     ) {
-        val alarm = getAlarm(userId)
+        val alarm = findAlarmBy(userId)
 
         alarm.delete()
     }
 
-    private fun getAlarm(
+    private fun findAlarmBy(
         userId: Long
     ): Alarm {
         val user = userService.getUser(userId)
