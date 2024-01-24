@@ -1,8 +1,10 @@
 package com.newspeed.domain.alarm.application
 
 import com.newspeed.domain.alarm.application.command.AlarmSaveCommand
+import com.newspeed.domain.alarm.application.command.AlarmUpdateCommand
 import com.newspeed.domain.alarm.repository.AlarmRepository
 import com.newspeed.domain.user.application.UserService
+import com.newspeed.global.exception.alarm.NotFoundAlarmException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.validation.annotation.Validated
@@ -23,5 +25,15 @@ class AlarmService(
         val alarm = command.toEntity(user)
 
         alarmRepository.save(alarm)
+    }
+
+    fun updateAlarm(
+        @Valid command: AlarmUpdateCommand
+    ) {
+        val user = userService.getUser(command.userId)
+        val alarm = alarmRepository.findByUser(user)
+            ?: throw NotFoundAlarmException()
+
+        alarm.updateTime(command)
     }
 }

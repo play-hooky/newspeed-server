@@ -1,5 +1,6 @@
 package com.newspeed.domain.alarm.domain
 
+import com.newspeed.domain.alarm.application.command.AlarmUpdateCommand
 import com.newspeed.domain.user.domain.User
 import com.newspeed.global.model.BaseTimeEntity
 import org.hibernate.annotations.Comment
@@ -44,5 +45,12 @@ class Alarm(
 
     override fun hashCode(): Int {
         return id.toInt()
+    }
+
+    fun updateTime(
+        that: AlarmUpdateCommand
+    ) {
+        this.startTime = that.startTime
+        this.endTime = that.endTime
     }
 }

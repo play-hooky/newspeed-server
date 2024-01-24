@@ -1,11 +1,13 @@
 package com.newspeed.domain.alarm.api
 
 import com.newspeed.domain.alarm.api.request.AlarmSaveRequest
+import com.newspeed.domain.alarm.api.request.AlarmUpdateRequest
 import com.newspeed.domain.alarm.application.AlarmService
 import com.newspeed.domain.jwt.annotation.User
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -23,6 +25,18 @@ class AlarmController(
         @Valid @RequestBody request: AlarmSaveRequest
     ): ResponseEntity<Unit> {
         alarmService.saveAlarm(
+            request.toCommand(userId)
+        )
+
+        return ResponseEntity(HttpStatus.CREATED)
+    }
+
+    @PutMapping
+    fun updateAlarm(
+        @User userId: Long,
+        @Valid @RequestBody request: AlarmUpdateRequest
+    ): ResponseEntity<Unit> {
+        alarmService.updateAlarm(
             request.toCommand(userId)
         )
 
