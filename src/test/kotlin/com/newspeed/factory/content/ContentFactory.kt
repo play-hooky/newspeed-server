@@ -90,27 +90,6 @@ class ContentFactory {
             )
         )
 
-        fun createContentSearchResponse() = ContentSearchResponse(
-            listOf(
-                ContentResponseDTO(
-                    platform = QueryPlatform.YOUTUBE,
-                    host = ContentHostDTO(
-                        profileImgUrl = "https://www.newspeed.store/happy-hooky",
-                        nickname = "happy-hooky"
-                    ),
-                    youtube = ContentYoutubeDTO(
-                        id = "1",
-                        thumbnailUrl = "https://www.newspeed.store/hooky.jpg",
-                        title = "hoooky",
-                        url = "https://www.youtube.com/watch?v=1",
-                        views = "20회",
-                        todayBefore = "10일 전"
-                    ),
-                    instagram = null
-            )
-            )
-        )
-
         fun createQueryHistory(
             user: User
         ) = QueryHistory(

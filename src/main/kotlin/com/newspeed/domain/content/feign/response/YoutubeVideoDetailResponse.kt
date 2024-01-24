@@ -34,11 +34,6 @@ data class YoutubeVideoDetailResponse(
         )
     }
 
-    fun findById(
-        id: String
-    ): Item = this.items
-        .first { it.id == id }
-
     fun channelIds(): String = this.items
         .map { it.snippet.channelId }
         .toYoutubeContentIds()
