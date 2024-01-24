@@ -7,8 +7,8 @@ create table newspeed.alarm
     created_at datetime default CURRENT_TIMESTAMP not null comment '생성한 시간',
     updated_at datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '수정한 시간',
     deleted_at datetime                           null comment '삭제한 시간',
-    is_deleted tinyint(1) as (if((`deleted_at` is not null), 1, 0)) not null comment '삭제 여부',
-    constraint user_id unique (user_id, is_deleted)
+    is_not_deleted tinyint(1) as (if((`deleted_at` is null), 1, null)) null comment '삭제 여부',
+    constraint user_id unique (user_id, is_not_deleted)
 )
     comment '사용자 알림 시간 관리';
 
