@@ -5,6 +5,7 @@ import com.newspeed.domain.content.domain.enums.QueryPlatform
 import com.newspeed.domain.content.dto.ContentResponseDTO
 import com.newspeed.domain.search.api.request.ContentSearchRequest
 import com.newspeed.domain.search.api.response.ContentSearchResponse
+import com.newspeed.domain.search.api.response.toContentSearchResponse
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 
@@ -15,16 +16,15 @@ class SearchService(
 ) {
     fun search(
         request: ContentSearchRequest
-    ): ContentSearchResponse {
-        return contentSearchClients.getClient(request.platform)
-            .search(request)
-    }
+    ): ContentSearchResponse = contentSearchClients.getClient(request.platform)
+        .searchDetailBy(request)
+        .toContentSearchResponse()
 
     fun search(
         platform: QueryPlatform,
         ids: List<String>
     ): List<ContentResponseDTO> = contentSearchClients.getClient(platform)
-        .search(ids)
+        .searchDetailBy(ids)
 
     fun search(
         userId: Long,
