@@ -4,7 +4,6 @@ import com.newspeed.domain.alarm.application.command.AlarmSaveCommand
 import com.newspeed.domain.alarm.application.command.AlarmUpdateCommand
 import com.newspeed.domain.alarm.repository.AlarmRepository
 import com.newspeed.domain.user.application.UserService
-import com.newspeed.domain.user.domain.User
 import com.newspeed.factory.alarm.AlarmFactory.Companion.createAlarm
 import com.newspeed.factory.auth.AuthFactory.Companion.createKakaoUser
 import com.newspeed.global.exception.alarm.NotFoundAlarmException
@@ -13,7 +12,8 @@ import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.mockito.BDDMockito.*
+import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.times
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
@@ -104,6 +104,45 @@ class AlarmServiceTest: UnitTestTemplate {
 
             Assertions.assertThat(alarm.startTime).isEqualTo(command.startTime)
             Assertions.assertThat(alarm.endTime).isEqualTo(command.endTime)
+        }
+    }
+
+    @Nested
+    inner class `알림을 삭제할 때` {
+
+        @Test
+        fun `알림이 존재하지 않으면 삭제에 실패한다`() {
+            // given
+            val user = createKakaoUser()
+
+            given(userService.getUser(user.id))
+                .willReturn(user)
+
+            given(alarmRepository.findByUser(user))
+                .willReturn(null)
+
+            // when & then
+            Assertions.assertThatThrownBy { alarmService.deleteAlarm(user.id) }
+                .isInstanceOf(NotFoundAlarmException::class.java)
+        }
+
+        @Test
+        fun `알림이 존재하면 삭제에 성공한다`() {
+            // given
+            val user = createKakaoUser()
+            val alarm = createAlarm(user)
+
+            given(userService.getUser(user.id))
+                .willReturn(user)
+
+            given(alarmRepository.findByUser(user))
+                .willReturn(alarm)
+
+            // when
+            alarmService.deleteAlarm(user.id)
+
+            // then
+            Assertions.assertThat(alarm.deletedAt()).isNotNull()
         }
     }
 }
