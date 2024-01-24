@@ -2,6 +2,7 @@ package com.newspeed.domain.alarm.application
 
 import com.newspeed.domain.alarm.application.command.AlarmSaveCommand
 import com.newspeed.domain.alarm.application.command.AlarmUpdateCommand
+import com.newspeed.domain.alarm.domain.Alarm
 import com.newspeed.domain.alarm.repository.AlarmRepository
 import com.newspeed.domain.user.application.UserService
 import com.newspeed.global.exception.alarm.NotFoundAlarmException
@@ -30,10 +31,25 @@ class AlarmService(
     fun updateAlarm(
         @Valid command: AlarmUpdateCommand
     ) {
-        val user = userService.getUser(command.userId)
-        val alarm = alarmRepository.findByUser(user)
-            ?: throw NotFoundAlarmException()
+        val alarm = getAlarm(command.userId)
 
         alarm.updateTime(command)
+    }
+
+    fun deleteAlarm(
+        userId: Long
+    ) {
+        val alarm = getAlarm(userId)
+
+        alarm.delete()
+    }
+
+    private fun getAlarm(
+        userId: Long
+    ): Alarm {
+        val user = userService.getUser(userId)
+
+        return alarmRepository.findByUser(user)
+            ?: throw NotFoundAlarmException()
     }
 }
