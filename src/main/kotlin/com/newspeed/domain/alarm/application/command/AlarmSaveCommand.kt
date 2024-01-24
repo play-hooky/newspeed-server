@@ -1,6 +1,8 @@
 package com.newspeed.domain.alarm.application.command
 
 import com.newspeed.domain.alarm.application.command.validation.AlarmSaveConstraint
+import com.newspeed.domain.alarm.domain.Alarm
+import com.newspeed.domain.user.domain.User
 import java.sql.Time
 import javax.validation.constraints.Positive
 
@@ -12,4 +14,12 @@ data class AlarmSaveCommand(
     val startTime: Time,
 
     val endTime: Time
-)
+) {
+    fun toEntity(
+        user: User
+    ): Alarm = Alarm(
+        user = user,
+        startTime = startTime,
+        endTime = endTime
+    )
+}
