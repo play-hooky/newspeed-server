@@ -9,7 +9,6 @@ import com.newspeed.factory.auth.AuthFactory.Companion.createKakaoUser
 import com.newspeed.factory.content.ContentFactory.Companion.createContentSaveCommand
 import com.newspeed.factory.content.ContentFactory.Companion.createContents
 import com.newspeed.factory.content.ContentFactory.Companion.createContentsResponse
-import com.newspeed.factory.content.DummyContentClient
 import com.newspeed.global.exception.content.NotFoundContentException
 import com.newspeed.global.exception.model.ExceptionType
 import com.newspeed.template.UnitTestTemplate
@@ -23,11 +22,6 @@ import org.mockito.Mockito
 
 @DisplayName("content 서비스 계층에서 ")
 class ContentServiceTest: UnitTestTemplate {
-    private val dummyContentClient = DummyContentClient()
-    private val contentSearchClients = ContentSearchClients.builder()
-        .add(dummyContentClient)
-        .build()
-
     private val userService = mock(UserService::class.java)
     private val searchService = mock(SearchService::class.java)
     private val contentRepository = mock(ContentRepository::class.java)
