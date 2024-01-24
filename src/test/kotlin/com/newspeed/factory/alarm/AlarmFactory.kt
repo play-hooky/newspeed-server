@@ -1,5 +1,6 @@
 package com.newspeed.factory.alarm
 
+import com.newspeed.domain.alarm.api.response.AlarmResponse
 import com.newspeed.domain.alarm.domain.Alarm
 import com.newspeed.domain.user.domain.User
 import java.sql.Time
@@ -14,6 +15,14 @@ class AlarmFactory {
             user = user,
             startTime = Time.valueOf(LocalTime.now()),
             endTime = Time.valueOf(LocalTime.now().plusHours(2))
+        )
+
+        fun createAlarmResponse(
+            startTime: Time,
+            endTime: Time
+        ) = AlarmResponse(
+            startTime = "${startTime.toLocalTime().hour}:${startTime.toLocalTime().minute}",
+            endTime = "${endTime.toLocalTime().hour}:${endTime.toLocalTime().minute}",
         )
     }
 }

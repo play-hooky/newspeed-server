@@ -2,6 +2,7 @@ package com.newspeed.domain.alarm.api
 
 import com.newspeed.domain.alarm.api.request.AlarmSaveRequest
 import com.newspeed.domain.alarm.api.request.AlarmUpdateRequest
+import com.newspeed.domain.alarm.api.response.AlarmResponse
 import com.newspeed.domain.alarm.application.AlarmService
 import com.newspeed.domain.jwt.annotation.User
 import org.springframework.http.HttpStatus
@@ -26,6 +27,13 @@ class AlarmController(
 
         return ResponseEntity(HttpStatus.CREATED)
     }
+
+    @GetMapping
+    fun getAlarm(
+        @User userId: Long
+    ): ResponseEntity<AlarmResponse> = ResponseEntity.ok(
+        alarmService.getAlarm(userId)
+    )
 
     @PutMapping
     fun updateAlarm(

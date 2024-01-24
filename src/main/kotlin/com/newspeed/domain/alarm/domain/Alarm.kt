@@ -1,7 +1,9 @@
 package com.newspeed.domain.alarm.domain
 
+import com.newspeed.domain.alarm.api.response.AlarmResponse
 import com.newspeed.domain.alarm.application.command.AlarmUpdateCommand
 import com.newspeed.domain.user.domain.User
+import com.newspeed.global.enums.toStringWithoutSeconds
 import com.newspeed.global.model.BaseTimeEntity
 import org.hibernate.annotations.Comment
 import org.hibernate.annotations.SQLDelete
@@ -53,4 +55,9 @@ class Alarm(
         this.startTime = that.startTime
         this.endTime = that.endTime
     }
+
+    fun toResponse(): AlarmResponse = AlarmResponse(
+        startTime = startTime.toStringWithoutSeconds(),
+        endTime = endTime.toStringWithoutSeconds()
+    )
 }
