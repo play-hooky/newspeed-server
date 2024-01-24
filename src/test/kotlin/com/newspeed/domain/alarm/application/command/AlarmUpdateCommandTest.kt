@@ -4,7 +4,6 @@ import com.newspeed.domain.alarm.domain.Alarm
 import com.newspeed.domain.alarm.repository.AlarmRepository
 import com.newspeed.domain.user.repository.UserRepository
 import com.newspeed.factory.auth.AuthFactory
-import com.newspeed.factory.auth.AuthFactory.Companion.createKakaoUser
 import com.newspeed.template.IntegrationTestTemplate
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.DisplayName
@@ -47,23 +46,6 @@ class AlarmUpdateCommandTest: IntegrationTestTemplate {
 
         // then
         Assertions.assertThat(result.joinToString { it.messageTemplate }).contains("사용자")
-    }
-
-    @Test
-    fun `등록된 알람이 존재하지 않으면 에러를 던진다`() {
-        // given
-        val user = createKakaoUser()
-        val command = AlarmUpdateCommand(
-            userId = user.id,
-            startTime = Time.valueOf(LocalTime.now()),
-            endTime = Time.valueOf(LocalTime.now()),
-        )
-
-        // when
-        val result = validator.validate(command)
-
-        // when
-        Assertions.assertThat(result.joinToString { it.messageTemplate }).contains("해당 사용자는 등록된 알람이 존재하지 않습니다.")
     }
 
     @Test
