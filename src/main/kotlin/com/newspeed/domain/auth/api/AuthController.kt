@@ -24,6 +24,15 @@ class AuthController(
         HttpStatus.CREATED
     )
 
+    @PostMapping("/logout")
+    fun logout(
+        @User userId: Long
+    ): ResponseEntity<Unit> {
+        authFacade.logout(userId)
+
+        return ResponseEntity(HttpStatus.OK)
+    }
+
     @GetMapping
     fun getUser(
         @User userId: Long
