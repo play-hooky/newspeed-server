@@ -16,7 +16,6 @@ import com.newspeed.domain.content.feign.response.YoutubeSearchResponse
 import com.newspeed.domain.content.feign.response.YoutubeVideoDetailResponse
 import com.newspeed.domain.queryhistory.api.response.QueryHistoryResponse
 import com.newspeed.domain.search.api.request.ContentSearchRequest
-import com.newspeed.domain.search.api.response.ContentSearchResponse
 import com.newspeed.domain.user.domain.User
 import java.time.LocalDateTime
 

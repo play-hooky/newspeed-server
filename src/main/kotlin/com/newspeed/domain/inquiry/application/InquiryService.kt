@@ -1,5 +1,7 @@
 package com.newspeed.domain.inquiry.application
 
+import com.newspeed.domain.inquiry.api.response.InquiryResponse
+import com.newspeed.domain.inquiry.api.response.toInquiryResponse
 import com.newspeed.domain.inquiry.application.command.InquiryQuestionCommand
 import com.newspeed.domain.inquiry.repository.InquiryQuestionRepository
 import com.newspeed.domain.user.application.UserService
@@ -24,4 +26,11 @@ class InquiryService(
 
         inquiryQuestionRepository.save(inquiryQuestion)
     }
+
+    @Transactional(readOnly = true)
+    fun getInquiry(
+        userId: Long
+    ): InquiryResponse = inquiryQuestionRepository.findInquiryByUserId(userId)
+        .map { it.toInquiryDTO() }
+        .toInquiryResponse()
 }
