@@ -65,9 +65,12 @@ class AlarmUpdateRequestTest: UnitTestTemplate {
     @Test
     fun `정상 입력값으로 요청하면 성공한다`() {
         // given
+        val now = LocalDateTime.now()
+        val hour = String.format("%02d", now.hour)
+        val minute = String.format("%02d", now.minute)
         val request = AlarmUpdateRequest(
-            startTime = "${LocalDateTime.now().hour}:${LocalDateTime.now().minute}",
-            endTime = "${LocalDateTime.now().hour}:${LocalDateTime.now().minute}",
+            startTime = "$hour:$minute",
+            endTime = "$hour:$minute",
         )
 
         // when

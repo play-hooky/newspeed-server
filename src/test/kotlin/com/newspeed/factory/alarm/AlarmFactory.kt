@@ -21,8 +21,16 @@ class AlarmFactory {
             startTime: Time,
             endTime: Time
         ) = AlarmResponse(
-            startTime = "${startTime.toLocalTime().hour}:${startTime.toLocalTime().minute}",
-            endTime = "${endTime.toLocalTime().hour}:${endTime.toLocalTime().minute}",
+            startTime = "${getHour(startTime)}:${getMinute(startTime)}",
+            endTime = "${getHour(endTime)}:${getMinute(endTime)}"
         )
+
+        private fun getHour(
+            time: Time
+        ): String = String.format("%02d", time.toLocalTime().hour)
+
+        private fun getMinute(
+            time: Time
+        ): String = String.format("%02d", time.toLocalTime().minute)
     }
 }
