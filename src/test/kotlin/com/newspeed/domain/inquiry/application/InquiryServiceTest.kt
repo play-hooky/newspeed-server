@@ -6,11 +6,11 @@ import com.newspeed.domain.inquiry.repository.InquiryQuestionRepository
 import com.newspeed.domain.user.application.UserService
 import com.newspeed.factory.auth.AuthFactory.Companion.createKakaoUser
 import com.newspeed.template.UnitTestTemplate
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.mockito.BDDMockito.*
+import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.times
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
