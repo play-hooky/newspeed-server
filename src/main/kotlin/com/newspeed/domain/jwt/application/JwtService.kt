@@ -4,6 +4,7 @@ import com.newspeed.domain.auth.domain.AuthPayload
 import com.newspeed.domain.jwt.domain.RefreshToken
 import com.newspeed.domain.jwt.dto.IssuedJwtDTO
 import com.newspeed.domain.jwt.repository.RefreshTokenRepository
+import com.newspeed.global.exception.auth.NotFoundTokenException
 import org.springframework.stereotype.Service
 
 @Service
@@ -31,4 +32,18 @@ class JwtService(
     fun reissueAccessToken(
         authPayload: AuthPayload
     ): String = jwtAuthProvider.provideAccessToken(authPayload)
+
+    fun deleteRefreshToken(
+        userId: Long
+    ) {
+        val refreshToken = getRefreshToken(userId)
+
+        refreshTokenRepository.deleteAll(refreshToken)
+    }
+
+    private fun getRefreshToken(
+        userId: Long
+    ): List<RefreshToken> = refreshTokenRepository.findByUserId(userId)
+        .takeIf { it.isNotEmpty() }
+        ?: throw NotFoundTokenException()
 }

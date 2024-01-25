@@ -33,6 +33,12 @@ class AuthFacade(
         )
     }
 
+    fun logout(
+        userId: Long
+    ) {
+        jwtService.deleteRefreshToken(userId)
+    }
+
     private fun getOAuth2UserFrom(
         loginRequest: LoginRequest
     ): OAuth2User = oAuth2Clients.getClient(loginRequest.loginPlatform)

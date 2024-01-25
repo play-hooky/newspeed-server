@@ -1,5 +1,6 @@
 package com.newspeed.domain.auth.application
 
+import com.newspeed.domain.jwt.domain.RefreshToken
 import com.newspeed.domain.jwt.repository.RefreshTokenRepository
 import com.newspeed.domain.user.repository.UserRepository
 import com.newspeed.factory.auth.AuthFactory
@@ -96,6 +97,28 @@ class AuthFacadeTest: IntegrationTestTemplate {
         fun `userId가 존재하지 않는 사용자라면 예외를 던진다`() {
             assertThatThrownBy { authFacade.reissueAccessToken(Long.MIN_VALUE) }
                 .isInstanceOf(UserNotFoundException::class.java)
+        }
+    }
+
+    @Nested
+    inner class `로그아웃할 때` {
+
+        @Test
+        fun `refresh token을 삭제한다`() {
+            // given
+            val userId = 1L
+            val refreshToken = refreshTokenRepository.save(
+                RefreshToken(
+                    userId = userId,
+                    token = "hookyhookyhooky"
+                )
+            )
+
+            // when
+            authFacade.logout(userId)
+
+            // then
+            assertThat(refreshTokenRepository.findByUserId(userId)).isEmpty()
         }
     }
 }
