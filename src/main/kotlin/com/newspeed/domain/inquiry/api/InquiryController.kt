@@ -1,14 +1,12 @@
 package com.newspeed.domain.inquiry.api
 
 import com.newspeed.domain.inquiry.api.request.InquiryQuestionRequest
+import com.newspeed.domain.inquiry.api.response.InquiryResponse
 import com.newspeed.domain.inquiry.application.InquiryService
 import com.newspeed.domain.jwt.annotation.User
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
@@ -28,4 +26,11 @@ class InquiryController(
 
         return ResponseEntity(HttpStatus.CREATED)
     }
+
+    @GetMapping
+    fun getInquiry(
+        @User userId: Long
+    ): ResponseEntity<InquiryResponse> = ResponseEntity.ok(
+        inquiryService.getInquiry(userId)
+    )
 }

@@ -1,5 +1,6 @@
 package com.newspeed.domain.inquiry.domain
 
+import com.newspeed.domain.inquiry.api.response.InquiryResponse
 import com.newspeed.domain.user.domain.User
 import com.newspeed.global.model.BaseTimeEntity
 import org.hibernate.annotations.Comment
@@ -43,4 +44,10 @@ class InquiryQuestion(
     override fun hashCode(): Int {
         return id.toInt()
     }
+
+    fun toInquiryQuestionDTO(): InquiryResponse.InquiryDTO.InquiryQuestionDTO = InquiryResponse.InquiryDTO.InquiryQuestionDTO(
+        title = title,
+        body = body,
+        createdAt = createdAt
+    )
 }
