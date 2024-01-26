@@ -10,11 +10,17 @@ class DummyOAuth2Client: OAuth2Client {
     override fun getLoginPlatform(): LoginPlatform = LoginPlatform.NEWSPEED
 
     override fun getOAuth2User(
-        accessToken: String
+        authorizationCode: String
     ): OAuth2User = OAuth2User(
         platform = LoginPlatform.NEWSPEED,
         nickname = "dummy",
         profileImage = "https://www.dummy.com/",
         email = "dummy@dummy.com"
     )
+
+    override fun unlink(
+        authorizationCode: String
+    ) {
+
+    }
 }
