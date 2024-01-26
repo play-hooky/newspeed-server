@@ -7,5 +7,7 @@ interface OAuth2Client {
 
     fun getLoginPlatform(): LoginPlatform
 
-    fun getOAuth2User(accessToken: String): OAuth2User
+    fun getOAuth2User(authorizationCode: String): OAuth2User
+
+    fun unlink(authorizationCode: String)
 }

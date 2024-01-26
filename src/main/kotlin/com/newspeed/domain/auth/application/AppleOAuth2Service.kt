@@ -5,6 +5,9 @@ import com.newspeed.domain.auth.domain.OAuth2User
 import com.newspeed.domain.auth.domain.enums.LoginPlatform
 import com.newspeed.domain.auth.domain.toOAuth2User
 import com.newspeed.domain.auth.feign.AppleOAuth2TokenClient
+import com.newspeed.domain.auth.feign.enums.AppleTokenTypeHint
+import com.newspeed.domain.auth.feign.request.AppleOAuth2TokenRequest
+import com.newspeed.domain.auth.feign.response.AppleOAuth2TokenResponse
 import com.newspeed.domain.jwt.application.AppleJwtAuthExtractor
 import org.springframework.stereotype.Service
 
@@ -18,17 +21,63 @@ class AppleOAuth2Service(
     override fun getLoginPlatform(): LoginPlatform = LoginPlatform.APPLE
 
     override fun getOAuth2User(
-        accessToken: String
+        authorizationCode: String
     ): OAuth2User {
-        val tokenRequest = configProperties.toAppleOAuth2TokenRequest(accessToken)
-        val token = tokenClient.getOAuthAppleToken(
+        val token = getToken(authorizationCode)
+
+        return jwtAuthExtractor.getClaims(token.idToken)
+            .toOAuth2User()
+    }
+
+    override fun unlink(
+        authorizationCode: String
+    ) {
+        val tokenRequest = getTokenRequest(authorizationCode)
+        val accessToken = getAccessToken(tokenRequest)
+
+        revokeToken(tokenRequest, accessToken)
+    }
+
+    private fun revokeToken(
+        tokenRequest: AppleOAuth2TokenRequest,
+        accessToken: String
+    ) {
+        tokenClient.revoke(
+            tokenRequest.clientId,
+            tokenRequest.clientSecret,
+            accessToken,
+            AppleTokenTypeHint.ACCESS_TOKEN.value
+        )
+    }
+
+    private fun getAccessToken(
+        tokenRequest: AppleOAuth2TokenRequest
+    ): String = getToken(tokenRequest)
+        .accessToken
+
+    private fun getToken(
+        authorizationCode: String
+    ): AppleOAuth2TokenResponse {
+        val tokenRequest = getTokenRequest(authorizationCode)
+
+        return tokenClient.getOAuthAppleToken(
             tokenRequest.clientId,
             tokenRequest.clientSecret,
             tokenRequest.grantType,
             tokenRequest.authorizationCode
         )
-
-        return jwtAuthExtractor.getClaims(token.idToken)
-            .toOAuth2User()
     }
+
+    private fun getToken(
+        tokenRequest: AppleOAuth2TokenRequest
+    ): AppleOAuth2TokenResponse = tokenClient.getOAuthAppleToken(
+        tokenRequest.clientId,
+        tokenRequest.clientSecret,
+        tokenRequest.grantType,
+        tokenRequest.authorizationCode
+    )
+
+    fun getTokenRequest(
+        authorizationCode: String
+    ): AppleOAuth2TokenRequest = configProperties.toAppleOAuth2TokenRequest(authorizationCode)
 }
