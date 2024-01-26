@@ -26,8 +26,8 @@ class Category(
     var user: User,
 
     @Comment("카테고리")
-    @Column(name = "category", length = 256, nullable = false)
-    var category: String,
+    @Column(name = "name", length = 256, nullable = false)
+    var name: String,
 
     @Comment("SNS 플랫폼 INSTAGRAM, YOUTUBE")
     @Enumerated(EnumType.STRING)
@@ -49,6 +49,6 @@ class Category(
 
     fun toCategoryResponseDTO(): CategoryResponse.CategoryResponseDTO = CategoryResponse.CategoryResponseDTO(
         id = id,
-        category = category
+        category = name
     )
 }
