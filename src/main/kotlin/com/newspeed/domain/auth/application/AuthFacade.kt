@@ -8,6 +8,7 @@ import com.newspeed.domain.auth.domain.OAuth2User
 import com.newspeed.domain.auth.feign.OAuth2Clients
 import com.newspeed.domain.jwt.application.JwtService
 import com.newspeed.domain.user.application.UserService
+import com.newspeed.domain.user.domain.User
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import javax.validation.Valid
@@ -66,9 +67,19 @@ class AuthFacade(
     ) {
         val user = userService.getUser(command.userId)
             .also { it.delete() }
+
         jwtService.deleteRefreshToken(user.id)
 
+        revokeOAuth2(command, user)
+    }
+
+    private fun revokeOAuth2(
+        command: WithdrawalCommand,
+        user: User
+    ) {
+        val oAuth2UnlinkDTO = command.toOAuth2UnlinkDTO(user.email)
+
         oAuth2Clients.getClient(user.platform)
-            .unlink(command.authorizationCode)
+            .unlink(oAuth2UnlinkDTO)
     }
 }

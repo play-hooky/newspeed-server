@@ -1,5 +1,6 @@
 package com.newspeed.domain.auth.application.command
 
+import com.newspeed.domain.auth.dto.OAuth2UnlinkDTO
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Positive
 
@@ -9,4 +10,12 @@ data class WithdrawalCommand(
 
     @field:NotBlank(message = "authorization code를 입력해주세요.")
     val authorizationCode: String,
-)
+) {
+
+    fun toOAuth2UnlinkDTO(
+        email: String
+    ): OAuth2UnlinkDTO = OAuth2UnlinkDTO(
+        authorizationCode = authorizationCode,
+        email = email
+    )
+}

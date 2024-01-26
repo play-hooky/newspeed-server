@@ -1,6 +1,7 @@
 package com.newspeed.domain.auth.api
 
 import com.newspeed.domain.auth.api.request.LoginRequest
+import com.newspeed.domain.auth.api.request.WithdrawalRequest
 import com.newspeed.domain.auth.api.response.LoginResponse
 import com.newspeed.domain.auth.api.response.UserResponse
 import com.newspeed.domain.auth.application.AuthFacade
@@ -46,4 +47,16 @@ class AuthController(
     ): ResponseEntity<String> = ResponseEntity.ok(
         authFacade.reissueAccessToken(userId)
     )
+
+    @PostMapping("/withdrawal")
+    fun withdrawal(
+        @User userId: Long,
+        @Valid @RequestBody request: WithdrawalRequest
+    ): ResponseEntity<Unit> {
+        authFacade.unlink(
+            request.toCommand(userId)
+        )
+
+        return ResponseEntity(HttpStatus.OK)
+    }
 }

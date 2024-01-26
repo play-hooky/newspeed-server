@@ -3,6 +3,7 @@ package com.newspeed.factory.auth
 import com.newspeed.domain.auth.application.OAuth2Client
 import com.newspeed.domain.auth.domain.OAuth2User
 import com.newspeed.domain.auth.domain.enums.LoginPlatform
+import com.newspeed.domain.auth.dto.OAuth2UnlinkDTO
 import org.springframework.stereotype.Service
 
 @Service
@@ -19,7 +20,7 @@ class DummyOAuth2Client: OAuth2Client {
     )
 
     override fun unlink(
-        authorizationCode: String
+        oAuth2UnlinkDTO: OAuth2UnlinkDTO
     ) {
 
     }

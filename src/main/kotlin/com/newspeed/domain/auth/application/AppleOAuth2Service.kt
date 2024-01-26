@@ -4,6 +4,7 @@ import com.newspeed.domain.auth.config.AppleOAuth2ConfigProperties
 import com.newspeed.domain.auth.domain.OAuth2User
 import com.newspeed.domain.auth.domain.enums.LoginPlatform
 import com.newspeed.domain.auth.domain.toOAuth2User
+import com.newspeed.domain.auth.dto.OAuth2UnlinkDTO
 import com.newspeed.domain.auth.feign.AppleOAuth2TokenClient
 import com.newspeed.domain.auth.feign.enums.AppleTokenTypeHint
 import com.newspeed.domain.auth.feign.request.AppleOAuth2TokenRequest
@@ -29,13 +30,19 @@ class AppleOAuth2Service(
             .toOAuth2User()
     }
 
-    override fun unlink(
-        authorizationCode: String
-    ) {
-        val tokenRequest = getTokenRequest(authorizationCode)
-        val accessToken = getAccessToken(tokenRequest)
+    private fun getOAuth2User(
+        token: AppleOAuth2TokenResponse
+    ): OAuth2User = jwtAuthExtractor.getClaims(token.idToken)
+        .toOAuth2User()
 
-        revokeToken(tokenRequest, accessToken)
+    override fun unlink(
+        oAuth2UnlinkDTO: OAuth2UnlinkDTO
+    ) {
+        val tokenRequest = getTokenRequest(oAuth2UnlinkDTO.authorizationCode)
+        val token = getToken(tokenRequest)
+
+        oAuth2UnlinkDTO.validateByEmail(getOAuth2User(token).email)
+        revokeToken(tokenRequest, token.accessToken)
     }
 
     private fun revokeToken(
@@ -49,11 +56,6 @@ class AppleOAuth2Service(
             AppleTokenTypeHint.ACCESS_TOKEN.value
         )
     }
-
-    private fun getAccessToken(
-        tokenRequest: AppleOAuth2TokenRequest
-    ): String = getToken(tokenRequest)
-        .accessToken
 
     private fun getToken(
         authorizationCode: String
@@ -77,7 +79,7 @@ class AppleOAuth2Service(
         tokenRequest.authorizationCode
     )
 
-    fun getTokenRequest(
+    private fun getTokenRequest(
         authorizationCode: String
     ): AppleOAuth2TokenRequest = configProperties.toAppleOAuth2TokenRequest(authorizationCode)
 }
