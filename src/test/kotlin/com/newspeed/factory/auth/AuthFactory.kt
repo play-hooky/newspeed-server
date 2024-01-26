@@ -5,10 +5,12 @@ import com.newspeed.domain.auth.domain.AuthPayload
 import com.newspeed.domain.auth.domain.OAuth2User
 import com.newspeed.domain.auth.domain.enums.LoginPlatform
 import com.newspeed.domain.auth.domain.enums.Role
+import com.newspeed.domain.auth.dto.OAuth2UnlinkDTO
 import com.newspeed.domain.auth.feign.request.AppleOAuth2TokenRequest
 import com.newspeed.domain.auth.feign.request.KakaoOAuth2TokenRequest
 import com.newspeed.domain.auth.feign.response.AppleOAuth2TokenResponse
 import com.newspeed.domain.auth.feign.response.KakaoOAuth2TokenResponse
+import com.newspeed.domain.auth.feign.response.KakaoOAuth2UnlinkResponse
 import com.newspeed.domain.auth.feign.response.KakaoOAuth2UserResponse
 import com.newspeed.domain.user.domain.User
 import io.jsonwebtoken.Claims
@@ -112,6 +114,15 @@ class AuthFactory {
             role = role,
             loginPlatform = LoginPlatform.NEWSPEED,
             email = DUMMY_EMAIL
+        )
+
+        fun createOAuth2UnlinkDTO() = OAuth2UnlinkDTO(
+            authorizationCode = DUMMY_ACCESS_TOKEN,
+            email = DUMMY_EMAIL
+        )
+
+        fun createKakaoOAuth2UnlinkResponse() = KakaoOAuth2UnlinkResponse(
+            kakaoUserId = 1L
         )
     }
 }
