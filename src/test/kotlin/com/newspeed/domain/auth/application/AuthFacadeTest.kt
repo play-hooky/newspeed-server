@@ -1,9 +1,13 @@
 package com.newspeed.domain.auth.application
 
+import com.newspeed.domain.auth.application.command.WithdrawalCommand
 import com.newspeed.domain.jwt.domain.RefreshToken
 import com.newspeed.domain.jwt.repository.RefreshTokenRepository
+import com.newspeed.domain.user.domain.User
 import com.newspeed.domain.user.repository.UserRepository
 import com.newspeed.factory.auth.AuthFactory
+import com.newspeed.factory.auth.AuthFactory.Companion.createDummyUser
+import com.newspeed.factory.auth.AuthFactory.Companion.createKakaoUser
 import com.newspeed.global.exception.user.UserNotFoundException
 import com.newspeed.template.IntegrationTestTemplate
 import org.assertj.core.api.Assertions.assertThat
@@ -121,4 +125,39 @@ class AuthFacadeTest: IntegrationTestTemplate {
             assertThat(refreshTokenRepository.findByUserId(userId)).isEmpty()
         }
     }
+
+    @Nested
+    inner class `회원 탈퇴 할 때` {
+
+        @Test
+        fun `user와 refresh token을 삭제하고 oauth 해제한다`() {
+            // given
+            val user = saveUser()
+            val refreshToken = saveRefreshToken(user)
+            val command = WithdrawalCommand(
+                authorizationCode = "hooky",
+                userId = user.id
+            )
+
+            // when
+            authFacade.unlink(command)
+
+            // then
+            assertThat(refreshTokenRepository.findByUserId(user.id)).isEmpty()
+            assertThat(userRepository.findByIdOrNull(user.id)).isNull()
+        }
+    }
+
+    private fun saveUser(): User = userRepository.save(
+        createDummyUser()
+    )
+
+    private fun saveRefreshToken(
+        user: User
+    ): RefreshToken = refreshTokenRepository.save(
+        RefreshToken(
+            userId = user.id,
+            token = "token"
+        )
+    )
 }

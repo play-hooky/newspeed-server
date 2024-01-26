@@ -48,6 +48,14 @@ class AuthFactory {
             email = DUMMY_EMAIL
         )
 
+        fun createDummyUser(): User = User(
+            email = DUMMY_EMAIL,
+            nickname = DUMMY_NICKNAME,
+            platform = LoginPlatform.NEWSPEED,
+            profileImageUrl = DUMMY_PROFILE_IMAGE_URL,
+            role = Role.USER
+        )
+
         fun createAppleOAuth2User(): OAuth2User = OAuth2User(
             platform = LoginPlatform.APPLE,
             nickname = DUMMY_NICKNAME,
