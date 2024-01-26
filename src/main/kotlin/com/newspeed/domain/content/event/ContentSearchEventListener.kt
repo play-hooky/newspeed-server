@@ -1,5 +1,6 @@
 package com.newspeed.domain.content.event
 
+import com.newspeed.domain.category.repository.CategoryRepository
 import com.newspeed.domain.content.repository.QueryHistoryRepository
 import com.newspeed.domain.user.application.UserService
 import org.springframework.context.event.EventListener
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class ContentSearchEventListener(
     private val queryHistoryRepository: QueryHistoryRepository,
+    private val categoryRepository: CategoryRepository,
     private val userService: UserService
 ) {
 
@@ -20,5 +22,6 @@ class ContentSearchEventListener(
         val user = userService.getUser(event.userId)
 
         queryHistoryRepository.save(event.toQueryHistory(user))
+        categoryRepository.save(event.toCategory(user))
     }
 }
