@@ -3,11 +3,14 @@ package com.newspeed.domain.auth.application
 import com.newspeed.domain.auth.api.request.LoginRequest
 import com.newspeed.domain.auth.api.response.LoginResponse
 import com.newspeed.domain.auth.api.response.UserResponse
+import com.newspeed.domain.auth.application.command.WithdrawalCommand
 import com.newspeed.domain.auth.domain.OAuth2User
 import com.newspeed.domain.auth.feign.OAuth2Clients
 import com.newspeed.domain.jwt.application.JwtService
 import com.newspeed.domain.user.application.UserService
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
+import javax.validation.Valid
 
 @Component
 class AuthFacade(
@@ -55,5 +58,17 @@ class AuthFacade(
         val authPayload = userService.getUser(userId).toAuthPayload()
 
         return jwtService.reissueAccessToken(authPayload)
+    }
+
+    @Transactional
+    fun unlink(
+        @Valid command: WithdrawalCommand
+    ) {
+        val user = userService.getUser(command.userId)
+            .also { it.delete() }
+        jwtService.deleteRefreshToken(user.id)
+
+        oAuth2Clients.getClient(user.platform)
+            .unlink(command.authorizationCode)
     }
 }
