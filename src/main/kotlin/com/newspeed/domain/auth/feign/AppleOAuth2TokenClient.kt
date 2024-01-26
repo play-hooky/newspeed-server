@@ -21,4 +21,12 @@ interface AppleOAuth2TokenClient {
 
     @GetMapping("/auth/keys")
     fun getApplePublicKeys(): AppleOAuth2PublicKeyResponse
+
+    @PostMapping("/auth/revoke")
+    fun revoke(
+        @RequestParam("client_id") clientId: String,
+        @RequestParam("client_secret") clientSecret: String,
+        @RequestParam("token") token: String,
+        @RequestParam("token_type_hint") tokenTypeHint: String,
+    )
 }

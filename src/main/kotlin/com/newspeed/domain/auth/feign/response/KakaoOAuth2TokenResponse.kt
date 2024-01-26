@@ -14,5 +14,5 @@ data class KakaoOAuth2TokenResponse(
     val scope: String,
     val refreshTokenExpiresIn: Int
 ) {
-    fun getUserEntityRequestHeader(): String = "Bearer $accessToken"
+    fun getAuthorizationHeader(): String = "Bearer $accessToken"
 }

@@ -2,8 +2,10 @@ package com.newspeed.domain.auth.application
 
 import com.newspeed.domain.auth.config.KakaoOAuth2ConfigProperties
 import com.newspeed.domain.auth.domain.enums.LoginPlatform
+import com.newspeed.domain.auth.dto.OAuth2UnlinkDTO
 import com.newspeed.domain.auth.feign.KakaoOAuth2TokenClient
 import com.newspeed.domain.auth.feign.KakaoOAuth2UserClient
+import com.newspeed.domain.auth.feign.response.KakaoOAuth2UnlinkResponse
 import com.newspeed.factory.auth.AuthFactory
 import com.newspeed.template.UnitTestTemplate
 import org.assertj.core.api.SoftAssertions
@@ -11,9 +13,10 @@ import org.assertj.core.api.SoftAssertions.assertSoftly
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.*
 import org.mockito.InjectMocks
 import org.mockito.Mock
+import org.mockito.Mockito
 
 @DisplayName("카카오 OAuth2 서비스에서 ")
 class KakaoOAuth2ServiceTest: UnitTestTemplate {
@@ -63,7 +66,7 @@ class KakaoOAuth2ServiceTest: UnitTestTemplate {
             given(tokenClient.getOAuthKakaoToken(kakaoOauth2TokenRequest))
                 .willReturn(kakaoOAuth2TokenResponse)
 
-            given(userClient.getKakaoUserEntity(kakaoOAuth2TokenResponse.getUserEntityRequestHeader()))
+            given(userClient.getKakaoUserEntity(kakaoOAuth2TokenResponse.getAuthorizationHeader()))
                 .willReturn(kakaoOAuth2UserResponse)
 
             // when
@@ -76,6 +79,38 @@ class KakaoOAuth2ServiceTest: UnitTestTemplate {
                 softly.assertThat(actual.profileImage).isEqualTo(expected.profileImage)
                 softly.assertThat(actual.email).isEqualTo(expected.email)
             }
+        }
+    }
+
+    @Nested
+    inner class `카카오 회원을 탈퇴하면` {
+
+        @Test
+        fun `카카오에 회원 탈퇴를 요청한다`() {
+            // given
+            val oAuth2UnlinkDTO = AuthFactory.createOAuth2UnlinkDTO()
+            val kakaoOauth2TokenRequest = AuthFactory.createKakaoOauth2TokenRequest()
+            val kakaoOAuth2TokenResponse = AuthFactory.createKakaoOAuth2TokenResponse()
+            val kakaoOAuth2UserResponse = AuthFactory.createKakaoOAuth2UserResponse()
+            val kakaoOAuth2UnlinkResponse = AuthFactory.createKakaoOAuth2UnlinkResponse()
+
+            given(configProperties.toKakaoOAuth2TokenRequest(oAuth2UnlinkDTO.authorizationCode))
+                .willReturn(kakaoOauth2TokenRequest)
+
+            given(tokenClient.getOAuthKakaoToken(kakaoOauth2TokenRequest))
+                .willReturn(kakaoOAuth2TokenResponse)
+
+            given(userClient.getKakaoUserEntity(kakaoOAuth2TokenResponse.getAuthorizationHeader()))
+                .willReturn(kakaoOAuth2UserResponse)
+
+            given(userClient.unlink(kakaoOAuth2TokenResponse.getAuthorizationHeader()))
+                .willReturn(kakaoOAuth2UnlinkResponse)
+
+            // when
+            kakaoOAuth2Service.unlink(oAuth2UnlinkDTO)
+
+            // then
+            Mockito.verify(userClient, times(1)).unlink(kakaoOAuth2TokenResponse.getAuthorizationHeader())
         }
     }
 }
