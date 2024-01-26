@@ -1,5 +1,6 @@
 package com.newspeed.domain.content.event
 
+import com.newspeed.domain.category.repository.CategoryRepository
 import com.newspeed.domain.content.domain.enums.QueryPlatform
 import com.newspeed.domain.content.repository.QueryHistoryRepository
 import com.newspeed.domain.user.application.UserService
@@ -16,6 +17,9 @@ class ContentSearchEventListenerTest: UnitTestTemplate {
 
     @Mock
     private lateinit var queryHistoryRepository: QueryHistoryRepository
+
+    @Mock
+    private lateinit var categoryRepository: CategoryRepository
 
     @Mock
     private lateinit var userService: UserService
@@ -42,5 +46,6 @@ class ContentSearchEventListenerTest: UnitTestTemplate {
 
         // then
         then(queryHistoryRepository).should(times(1)).save(event.toQueryHistory(user))
+        then(categoryRepository).should(times(1)).save(event.toCategory(user))
     }
 }
