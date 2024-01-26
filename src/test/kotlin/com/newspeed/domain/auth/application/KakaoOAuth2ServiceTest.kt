@@ -63,7 +63,7 @@ class KakaoOAuth2ServiceTest: UnitTestTemplate {
             given(tokenClient.getOAuthKakaoToken(kakaoOauth2TokenRequest))
                 .willReturn(kakaoOAuth2TokenResponse)
 
-            given(userClient.getKakaoUserEntity(kakaoOAuth2TokenResponse.getUserEntityRequestHeader()))
+            given(userClient.getKakaoUserEntity(kakaoOAuth2TokenResponse.getAuthorizationHeader()))
                 .willReturn(kakaoOAuth2UserResponse)
 
             // when
