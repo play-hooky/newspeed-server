@@ -36,6 +36,10 @@ enum class ExceptionType(
     // Alarm
     NOT_FOUND_ALARM_EXCEPTION(HttpStatus.BAD_REQUEST, "알람을 조회할 수 없습니다."),
 
+    // Category
+    NOT_FOUND_CATEGORY_EXCEPTION(HttpStatus.BAD_REQUEST, "해당 카테고리를 조회할 수 없습니다."),
+    UNAVAILABLE_DELETE_CATEGORY_EXCEPTION(HttpStatus.BAD_REQUEST, "해당 사용자는 해당 카테고리를 삭제할 수 없습니다."),
+
     // Internal Server Error
     INTERNAL_SERVER_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내 에러가 발생했습니다."),
 

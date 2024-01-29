@@ -51,4 +51,8 @@ class Category(
         id = id,
         category = name
     )
+
+    fun isCreatedBy(
+        thatUser: User
+    ): Boolean = this.user == thatUser
 }
