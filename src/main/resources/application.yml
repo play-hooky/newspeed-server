@@ -77,3 +77,7 @@ content:
     url: ${GOOGLE_API_URL}
     key: ${YOUTUBE_KEY}
     videoUrl: ${YOUTUBE_VIDEO_URL}
+  instagram:
+    url: ${INSTAGRAM_API_URL}
+    key: ${INSTAGRAM_KEY}
+    userID: ${INSTAGRAM_USER_ID}

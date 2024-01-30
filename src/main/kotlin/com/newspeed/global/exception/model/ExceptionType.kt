@@ -25,6 +25,9 @@ enum class ExceptionType(
     INVALID_JWT_EXCEPTION(HttpStatus.BAD_REQUEST, "올바르지 않은 로그인 토큰입니다."),
     INSUFFICIENT_JWT_CLAIM_EXCEPTION(HttpStatus.BAD_REQUEST, message = " 정보가 누락된 비정상 토큰입니다."),
 
+    // Search
+    NOT_FOUND_QUERY_EXCEPTION(HttpStatus.BAD_REQUEST, "검색어를 입력해주세요."),
+
     // Content
     DUPLICATE_CONTENT_PLATFORM_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "중복된 컨텐츠 검색 플랫폼입니다."),
     UNSUPPORTED_CONTENT_PLATFORM_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "지원하지 않는 OAuth 로그인 플랫폼입니다."),
