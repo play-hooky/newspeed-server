@@ -64,7 +64,7 @@ class YoutubeSearchServiceTest: UnitTestTemplate {
                 .willReturn(channelResponse)
 
             // when
-            val actual = youtubeSearchService.searchDetailBy(request)
+            val actual = youtubeSearchService.search(request)
 
             // then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
