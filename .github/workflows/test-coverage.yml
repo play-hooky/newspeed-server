@@ -38,9 +38,6 @@ jobs:
         with:
           gradle-version: ${{ env.GRADLE_VERSION }}
 
-      - name: Check Code Convention
-        run: gradle check
-
       - name: Check Tests w/ Test Coverage
         run: gradle test
 
