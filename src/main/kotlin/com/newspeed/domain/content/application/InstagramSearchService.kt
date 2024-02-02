@@ -8,13 +8,15 @@ import com.newspeed.domain.content.dto.ContentYoutubeDTO
 import com.newspeed.domain.content.feign.InstagramClient
 import com.newspeed.domain.content.feign.response.InstagramMediaResponse
 import com.newspeed.domain.search.api.request.ContentSearchRequest
+import com.newspeed.domain.search.api.response.toContentSearchResponse
 import com.newspeed.global.exception.search.NotFoundQueryException
 import org.springframework.stereotype.Service
 
 @Service
 class InstagramSearchService(
     private val instagramClient: InstagramClient,
-    private val instagramConfigProperties: InstagramConfigProperties
+    private val instagramConfigProperties: InstagramConfigProperties,
+    private val instagramCrawlService: InstagramCrawlService
 ): ContentSearchClient {
     override fun getQueryPlatform(): QueryPlatform = QueryPlatform.INSTAGRAM
 
@@ -24,7 +26,10 @@ class InstagramSearchService(
         val hashtagID = getHashTagID(request)
 
         return getMediaResponse(request, hashtagID)
-            .toContentResponseDTOs()
+            .data
+            .map { it.toContentResponseDTO(
+                instagramCrawlService.getContentHostDTO(it.permalink)
+            ) }
     }
 
     private fun getHashTagID(

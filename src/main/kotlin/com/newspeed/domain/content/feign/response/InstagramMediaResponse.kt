@@ -27,12 +27,11 @@ data class InstagramMediaResponse(
         val permalink: String,
         val timestamp: String
     ) {
-        fun toContentResponseDTO(): ContentResponseDTO = ContentResponseDTO(
+        fun toContentResponseDTO(
+            hostDTO: ContentHostDTO
+        ): ContentResponseDTO = ContentResponseDTO(
             platform = QueryPlatform.INSTAGRAM,
-            host = ContentHostDTO(
-                profileImgUrl = "",
-                nickname = ""
-            ),
+            host = hostDTO,
             youtube = null,
             instagram = ContentInstagramDTO(
                 id = id,
@@ -70,7 +69,4 @@ data class InstagramMediaResponse(
             val after: String
         )
     }
-
-    fun toContentResponseDTOs(): List<ContentResponseDTO> = this.data
-        .map { it.toContentResponseDTO() }
 }

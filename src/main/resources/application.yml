@@ -81,3 +81,8 @@ content:
     url: ${INSTAGRAM_API_URL}
     key: ${INSTAGRAM_KEY}
     userID: ${INSTAGRAM_USER_ID}
+
+browser:
+  name: webdriver.chrome.driver
+  driver:
+    path: classpath:/binary/chromedriver
