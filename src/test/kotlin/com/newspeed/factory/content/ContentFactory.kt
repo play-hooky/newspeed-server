@@ -79,10 +79,10 @@ class ContentFactory {
                     etag = "",
                     id = "1",
                     statistics = YoutubeVideoStatisticsDTO(
-                        viewCount = "20",
-                        likeCount = "12",
-                        favoriteCount = "2",
-                        commentCount = "1"
+                        view = "20",
+                        like = "12",
+                        favorite = "2",
+                        comment = "1"
                     ),
                     snippet = createYoutubeVideoSnippetDTO()
                 )

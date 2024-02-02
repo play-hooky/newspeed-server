@@ -24,6 +24,6 @@ data class YoutubeSearchResponse(
      )
 
     fun videoIDs(): List<String> = items
-        .map { it.id.videoId }
+        .map { it.id.videoId ?: "" }
 }
 
