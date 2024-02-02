@@ -57,7 +57,7 @@ class YoutubeSearchServiceTest: UnitTestTemplate {
             given(youtubeClient.search(request.toYoutubeSearchRequest(youtubeConfigProperties)))
                 .willReturn(searchResponse)
 
-            given(youtubeClient.getDetailContent(youtubeConfigProperties.toYoutubeVideoDetailRequest(searchResponse.items.map { it.id.videoId }.toYoutubeContentIds())))
+            given(youtubeClient.getDetailContent(youtubeConfigProperties.toYoutubeVideoDetailRequest(searchResponse.items.map { it.id.videoId ?: "" }.toYoutubeContentIds())))
                 .willReturn(videoDetailResponse)
 
             given(youtubeClient.getChannel(youtubeConfigProperties.toYoutubeChannelRequest(videoDetailResponse.channelIds())))
