@@ -4,8 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class YoutubeVideoStatisticsDTO(
-    val viewCount: String,
-    val likeCount: String,
-    val favoriteCount: String,
-    val commentCount: String
-)
+    val view: String?,
+    val like: String?,
+    val favorite: String?,
+    val comment: String?
+) {
+    val viewCount = view ?: "0"
+    val likeCount = like ?: "0"
+    val favoriteCount = favorite ?: "0"
+    val commentCount = comment ?: "0"
+}

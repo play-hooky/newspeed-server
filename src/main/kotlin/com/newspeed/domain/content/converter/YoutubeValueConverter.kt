@@ -20,8 +20,8 @@ fun LocalDateTime.toYouTubeTimeDifference(): String {
     }
 }
 
-fun String.toYoutubeView(): String {
-    val views = this.toLong()
+fun String?.toYoutubeView(): String {
+    val views = this?.toLong() ?: 0L
 
     return when {
         views < 1000 -> "${views}회"
