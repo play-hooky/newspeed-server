@@ -21,6 +21,8 @@ class AppleOAuth2Service(
 ): OAuth2Client {
     override fun getLoginPlatform(): LoginPlatform = LoginPlatform.APPLE
 
+    fun getProperties(): AppleOAuth2ConfigProperties = configProperties
+
     override fun getOAuth2User(
         authorizationCode: String
     ): OAuth2User {

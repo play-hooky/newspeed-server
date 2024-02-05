@@ -5,12 +5,10 @@ import com.newspeed.domain.auth.domain.enums.Role
 import com.newspeed.domain.jwt.application.JwtAuthExtractor
 import com.newspeed.domain.jwt.application.TokenExtractor
 import com.newspeed.global.exception.auth.NotEnoughPermissionException
-import org.springframework.stereotype.Component
 import org.springframework.web.servlet.HandlerInterceptor
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-@Component
 class AuthInterceptor(
     private val authenticateContext: AuthenticateContext,
     private val tokenExtractor: TokenExtractor,

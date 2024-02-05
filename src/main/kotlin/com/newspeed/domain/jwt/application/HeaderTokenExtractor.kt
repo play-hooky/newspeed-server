@@ -3,10 +3,8 @@ package com.newspeed.domain.jwt.application
 import com.newspeed.global.exception.auth.IllegalAuthorizationException
 import com.newspeed.global.exception.auth.NotFoundTokenException
 import org.springframework.http.HttpHeaders
-import org.springframework.stereotype.Component
 import javax.servlet.http.HttpServletRequest
 
-@Component
 class HeaderTokenExtractor: TokenExtractor {
     companion object {
         private const val BEARER_TOKEN_PREFIX = "Bearer "

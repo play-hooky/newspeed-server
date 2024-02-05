@@ -17,7 +17,7 @@ class AuthController(
     private val authFacade: AuthFacade
 ) {
 
-    @PostMapping("/login")
+    @PostMapping("[/login")
     fun kakaoLogin(
         @Valid @RequestBody loginRequest: LoginRequest
     ): ResponseEntity<LoginResponse> = ResponseEntity(

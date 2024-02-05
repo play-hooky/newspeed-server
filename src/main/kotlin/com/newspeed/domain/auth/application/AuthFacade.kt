@@ -9,11 +9,11 @@ import com.newspeed.domain.auth.feign.OAuth2Clients
 import com.newspeed.domain.jwt.application.JwtService
 import com.newspeed.domain.user.application.UserService
 import com.newspeed.domain.user.domain.User
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import javax.validation.Valid
 
-@Component
+@Service
 class AuthFacade(
     private val oAuth2Clients: OAuth2Clients,
     private val jwtService: JwtService,

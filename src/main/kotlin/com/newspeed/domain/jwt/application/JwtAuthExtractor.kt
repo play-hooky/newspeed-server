@@ -8,9 +8,7 @@ import com.newspeed.global.exception.model.InternalServerException
 import io.jsonwebtoken.*
 import io.jsonwebtoken.security.SignatureException
 import org.slf4j.LoggerFactory
-import org.springframework.stereotype.Component
 
-@Component
 class JwtAuthExtractor(
     private val jwtParser: JwtParser
 ): JwtExtractor {
