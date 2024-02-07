@@ -18,7 +18,7 @@ class AuthController(
 ) {
 
     @PostMapping("/login")
-    fun kakaoLogin(
+    fun login(
         @Valid @RequestBody loginRequest: LoginRequest
     ): ResponseEntity<LoginResponse> = ResponseEntity(
         authFacade.login(loginRequest),
