@@ -13,6 +13,7 @@ enum class ExceptionType(
     UNSUPPORTED_OAUTH2_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "지원하지 않는 OAuth 로그인 플랫폼입니다."),
     ILLEGAL_AUTHORIZATION_EXCEPTION(HttpStatus.BAD_REQUEST, message = "지원하지 않는 토큰 타입입니다."),
     NOT_FOUND_TOKEN_EXCEPTION(HttpStatus.BAD_REQUEST, message = "토큰이 존재하지 않아 사용자를 확인할 수 없습니다."),
+    OAUTH2_LOGIN_EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "애플 로그인 도중 에러가 발생하였습니다."),
 
     // User
     USER_NOT_FOUND_EXCEPTION(HttpStatus.BAD_REQUEST, message = "알 수 없는 사용자입니다."),

@@ -2,10 +2,8 @@ package com.newspeed.domain.auth.application
 
 import com.newspeed.domain.auth.config.KakaoOAuth2ConfigProperties
 import com.newspeed.domain.auth.domain.enums.LoginPlatform
-import com.newspeed.domain.auth.dto.OAuth2UnlinkDTO
 import com.newspeed.domain.auth.feign.KakaoOAuth2TokenClient
 import com.newspeed.domain.auth.feign.KakaoOAuth2UserClient
-import com.newspeed.domain.auth.feign.response.KakaoOAuth2UnlinkResponse
 import com.newspeed.factory.auth.AuthFactory
 import com.newspeed.template.UnitTestTemplate
 import org.assertj.core.api.SoftAssertions
@@ -13,7 +11,8 @@ import org.assertj.core.api.SoftAssertions.assertSoftly
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.mockito.BDDMockito.*
+import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.times
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito

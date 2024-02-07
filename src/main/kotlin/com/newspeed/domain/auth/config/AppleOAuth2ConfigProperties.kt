@@ -1,6 +1,7 @@
 package com.newspeed.domain.auth.config
 
 import com.newspeed.domain.auth.feign.request.AppleOAuth2TokenRequest
+import com.newspeed.global.exception.auth.OAuth2LoginException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import org.springframework.beans.factory.annotation.Value
@@ -40,7 +41,7 @@ data class AppleOAuth2ConfigProperties(
         return Jwts.builder()
             .setHeaderParam("alg", SignatureAlgorithm.ES256.value)
             .setHeaderParam("kid", keyId)
-            .setSubject(clientId)
+           .setSubject(clientId)
             .setIssuer(teamId)
             .setAudience(audience)
             .setIssuedAt(now)
@@ -54,6 +55,10 @@ data class AppleOAuth2ConfigProperties(
         val keySpec = PKCS8EncodedKeySpec(encodedKey)
         val keyFactory = KeyFactory.getInstance("EC")
 
-        return keyFactory.generatePrivate(keySpec)
+        try {
+            return keyFactory.generatePrivate(keySpec)
+        } catch (e: Exception) {
+            throw OAuth2LoginException()
+        }
     }
 }

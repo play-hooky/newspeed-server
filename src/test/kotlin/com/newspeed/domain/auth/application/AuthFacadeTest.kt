@@ -7,7 +7,6 @@ import com.newspeed.domain.user.domain.User
 import com.newspeed.domain.user.repository.UserRepository
 import com.newspeed.factory.auth.AuthFactory
 import com.newspeed.factory.auth.AuthFactory.Companion.createDummyUser
-import com.newspeed.factory.auth.AuthFactory.Companion.createKakaoUser
 import com.newspeed.global.exception.user.UserNotFoundException
 import com.newspeed.template.IntegrationTestTemplate
 import org.assertj.core.api.Assertions.assertThat
