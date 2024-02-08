@@ -60,7 +60,7 @@ class ContentServiceTest: UnitTestTemplate {
             val userId = 1L
             val user = createKakaoUser()
             val contents = createContents(user)
-            val expected = createContentsResponse()
+            val expected = createContentsResponse(QueryPlatform.NEWSPEED)
 
             given(contentRepository.findByUserId(userId))
                 .willReturn(contents)
