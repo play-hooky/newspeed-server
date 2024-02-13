@@ -11,13 +11,12 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.transaction.annotation.Transactional
+import org.springframework.data.repository.findByIdOrNull
 import java.sql.Time
 import java.time.LocalTime
 import javax.validation.Validator
 
 @DisplayName("알람 등록 service command 객체는 ")
-@Transactional
 class AlarmSaveCommandTest: IntegrationTestTemplate {
 
     @Autowired
@@ -73,6 +72,10 @@ class AlarmSaveCommandTest: IntegrationTestTemplate {
             startTime = Time.valueOf(LocalTime.now()),
             endTime = Time.valueOf(LocalTime.now()),
         )
+        val user = userRepository.findByIdOrNull(1L)!!
+        val alarm = alarmRepository.findByUser(user)
+        alarm?.delete()
+        alarmRepository.save(alarm)
 
         // when
         val result = validator.validate(command)

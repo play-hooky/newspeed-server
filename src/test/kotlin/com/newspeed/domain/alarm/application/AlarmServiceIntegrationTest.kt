@@ -7,6 +7,7 @@ import com.newspeed.domain.alarm.repository.AlarmRepository
 import com.newspeed.domain.user.domain.User
 import com.newspeed.domain.user.repository.UserRepository
 import com.newspeed.factory.auth.AuthFactory.Companion.createKakaoUser
+import com.newspeed.global.enums.toStringWithoutSeconds
 import com.newspeed.global.exception.alarm.NotFoundAlarmException
 import com.newspeed.template.IntegrationTestTemplate
 import org.assertj.core.api.Assertions
@@ -107,8 +108,8 @@ class AlarmServiceIntegrationTest: IntegrationTestTemplate {
 
             // then
             SoftAssertions.assertSoftly { softly: SoftAssertions ->
-                softly.assertThat(actual.startTime).isEqualTo("${alarm.startTime.toLocalTime().hour}:${alarm.startTime.toLocalTime().minute}")
-                softly.assertThat(actual.endTime).isEqualTo("${alarm.endTime.toLocalTime().hour}:${alarm.endTime.toLocalTime().minute}")
+                softly.assertThat(actual.startTime).isEqualTo(alarm.startTime.toStringWithoutSeconds())
+                softly.assertThat(actual.endTime).isEqualTo(alarm.endTime.toStringWithoutSeconds())
             }
         }
 
