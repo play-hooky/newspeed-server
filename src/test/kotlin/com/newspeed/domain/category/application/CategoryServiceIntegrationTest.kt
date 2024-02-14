@@ -119,7 +119,7 @@ class CategoryServiceIntegrationTest: IntegrationTestTemplate {
             categoryService.deleteCategory(command)
 
             // then
-            Assertions.assertThat(categoryRepository.findByIdOrNull(category.id)).isNull()
+            Assertions.assertThat(categoryRepository.findById(category.id)).isEmpty
         }
     }
 
