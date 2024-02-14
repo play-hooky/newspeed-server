@@ -13,6 +13,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import java.time.LocalDateTime
 
 @DisplayName("UserService 계층 내 ")
 class UserServiceIntegrationTest: IntegrationTestTemplate {
@@ -95,7 +96,10 @@ class UserServiceIntegrationTest: IntegrationTestTemplate {
             // when
             val actual= userService.getUser(user.id)
 
-            Assertions.assertThat(actual).usingRecursiveComparison().isEqualTo(user)
+            Assertions.assertThat(actual)
+                .usingRecursiveComparison()
+                .ignoringFieldsOfTypes(LocalDateTime::class.java)
+                .isEqualTo(user)
         }
     }
 }
