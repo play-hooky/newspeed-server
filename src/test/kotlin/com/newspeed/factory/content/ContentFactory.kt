@@ -127,9 +127,11 @@ class ContentFactory {
             url = "https://www.youtube.com"
         )
 
-        fun createContentResponseDTOs() = listOf(
+        fun createContentResponseDTOs(
+            platform: QueryPlatform
+        ) = listOf(
             ContentResponseDTO(
-                platform = QueryPlatform.YOUTUBE,
+                platform = platform,
                 host = ContentHostDTO(
                     profileImgUrl = "https://www.newspeed.store/happy-hooky",
                     nickname = "happy-hooky"
@@ -210,8 +212,10 @@ class ContentFactory {
             liveBroadcastContent = ""
         )
 
-        fun createContentsResponse() = ContentsResponse(
-            contentResponses = createContentResponseDTOs()
+        fun createContentsResponse(
+            platform: QueryPlatform
+        ) = ContentsResponse(
+            contentResponses = createContentResponseDTOs(platform)
         )
     }
 }

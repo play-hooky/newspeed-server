@@ -7,7 +7,6 @@ import com.newspeed.domain.user.domain.User
 import com.newspeed.domain.user.repository.UserRepository
 import com.newspeed.factory.auth.AuthFactory
 import com.newspeed.factory.auth.AuthFactory.Companion.createDummyUser
-import com.newspeed.factory.auth.AuthFactory.Companion.createKakaoUser
 import com.newspeed.global.exception.user.UserNotFoundException
 import com.newspeed.template.IntegrationTestTemplate
 import org.assertj.core.api.Assertions.assertThat
@@ -21,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 
 @DisplayName("auth facade 내 ")
-class AuthFacadeTest: IntegrationTestTemplate {
+class AuthFacadeIntegrationTest: IntegrationTestTemplate {
 
     @Autowired
     private lateinit var authFacade: AuthFacade

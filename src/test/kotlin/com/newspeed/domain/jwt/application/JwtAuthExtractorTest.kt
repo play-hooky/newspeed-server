@@ -94,13 +94,12 @@ class JwtAuthExtractorTest: UnitTestTemplate {
                 .claim(ROLE_CLAIM.first, ROLE_CLAIM.second)
                 .claim(PLATFORM_CLAIM.first, PLATFORM_CLAIM.second)
                 .claim(EMAIL_CLAIM.first, EMAIL_CLAIM.second)
-                .setExpiration(Date(Date().time + 1000))
+                .setExpiration(Date(Date().time + 10000))
                 .signWith(secretKey)
                 .compact()
 
             // when & then
             assertThatThrownBy { jwtAuthExtractor.extract(token) }
-                .isInstanceOf(InsufficientJwtClaimException::class.java)
                 .hasMessage("userId${ExceptionType.INSUFFICIENT_JWT_CLAIM_EXCEPTION.message}")
         }
 

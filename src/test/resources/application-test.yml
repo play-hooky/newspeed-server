@@ -6,7 +6,10 @@ spring:
     password:
 
   jpa:
-    show-sql: false
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
     hibernate:
       ddl-auto: update
     open-in-view: false
@@ -49,3 +52,10 @@ content:
     url: https://www.googleapis.com/
     key: hookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhooky
     videoUrl: https://www.youtube.com/watch?v=
+
+logging:
+  level:
+    org.springframework.transaction.interceptor: trace
+    org.springframework.orm.jpa.JpaTransactionManager: DEBUG
+    org.hibernate.resource.transaction: DEBUG
+    org.hibernate.orm.jdbc.bind: trace

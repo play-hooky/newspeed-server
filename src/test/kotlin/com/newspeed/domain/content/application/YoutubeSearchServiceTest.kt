@@ -52,7 +52,7 @@ class YoutubeSearchServiceTest: UnitTestTemplate {
             val searchResponse = ContentFactory.createYoutubeSearchResponse()
             val channelResponse = ContentFactory.createChannelResponse()
             val videoDetailResponse = ContentFactory.createVideoDetailResponse()
-            val expected = ContentFactory.createContentResponseDTOs()
+            val expected = ContentFactory.createContentResponseDTOs(QueryPlatform.YOUTUBE)
 
             given(youtubeClient.search(request.toYoutubeSearchRequest(youtubeConfigProperties)))
                 .willReturn(searchResponse)
