@@ -29,7 +29,7 @@ class AuthInterceptor(
         response: HttpServletResponse,
         handler: Any
     ): Boolean {
-        if (ALLOW_ANONYMOUS_URLS.contains(request.servletPath)) {
+        if (ALLOW_ANONYMOUS_URLS.contains(request.requestURI)) {
             runCatching { setAuthenticate(request) }
             return true
         }
