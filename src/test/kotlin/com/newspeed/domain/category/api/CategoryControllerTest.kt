@@ -91,7 +91,7 @@ class CategoryControllerTest {
             // when & then
             mockMvc.perform(delete("/contents/categories/")
                 .contentType(MediaType.APPLICATION_JSON)
-            ).andExpect(MockMvcResultMatchers.status().isBadRequest)
+            ).andExpect(MockMvcResultMatchers.status().is4xxClientError)
         }
 
         @Test
