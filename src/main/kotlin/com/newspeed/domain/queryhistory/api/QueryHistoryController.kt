@@ -32,7 +32,7 @@ class QueryHistoryController(
         queryHistoryService.recommendQuery(date, size)
     )
 
-    @DeleteMapping("/{queryHistoryId}")
+    @DeleteMapping("/query/history/{queryHistoryId}")
     fun deleteQueryHistory(
         @User userId: Long,
         @PathVariable("queryHistoryId") queryHistoryId: Long
