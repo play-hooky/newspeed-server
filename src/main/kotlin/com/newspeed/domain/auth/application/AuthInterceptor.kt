@@ -2,9 +2,10 @@ package com.newspeed.domain.auth.application
 
 import com.newspeed.domain.auth.domain.AuthenticateContext
 import com.newspeed.domain.auth.domain.enums.Role
-import com.newspeed.domain.jwt.application.JwtAuthExtractor
+import com.newspeed.domain.jwt.application.JwtExtractor
 import com.newspeed.domain.jwt.application.TokenExtractor
 import com.newspeed.global.exception.auth.NotEnoughPermissionException
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.HandlerInterceptor
 import javax.servlet.http.HttpServletRequest
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpServletResponse
 class AuthInterceptor(
     private val authenticateContext: AuthenticateContext,
     private val tokenExtractor: TokenExtractor,
-    private val jwtAuthExtractor: JwtAuthExtractor
+    @Qualifier("jwtAuthExtractor") private val jwtExtractor: JwtExtractor
 ): HandlerInterceptor {
 
     companion object {
@@ -41,7 +42,7 @@ class AuthInterceptor(
         request: HttpServletRequest
     ) {
         val token = tokenExtractor.extract(request)
-        val payload = jwtAuthExtractor.extract(token)
+        val payload = jwtExtractor.extract(token)
             .takeIf { Role.isUser(it.role) }
             ?: throw NotEnoughPermissionException()
 
