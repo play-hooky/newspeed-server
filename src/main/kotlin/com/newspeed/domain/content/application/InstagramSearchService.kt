@@ -59,7 +59,9 @@ class InstagramSearchService(
         return instagramClient.findRecentMedias(hashTagId, request)
     }
 
-    override fun search(ids: List<String>): List<ContentResponseDTO> {
+    override fun search(
+        ids: List<String>
+    ): List<ContentResponseDTO> {
         // TODO
 
         return listOf(

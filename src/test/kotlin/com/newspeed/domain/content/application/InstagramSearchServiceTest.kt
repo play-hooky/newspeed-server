@@ -6,6 +6,7 @@ import com.newspeed.domain.content.domain.enums.QueryPlatform
 import com.newspeed.domain.content.dto.ContentHostDTO
 import com.newspeed.domain.content.dto.ContentInstagramDTO
 import com.newspeed.domain.content.dto.ContentResponseDTO
+import com.newspeed.domain.content.dto.ContentYoutubeDTO
 import com.newspeed.domain.content.feign.InstagramClient
 import com.newspeed.domain.content.feign.request.InstagramHashTagIDRequest
 import com.newspeed.domain.content.feign.request.InstagramMediaRequest
@@ -231,6 +232,43 @@ class InstagramSearchServiceTest: UnitTestTemplate {
             // when & then
             Assertions.assertThatThrownBy { instagramSearchService.search(request) }
                 .isInstanceOf(NotFoundQueryException::class.java)
+        }
+    }
+
+    @Nested
+    inner class `여러 컨텐츠를 검색할 때` {
+
+        @Test
+        fun `여러 ID를 바탕으로 검색하여 결과를 반환한다`() {
+            // given
+            val expected = listOf(
+                ContentResponseDTO(
+                    platform = QueryPlatform.YOUTUBE,
+                    host = ContentHostDTO(
+                        profileImgUrl = "https://www.newspeed.store/happy-hooky",
+                        nickname = "happy-hooky"
+                    ),
+                    youtube = ContentYoutubeDTO(
+                        id = "1",
+                        thumbnailUrl = "https://www.newspeed.store/hooky.jpg",
+                        title = "hoooky",
+                        url = "https://www.youtube.com/watch?v=1",
+                        views = "20회",
+                        todayBefore = "10일 전"
+                    ),
+                    instagram = null
+                )
+            )
+            val ids = listOf(
+                "newspeed",
+                "hooky"
+            )
+
+            // when
+            val actaul = instagramSearchService.search(ids)
+
+            // then
+            assertThat(actaul).usingRecursiveComparison().isEqualTo(expected)
         }
     }
 }
