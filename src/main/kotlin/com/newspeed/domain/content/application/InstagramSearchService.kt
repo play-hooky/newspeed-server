@@ -1,23 +1,67 @@
 package com.newspeed.domain.content.application
 
+import com.newspeed.domain.content.InstagramConfigProperties
 import com.newspeed.domain.content.domain.enums.QueryPlatform
 import com.newspeed.domain.content.dto.ContentHostDTO
 import com.newspeed.domain.content.dto.ContentResponseDTO
 import com.newspeed.domain.content.dto.ContentYoutubeDTO
+import com.newspeed.domain.content.feign.InstagramClient
+import com.newspeed.domain.content.feign.response.InstagramMediaResponse
 import com.newspeed.domain.search.api.request.ContentSearchRequest
+import com.newspeed.global.exception.search.NotFoundQueryException
 import org.springframework.stereotype.Service
 
 @Service
-class InstagramSearchService: ContentSearchClient {
+class InstagramSearchService(
+    private val instagramClient: InstagramClient,
+    private val instagramConfigProperties: InstagramConfigProperties
+): ContentSearchClient {
     override fun getQueryPlatform(): QueryPlatform = QueryPlatform.INSTAGRAM
 
     override fun searchDetailBy(
         request: ContentSearchRequest
     ): List<ContentResponseDTO> {
-        TODO("Not yet implemented")
+        val hashtagID = getHashTagID(request)
+
+        return getMediaResponse(request, hashtagID)
+            .toContentResponseDTOs()
     }
 
-    override fun searchDetailBy(ids: List<String>): List<ContentResponseDTO> {
+    private fun getHashTagID(
+        request: ContentSearchRequest
+    ): String {
+        val query = request.query ?: throw NotFoundQueryException()
+        val hashTagIDRequest = instagramConfigProperties.toHashtagIDRequest(query)
+
+        return instagramClient.findHashTagID(hashTagIDRequest)
+            .hashTagID()
+    }
+
+    private fun getMediaResponse(
+        request: ContentSearchRequest,
+        hashTagId: String
+    ): InstagramMediaResponse = if (request.order.isDate()) getRecentMediaResponse(hashTagId, request.size)
+    else getTopMediaResponse(hashTagId, request.size)
+
+    private fun getTopMediaResponse(
+        hashTagId: String,
+        size: Int
+    ): InstagramMediaResponse {
+        val request = instagramConfigProperties.toMediaRequest(size)
+        return instagramClient.findTopMedias(hashTagId, request)
+    }
+
+    private fun getRecentMediaResponse(
+        hashTagId: String,
+        size: Int
+    ): InstagramMediaResponse {
+        val request = instagramConfigProperties.toMediaRequest(size)
+        return instagramClient.findRecentMedias(hashTagId, request)
+    }
+
+    override fun searchDetailBy(
+        ids: List<String>
+    ): List<ContentResponseDTO> {
         // TODO
 
         return listOf(

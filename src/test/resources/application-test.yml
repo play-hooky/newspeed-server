@@ -52,6 +52,10 @@ content:
     url: https://www.googleapis.com/
     key: hookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhooky
     videoUrl: https://www.youtube.com/watch?v=
+  instagram:
+    url: https://graph.facebook.com
+    key: hookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhookyhooky
+    userID: 17841403390471794
 
 logging:
   level:

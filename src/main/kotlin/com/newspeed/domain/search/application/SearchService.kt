@@ -31,13 +31,18 @@ class SearchService(
         request: ContentSearchRequest
     ): ContentSearchResponse {
         val searchResponse = search(request)
+        publishSearchSuccessEvent(userId, request)
+        return searchResponse
+    }
 
+    private fun publishSearchSuccessEvent(
+        userId: Long,
+        request: ContentSearchRequest
+    ) {
         request.query?.let {
             eventPublisher.publishEvent(
                 request.toContentSearchEvent(userId)
             )
         }
-
-        return searchResponse
     }
 }
