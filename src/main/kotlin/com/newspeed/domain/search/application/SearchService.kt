@@ -17,14 +17,14 @@ class SearchService(
     fun search(
         request: ContentSearchRequest
     ): ContentSearchResponse = contentSearchClients.getClient(request.platform)
-        .search(request)
+        .searchDetailBy(request)
         .toContentSearchResponse()
 
     fun search(
         platform: QueryPlatform,
         ids: List<String>
     ): List<ContentResponseDTO> = contentSearchClients.getClient(platform)
-        .search(ids)
+        .searchDetailBy(ids)
 
     fun search(
         userId: Long,
