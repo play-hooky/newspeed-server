@@ -30,8 +30,8 @@ data class InstagramMediaResponse(
         fun toContentResponseDTO(): ContentResponseDTO = ContentResponseDTO(
             platform = QueryPlatform.INSTAGRAM,
             host = ContentHostDTO(
-                profileImgUrl = "",
-                nickname = ""
+                profileImgUrl = mediaUrl ?: "https://www.newspeed.store/default-image",
+                nickname = body()
             ),
             youtube = null,
             instagram = ContentInstagramDTO(
