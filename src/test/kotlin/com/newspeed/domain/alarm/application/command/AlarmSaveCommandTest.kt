@@ -2,22 +2,22 @@ package com.newspeed.domain.alarm.application.command
 
 import com.newspeed.domain.alarm.domain.Alarm
 import com.newspeed.domain.alarm.repository.AlarmRepository
+import com.newspeed.domain.user.domain.User
 import com.newspeed.domain.user.repository.UserRepository
-import com.newspeed.factory.auth.AuthFactory
+import com.newspeed.factory.auth.AuthFactory.Companion.createKakaoUser
 import com.newspeed.template.IntegrationTestTemplate
 import org.assertj.core.api.Assertions
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.transaction.annotation.Transactional
 import java.sql.Time
 import java.time.LocalTime
 import javax.validation.Validator
 
 @DisplayName("알람 등록 service command 객체는 ")
-@Transactional
 class AlarmSaveCommandTest: IntegrationTestTemplate {
 
     @Autowired
@@ -28,6 +28,25 @@ class AlarmSaveCommandTest: IntegrationTestTemplate {
 
     @Autowired
     private lateinit var alarmRepository: AlarmRepository
+
+    private lateinit var user: User
+
+    private lateinit var alarm: Alarm
+
+    @BeforeEach
+    fun setup() {
+        user = userRepository.save(
+            createKakaoUser()
+        )
+
+        alarm = alarmRepository.save(
+            Alarm(
+                user = user,
+                startTime = Time.valueOf(LocalTime.now()),
+                endTime = Time.valueOf(LocalTime.now().plusHours(2)),
+            )
+        )
+    }
 
     @ParameterizedTest
     @ValueSource(longs = [-1, 0])
@@ -50,7 +69,6 @@ class AlarmSaveCommandTest: IntegrationTestTemplate {
 
     @Test
     fun `이미 등록된 알람이면 에러를 던진다`() {
-        val alarm = saveAlarm()
         // given
         val command = AlarmSaveCommand(
             userId = alarm.user.id,
@@ -69,28 +87,18 @@ class AlarmSaveCommandTest: IntegrationTestTemplate {
     fun `정상 입력값으로 요청하면 성공한다`() {
         // given
         val command = AlarmSaveCommand(
-            userId = 1L,
+            userId = user.id,
             startTime = Time.valueOf(LocalTime.now()),
             endTime = Time.valueOf(LocalTime.now()),
         )
+        val alarm = alarmRepository.findByUser(user)
+        alarm?.delete()
+        alarmRepository.save(alarm)
 
         // when
         val result = validator.validate(command)
 
         // then
         Assertions.assertThat(result).isEmpty()
-    }
-
-    private fun saveAlarm(): Alarm {
-        val user = AuthFactory.createKakaoUser()
-        userRepository.save(user)
-
-        return alarmRepository.save(
-            Alarm(
-                user = user,
-                startTime = Time.valueOf(LocalTime.now()),
-                endTime = Time.valueOf(LocalTime.now().plusHours(2)),
-            )
-        )
     }
 }

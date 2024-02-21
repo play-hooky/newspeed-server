@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 class DummyContentClient: ContentSearchClient {
     override fun getQueryPlatform(): QueryPlatform = QueryPlatform.NEWSPEED
 
-    override fun search(request: ContentSearchRequest): List<ContentResponseDTO> = ContentFactory.createContentResponseDTOs()
+    override fun searchDetailBy(request: ContentSearchRequest): List<ContentResponseDTO> = ContentFactory.createContentResponseDTOs(QueryPlatform.NEWSPEED)
 
-    override fun search(ids: List<String>): List<ContentResponseDTO> = ContentFactory.createContentResponseDTOs()
+    override fun searchDetailBy(ids: List<String>): List<ContentResponseDTO> = ContentFactory.createContentResponseDTOs(QueryPlatform.NEWSPEED)
 }

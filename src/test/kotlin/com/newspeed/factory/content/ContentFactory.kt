@@ -79,10 +79,10 @@ class ContentFactory {
                     etag = "",
                     id = "1",
                     statistics = YoutubeVideoStatisticsDTO(
-                        viewCount = "20",
-                        likeCount = "12",
-                        favoriteCount = "2",
-                        commentCount = "1"
+                        view = "20",
+                        like = "12",
+                        favorite = "2",
+                        comment = "1"
                     ),
                     snippet = createYoutubeVideoSnippetDTO()
                 )
@@ -127,9 +127,11 @@ class ContentFactory {
             url = "https://www.youtube.com"
         )
 
-        fun createContentResponseDTOs() = listOf(
+        fun createContentResponseDTOs(
+            platform: QueryPlatform
+        ) = listOf(
             ContentResponseDTO(
-                platform = QueryPlatform.YOUTUBE,
+                platform = platform,
                 host = ContentHostDTO(
                     profileImgUrl = "https://www.newspeed.store/happy-hooky",
                     nickname = "happy-hooky"
@@ -210,8 +212,10 @@ class ContentFactory {
             liveBroadcastContent = ""
         )
 
-        fun createContentsResponse() = ContentsResponse(
-            contentResponses = createContentResponseDTOs()
+        fun createContentsResponse(
+            platform: QueryPlatform
+        ) = ContentsResponse(
+            contentResponses = createContentResponseDTOs(platform)
         )
     }
 }
