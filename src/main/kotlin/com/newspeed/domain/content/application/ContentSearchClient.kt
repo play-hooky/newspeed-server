@@ -8,7 +8,7 @@ interface ContentSearchClient {
 
     fun getQueryPlatform(): QueryPlatform
 
-    fun search(request: ContentSearchRequest): List<ContentResponseDTO>
+    fun searchDetailBy(request: ContentSearchRequest): List<ContentResponseDTO>
 
-    fun search(ids: List<String>): List<ContentResponseDTO>
+    fun searchDetailBy(ids: List<String>): List<ContentResponseDTO>
 }

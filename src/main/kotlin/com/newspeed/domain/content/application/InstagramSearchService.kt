@@ -18,7 +18,7 @@ class InstagramSearchService(
 ): ContentSearchClient {
     override fun getQueryPlatform(): QueryPlatform = QueryPlatform.INSTAGRAM
 
-    override fun search(
+    override fun searchDetailBy(
         request: ContentSearchRequest
     ): List<ContentResponseDTO> {
         val hashtagID = getHashTagID(request)
@@ -59,7 +59,7 @@ class InstagramSearchService(
         return instagramClient.findRecentMedias(hashTagId, request)
     }
 
-    override fun search(
+    override fun searchDetailBy(
         ids: List<String>
     ): List<ContentResponseDTO> {
         // TODO

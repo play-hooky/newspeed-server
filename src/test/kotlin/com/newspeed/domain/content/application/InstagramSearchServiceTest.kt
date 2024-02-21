@@ -131,7 +131,7 @@ class InstagramSearchServiceTest: UnitTestTemplate {
                 .willReturn(instagramMediaResponse)
 
             // when
-            val actual = instagramSearchService.search(request)
+            val actual = instagramSearchService.searchDetailBy(request)
 
             // then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
@@ -212,7 +212,7 @@ class InstagramSearchServiceTest: UnitTestTemplate {
                 .willReturn(instagramMediaResponse)
 
             // when
-            val actual = instagramSearchService.search(request)
+            val actual = instagramSearchService.searchDetailBy(request)
 
             // then
             assertThat(actual).usingRecursiveComparison().isEqualTo(expected)
@@ -230,7 +230,7 @@ class InstagramSearchServiceTest: UnitTestTemplate {
             )
 
             // when & then
-            Assertions.assertThatThrownBy { instagramSearchService.search(request) }
+            Assertions.assertThatThrownBy { instagramSearchService.searchDetailBy(request) }
                 .isInstanceOf(NotFoundQueryException::class.java)
         }
     }
@@ -265,7 +265,7 @@ class InstagramSearchServiceTest: UnitTestTemplate {
             )
 
             // when
-            val actaul = instagramSearchService.search(ids)
+            val actaul = instagramSearchService.searchDetailBy(ids)
 
             // then
             assertThat(actaul).usingRecursiveComparison().isEqualTo(expected)

@@ -18,15 +18,15 @@ class YoutubeSearchService(
 ): ContentSearchClient {
     override fun getQueryPlatform(): QueryPlatform = QueryPlatform.YOUTUBE
 
-    override fun search(
+    override fun searchDetailBy(
         request: ContentSearchRequest
     ): List<ContentResponseDTO> {
         val searchResponse = searchVideo(request)
 
-        return search(searchResponse.videoIDs())
+        return searchDetailBy(searchResponse.videoIDs())
     }
 
-    override fun search(
+    override fun searchDetailBy(
         ids: List<String>
     ): List<ContentResponseDTO> {
         val videoDetailResponse = searchVideoDetail(ids)
